@@ -5,3 +5,7 @@ Parnal Ghundare Patil
 Tanu Kansal
 Chinmay Kunte
 Aditya Arun Rudrawar
+
+
+## Api-Gateaway.
+Using Fast-API to develop the API Gateaway.
