@@ -9,8 +9,13 @@ from metpy.plots import add_timestamp, ctables
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import numpy as np
 
-__file__ = "KMHX20140703_182118_V06.gz"
-f = Level2File(__file__)
+
+USER_NAME = "ADITYA"
+USER_ID = 1
+SESSION_ID = 13
+__fileName__ = "KMHX20140703_182118_V06.gz"
+
+f = Level2File(__fileName__)
 # print(f.sweeps[0])
 
 sweep = 0
@@ -47,8 +52,6 @@ for var_data, var_range, colors, lbl, ax in zip((ref, rho, zdr, phi),
                                                 ('REF (dBZ)', 'RHO', 'ZDR (dBZ)', 'PHI'),
                                                 axes.flatten()):
     try:
-        print(f'{var_data}, {var_range}, {colors}, {lbl}, {ax}')
-        # continue
         # Turn into an array, then mask
         data = np.ma.array(var_data)
         data[np.isnan(data)] = np.ma.masked
@@ -73,14 +76,27 @@ for var_data, var_range, colors, lbl, ax in zip((ref, rho, zdr, phi),
         add_timestamp(ax, f.dt, y=0.02, high_contrast=False)
     except Exception as e:
         print(f"Exception raised e: {e}")
-    except ValueError as e:
-        print(f"Value Error raised e: {e}")
+    
 
 plt.suptitle('KVWX Level 2 Data', fontsize=20)
 plt.tight_layout()
-plt.show()
+# plt.show(block=False)
+# plt.pause(5)
+# plt.close("all")
 
-plt.close()
+"""
+NAMING CONVENTIONS:
+
+PLOT IMAGE:
+<USER_NAME>_<USER_ID>_<SESSION_NO>_<DATA_FILENAME> + ".png"
+Example: ADITYA_1_13_KMHX20140703_182118_V06.png
+
+"""
+
+
+pltFileName = USER_NAME + "_" + str(USER_ID) + "_" + str(SESSION_ID) + "_" + __fileName__[:-3] + ".png"
+
+plt.savefig(pltFileName, bbox_inches='tight')
 
 
 
