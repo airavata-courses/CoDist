@@ -1,0 +1,19 @@
+{
+  "name": "codist",
+  "version": "1.0.0",
+  "description": "Spring 2022 Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/airavata-courses/CoDist.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/airavata-courses/CoDist/issues"
+  },
+  "homepage": "https://github.com/airavata-courses/CoDist#readme"
+}
