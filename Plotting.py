@@ -8,7 +8,17 @@ from metpy.io import Level2File
 from metpy.plots import add_timestamp, ctables
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import numpy as np
+import requests
 
+
+__file__ = "KMHX20140703_182118_V06.gz"
+
+
+__fileLink__ = "https://noaa-nexrad-level2.s3.amazonaws.com/1991/06/05/KTLX/KTLX19910605_162126.gz"
+
+r = requests.get(__fileLink__, allow_redirects=True)
+
+f = Level2File(r)
 
 USER_NAME = "ADITYA"
 USER_ID = 1
@@ -16,6 +26,7 @@ SESSION_ID = 13
 __fileName__ = "KMHX20140703_182118_V06.gz"
 
 f = Level2File(__fileName__)
+
 # print(f.sweeps[0])
 
 sweep = 0
