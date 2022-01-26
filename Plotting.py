@@ -9,27 +9,41 @@ from metpy.plots import add_timestamp, ctables
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import numpy as np
 import requests
+import pdb
+import os
+
+"""ABSOLUTES"""
+DirectoryPath = os.path.dirname(os.path.abspath(__file__)) 
 
 
-__file__ = "KMHX20140703_182118_V06.gz"
+""" 
+INPUT FROM DATA INGESTOR
+    USER_NAME:
+    USER_ID: 
+    url : AWS S3 NOAA Data URL
+"""
+
+USER_NAME = 'ADITYA'
+USER_ID = '01'
+url = "https://noaa-nexrad-level2.s3.amazonaws.com/2014/07/03/KMHX/KMHX20140703_182118_V06.gz"
 
 
-__fileLink__ = "https://noaa-nexrad-level2.s3.amazonaws.com/1991/06/05/KTLX/KTLX19910605_162126.gz"
+""" DOWNLOAD THE FILE AND SAVE IT """
+if url.find('/'):
+    dataFileName =  url.rsplit('/', 1)[1]
 
-r = requests.get(__fileLink__, allow_redirects=True)
+downloaded_obj = requests.get(url, allow_redirects=True)
 
-f = Level2File(r)
+with open(dataFileName,'wb') as f:
+    f.write(downloaded_obj.content)
+f.close()
 
-USER_NAME = "ADITYA"
-USER_ID = 1
-SESSION_ID = 13
-__fileName__ = "KMHX20140703_182118_V06.gz"
 
-f = Level2File(__fileName__)
-
-# print(f.sweeps[0])
+"""CODE FOR PLOTTING"""
+f = Level2File(dataFileName)
 
 sweep = 0
+
 # First item in ray is header, which has azimuth angle
 az = np.array([ray[0].az_angle for ray in f.sweeps[sweep]])
 
@@ -48,7 +62,6 @@ phi = np.array([ray[4][b'PHI'][1] for ray in f.sweeps[sweep]])
 zdr_hdr = f.sweeps[sweep][0][4][b'ZDR'][0]
 zdr_range = (np.arange(zdr_hdr.num_gates + 1) - 0.5) * zdr_hdr.gate_width + zdr_hdr.first_gate
 zdr = np.array([ray[4][b'ZDR'][1] for ray in f.sweeps[sweep]])
-
 
 
 # Get the NWS reflectivity colortable from MetPy
@@ -87,29 +100,52 @@ for var_data, var_range, colors, lbl, ax in zip((ref, rho, zdr, phi),
         add_timestamp(ax, f.dt, y=0.02, high_contrast=False)
     except Exception as e:
         print(f"Exception raised e: {e}")
-    
+    except ValueError as e:
+        print(f"Value Error raised e: {e}")
 
 plt.suptitle('KVWX Level 2 Data', fontsize=20)
 plt.tight_layout()
-# plt.show(block=False)
+# plt.show()
 # plt.pause(5)
 # plt.close("all")
 
 """
 NAMING CONVENTIONS:
+LOCAL PLOT IMAGE:
+<USER_NAME>_<USER_ID>_<DATAFILENAME> + ".png"
+Example: ADITYA/1/KMHX20140703_182118_V06.png
 
-PLOT IMAGE:
-<USER_NAME>_<USER_ID>_<SESSION_NO>_<DATA_FILENAME> + ".png"
-Example: ADITYA_1_13_KMHX20140703_182118_V06.png
+AWS PLOT IMAGE:
+<USER_NAME>/<USER_ID>/<DATAFILENAME> + ".png"
+Example: ADITYA/1/KMHX20140703_182118_V06.png
+
 
 """
 
+pltLocalFileName = USER_NAME + "_" + str(USER_ID) + "_" + dataFileName + ".png"
+pltAWSFileName = USER_NAME + "/" + str(USER_ID) + "/" + dataFileName + ".png"
 
-pltFileName = USER_NAME + "_" + str(USER_ID) + "_" + str(SESSION_ID) + "_" + __fileName__[:-3] + ".png"
+# pltLocalFileName = "Temp File Name.png"
 
-plt.savefig(pltFileName, bbox_inches='tight')
+plt.savefig(pltLocalFileName, bbox_inches='tight')
+
+# pdb.set_trace()
+
+### CODE TO UPLOAD TO S3 Bucket.
 
 
+### CODE FOR DELETING THE DOWNLOADED FILE.
+try:
+    if os.path.isfile(DirectoryPath + '\\' + dataFileName):
+        os.remove(dataFileName)
+except Exception as e:
+    print(e)
+
+try:    
+    if os.path.isfile(DirectoryPath + '\\' + pltLocalFileName):
+        os.remove(pltLocalFileName)
+except Exception as e:
+    print(e)
 
 # SOURCE: https://nexradaws.readthedocs.io/en/latest/Tutorial.html#Working-with-LocalNexradFile-objects
 # import matplotlib.pyplot as plt
