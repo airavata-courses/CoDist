@@ -22,3 +22,5 @@ Using Fast-API to develop the API Gateaway.
 SOURCE: https://nexradaws.readthedocs.io/en/latest/Tutorial.html#Working-with-LocalNexradFile-objects
 Source: https://unidata.github.io/python-gallery/examples/Nexrad_S3_Demo.html#plot-the-dat
 
+### Rabbit MQ
+1. pip install pika.
