@@ -49,6 +49,11 @@
             "errorCode": "fileNotFound",
             "message": "No file found",
             "statusCode": 404
+        },
+        "EMAIL_ALREADY_EXISTS" : {
+            "errorCode": "userAlreadyExists",
+            "message": "User already Exists.",
+            "statusCode": 401
         }
     }
 }

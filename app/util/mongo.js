@@ -1,5 +1,7 @@
-const MongoClient = require('mongodb').MongoClient;
-const connections = {};
+const mongoose = require("mongoose")
+const constant        = require(__basePath + 'app/config/constant');
+const { writeLogInfo, writeLogErrorTrace } = require(constant.path.app + 'util/logger');
+
 
 /**
  * create db connection
@@ -7,23 +9,41 @@ const connections = {};
  * @param {String} dbName
  * @returns {Object} db instance 
  */
-exports.getDbConnection = async function(dbName) {
-    if(connections[dbName]) {
-        return connections[dbName];
-    } else {
-        try {
-            const options = {
-                useNewUrlParser: true,
-                useUnifiedTopology: true
-            };
-            let client = await MongoClient.connect(process.env.MONGO_URL, options);
-            connections[dbName] = client.db(dbName);
-            return connections[dbName];
-        } catch (error) {
-            return Promise.reject(error);
-        }
+exports.getDbConnection = async function() {
+    mongoUrl = process.env.MONGO_URL
+    try {
+        const options = {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        };
+        const conn = await mongoose.connect(mongoUrl, options );
+        writeLogInfo(['[ Database Connected ] ']);
+        return conn;
+    } catch (error) {
+        writeLogErrorTrace(['[Database Connection]', ' Error: ', error ]);
+        return Promise.reject(error);
     }
 }
+
+/**
+ * Convert string to ObjectId
+ * @param {[string]} ids 
+ */
+exports.convertStringIdsToObjectIds = async function(ids) {
+    return _.map(ids, function (id) {
+        return new mongoose.Types.ObjectId(id);
+    });
+}
+
+
+/**
+ * Convert string to ObjectId
+ * @param {string} id 
+ */
+exports.convertToObjectId = async function(id) {
+    return new mongoose.Types.ObjectId(id);
+}
+
 
 /**
  * get collection meta data if collection exists
