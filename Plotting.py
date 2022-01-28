@@ -30,7 +30,6 @@ startSecond = 36
 endYear = 2013
 endMonth = 5
 endDay =  31
-
 endHour = 18
 endMinute = 18
 endSecond = 36
