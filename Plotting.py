@@ -34,8 +34,6 @@ endHour = 18
 endMinute = 18
 endSecond = 36
 
-
-
 start = datetime(startYear, startMonth, startDay, startHour, startMinute, startSecond)
 end =  datetime(endYear, endMonth, endDay, endHour, endMinute, endSecond) 
 
