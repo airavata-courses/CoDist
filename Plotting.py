@@ -11,11 +11,44 @@ import numpy as np
 import requests
 import pdb
 import os
+import nexradaws
+from datetime import datetime
+
+"""USER INPUT"""
+startYear = 2013
+startMonth = 5
+startDay =  31
+STATION ='KTLX'
+radar_id = STATION
+startHour = 17
+startMinute = 18
+startSecond = 36
+
+
+"""MAKING AN END TIME"""
+
+endYear = 2013
+endMonth = 5
+endDay =  31
+
+endHour = 18
+endMinute = 18
+endSecond = 36
+
+
+
+start = datetime(startYear, startMonth, startDay, startHour, startMinute, startSecond)
+end =  datetime(endYear, endMonth, endDay, endHour, endMinute, endSecond) 
 
 """ABSOLUTES"""
+
 DirectoryPath = os.path.dirname(os.path.abspath(__file__)) 
 
+conn = nexradaws.NexradAwsInterface()
 
+scans = conn.get_avail_scans_in_range(start, end, radar_id)
+
+# pdb.set_trace()
 """ 
 INPUT FROM DATA INGESTOR
     USER_NAME:
@@ -26,6 +59,8 @@ INPUT FROM DATA INGESTOR
 USER_NAME = 'ADITYA'
 USER_ID = '01'
 url = "https://noaa-nexrad-level2.s3.amazonaws.com/2014/07/03/KMHX/KMHX20140703_182118_V06.gz"
+
+newUrl = "https://noaa-nexrad-level2.s3.amazonaws.com/2022/01/27/KTLX/KTLX20220127_234818_V06.gz"
 
 
 """ DOWNLOAD THE FILE AND SAVE IT """
@@ -40,35 +75,42 @@ f.close()
 
 
 """CODE FOR PLOTTING"""
-f = Level2File(dataFileName)
+try:
+    f = Level2File(dataFileName)
+except:
+    print("Error in File Reading")
+
 
 sweep = 0
+try:
+    # First item in ray is header, which has azimuth angle
+    az = np.array([ray[0].az_angle for ray in f.sweeps[sweep]])
 
-# First item in ray is header, which has azimuth angle
-az = np.array([ray[0].az_angle for ray in f.sweeps[sweep]])
+    ref_hdr = f.sweeps[sweep][0][4][b'REF'][0]
+    ref_range = np.arange(ref_hdr.num_gates) * ref_hdr.gate_width + ref_hdr.first_gate
+    ref = np.array([ray[4][b'REF'][1] for ray in f.sweeps[sweep]])
 
-ref_hdr = f.sweeps[sweep][0][4][b'REF'][0]
-ref_range = np.arange(ref_hdr.num_gates) * ref_hdr.gate_width + ref_hdr.first_gate
-ref = np.array([ray[4][b'REF'][1] for ray in f.sweeps[sweep]])
+    rho_hdr = f.sweeps[sweep][0][4][b'RHO'][0]
+    rho_range = (np.arange(rho_hdr.num_gates + 1) - 0.5) * rho_hdr.gate_width + rho_hdr.first_gate
+    rho = np.array([ray[4][b'RHO'][1] for ray in f.sweeps[sweep]])
 
-rho_hdr = f.sweeps[sweep][0][4][b'RHO'][0]
-rho_range = (np.arange(rho_hdr.num_gates + 1) - 0.5) * rho_hdr.gate_width + rho_hdr.first_gate
-rho = np.array([ray[4][b'RHO'][1] for ray in f.sweeps[sweep]])
+    phi_hdr = f.sweeps[sweep][0][4][b'PHI'][0]
+    phi_range = (np.arange(phi_hdr.num_gates + 1) - 0.5) * phi_hdr.gate_width + phi_hdr.first_gate
+    phi = np.array([ray[4][b'PHI'][1] for ray in f.sweeps[sweep]])
 
-phi_hdr = f.sweeps[sweep][0][4][b'PHI'][0]
-phi_range = (np.arange(phi_hdr.num_gates + 1) - 0.5) * phi_hdr.gate_width + phi_hdr.first_gate
-phi = np.array([ray[4][b'PHI'][1] for ray in f.sweeps[sweep]])
-
-zdr_hdr = f.sweeps[sweep][0][4][b'ZDR'][0]
-zdr_range = (np.arange(zdr_hdr.num_gates + 1) - 0.5) * zdr_hdr.gate_width + zdr_hdr.first_gate
-zdr = np.array([ray[4][b'ZDR'][1] for ray in f.sweeps[sweep]])
+    zdr_hdr = f.sweeps[sweep][0][4][b'ZDR'][0]
+    zdr_range = (np.arange(zdr_hdr.num_gates + 1) - 0.5) * zdr_hdr.gate_width + zdr_hdr.first_gate
+    zdr = np.array([ray[4][b'ZDR'][1] for ray in f.sweeps[sweep]])
 
 
-# Get the NWS reflectivity colortable from MetPy
-ref_norm, ref_cmap = ctables.registry.get_with_steps('NWSReflectivity', 5, 5)
+    # Get the NWS reflectivity colortable from MetPy
+    ref_norm, ref_cmap = ctables.registry.get_with_steps('NWSReflectivity', 5, 5)
 
-# Plot the data!
-fig, axes = plt.subplots(2, 2, figsize=(15, 15))
+    # Plot the data!
+    fig, axes = plt.subplots(2, 2, figsize=(15, 15))
+except Exception as e:
+    print("Error while arranging Data configuration",e)
+
 
 for var_data, var_range, colors, lbl, ax in zip((ref, rho, zdr, phi),
                                                 (ref_range, rho_range, zdr_range, phi_range),
