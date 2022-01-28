@@ -1,7 +1,6 @@
 const underscore = require("underscore");
 const NodeException = require("node-exceptions");
 const constant = require(__basePath + 'app/config/constant');
-const config = require(constant.path.app + 'config/configuration');
 const { writeLogError } = require(constant.path.app + 'util/logger');
 
 //Services Exception
@@ -9,7 +8,7 @@ class ApplicationException extends NodeException.LogicalException {
     constructor(errorKey = "ERROR_SERVER_ERROR", messageVariables = {}) {
         super();
 
-        const error   = config.get(`APP_MESSAGES:${errorKey}`);
+        const error   = 'APP_MESSAGES:${errorKey}';
         this.message  = underscore.template(error.message)(messageVariables);
         this.status   = error.statusCode;
         this.code     = error.errorCode;

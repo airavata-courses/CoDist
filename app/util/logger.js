@@ -8,7 +8,7 @@ const logger = new (winston.Logger)({
     transports: [
         new winston.transports.Console({
             level          : process.env.LOGGING_CONSOLE_LEVEL,
-            label          : "DUS",
+            label          : "CODIST",
             handleException: true,
             json           : false,
             colorize       : true,
