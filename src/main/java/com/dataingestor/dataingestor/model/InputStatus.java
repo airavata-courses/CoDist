@@ -1,5 +1,5 @@
-package model;
-
+package com.dataingestor.dataingestor.model;
+import com.dataingestor.dataingestor.model.SearchLink;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,11 +9,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class SearchLink {
+public class InputStatus {
 
-    public String year;
-    public String month;
-    public String day;
-    public String station;
-
+    private SearchLink link;
 }

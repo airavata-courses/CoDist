@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import model.SearchLink ;
+import com.dataingestor.dataingestor.model.SearchLink;
 
 @RestController
 public class ApiReq {
@@ -29,7 +29,8 @@ public class ApiReq {
 
         System.out.println("Request sent");
         System.out.println("link.station:" + link.station);
-        send.Send_Message(link.year, link.month, link.day, link.station);
+//        send.Send_Message(link.year, link.month, link.day, link.station);
+        send.Send_Message(link);
         return new ResponseEntity<>("Product is created successfully", HttpStatus.CREATED);
     }
 
