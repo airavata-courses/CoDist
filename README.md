@@ -6,6 +6,5 @@ Tanu Kansal
 Chinmay Kunte
 Aditya Arun Rudrawar
 
-
-## Api-Gateaway.
-Using Fast-API to develop the API Gateaway.
+# History Service
+Will be developing History Service in GO. 
