@@ -24,5 +24,6 @@ module.exports = (app) => {
     app.use('/registry/api/v1/docs',    swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
     app.use('/registry/api/v1/monitor', require(constant.path.module + 'v1/monitor').router);
     app.use('/registry/api/v1/user', require(constant.path.module + 'v1/user').router);
+    app.use('/registry/api/v1/security', require(constant.path.module + 'v1/security').router);
     app.use('/registry/api/v1/upload', require(constant.path.module + 'v1/uploadDocument').router);
 };

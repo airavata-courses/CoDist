@@ -54,6 +54,21 @@
             "errorCode": "userAlreadyExists",
             "message": "User already Exists.",
             "statusCode": 401
+        },
+        "ERROR_USER_NOT_EXISTS" : {
+            "errorCode": "userNotExists",
+            "message": "User doesn't Exists.",
+            "statusCode": 401
+        },
+        "ERROR_INVALID_PASSWORD" : {
+            "errorCode": "invalidPassword",
+            "message": "InvalidPassword.",
+            "statusCode": 401
+        },
+        "UNAUTHORIZED_USER" : {
+            "errorCode": "unauthorizedUser",
+            "message": "Unauthorized User.",
+            "statusCode": 401
         }
     }
 }

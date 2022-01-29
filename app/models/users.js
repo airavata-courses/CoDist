@@ -7,10 +7,9 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
 	firstName: { type: String },
 	lastName: { type: String, default: "" },
-	password: { type: String,trim: true },
+	password: { type: String,trim: true, required:true },
 	email: {type: String,trim: true, unique:true },
-	emailVerification: { type: Boolean, default: false },
-	verificationCode: { type: String, default: '' }
+	sessionToken : { type: String }
 },{timestamps : true});
 
 module.exports = mongoose.model( "users" , userSchema );
