@@ -1,56 +1,66 @@
-import React from "react";
 import axios from 'axios';
+import React, { useState } from "react";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+// import "./App.css";
 
-class Login extends React.Component {
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  state = {
-    email : '',
-    password : ''
+  function validateForm() {
+    return email.length > 0 && password.length > 0;
   }
 
-  handleChange = (e) =>{
-    const{name, value} = e.target
-    this.setState({[name]:value})
-    // console.log(e.target.value)
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const value = this.state.value;
-    // window.location.href='http://127.0.0.1:8000/login';
+  function handleSubmit(event) {
+    event.preventDefault();
     
+    // const data = { email, password };
+    // const requestOptions = {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(data)
+    // };
 
-    console.log(": ", this.state)
-    // testing if post is working 
-    axios.post("https://jsonplaceholder.typicode.com/posts",this.state)
-    .then(Response => {
-        console.log(Response)
-    })
-    .catch(error => {
-      console.log(Response)
-  })
-  
-    }
-    render() {
+    // axios.post( "http://5a08-2001-18e8-2-28b8-f000-00-dcc.ngrok.io/signup" ,  requestOptions)
+    // .then(res => console.log(res));
 
-      // console.log("email: ",  this.state.email, "password: ",  this.state.password )
-      
-      return (
+    const data = { email, password };
+    console.log(data)
+    axios.post('https://jsonplaceholder.typicode.com/posts', data)
+    .then(res => console.log(res))
+    .then(res => localStorage.setItem('token', res.id))
+    .catch(err =>{
+      console.log("Error is : ", err)
+    });
 
-            <div>
-                <input type="email" name = "email" placeholder = "Username" required onChange={ this.handleChange }/>
-                <input type="password" name = "password" placeholder = "Password" required onChange={ this.handleChange }/>
-
-                <button
-                type="button"
-                onClick={this.handleSubmit}
-                >
-                login </button>
-            </div>
-
-    
-      );
-    }
   }
 
-  export default Login
+  return (
+    <div className="Login">
+      <Form onSubmit={handleSubmit}>
+        <Form.Group size="lg" controlId="email">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            autoFocus
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group size="lg" controlId="password">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Form.Group>
+        <Button block size="lg" type="submit" disabled={!validateForm()}>
+          Login
+        </Button>
+      </Form>
+    </div>
+  );
+}
+

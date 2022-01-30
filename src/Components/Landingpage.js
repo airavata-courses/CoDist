@@ -23,8 +23,8 @@ class Landingpage extends React.Component {
                             <h3>Not resistered</h3>
                             
                             <Createaccount></Createaccount>
-                            {/* <GLogin></GLogin> */}
-                            {/* <GLogout></GLogout> */}
+                            {/* <GLogin></GLogin>
+                            <GLogout></GLogout> */}
                           </header>
                         </div>
       );

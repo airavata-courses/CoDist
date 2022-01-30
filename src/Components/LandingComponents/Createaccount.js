@@ -1,6 +1,7 @@
 import React from "react";
 
 class Createaccount extends React.Component {
+    
     render() {
       return (
 
@@ -9,7 +10,7 @@ class Createaccount extends React.Component {
                 type="button"
                 onClick={(e) => {
                   e.preventDefault();
-                  window.location.href='http://127.0.0.1:3000/register';
+                  window.location.href='http://localhost:3000/register';
                   }}
                 > 
                 Register now </button>
