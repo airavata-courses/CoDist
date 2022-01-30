@@ -5,6 +5,8 @@ const userValidations = require(constant.path.moduleV1 + '/user/userValidations'
 
 router.post('/signUp', userValidations.signUpValidation , userController.signUp );
 
+router.post('/login', userValidations.logInValidation , userController.logIn );
+
 module.exports = {
     router : router
 }

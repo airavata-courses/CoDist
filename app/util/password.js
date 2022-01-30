@@ -36,6 +36,6 @@ function randomPassword(length) {
 
 module.exports = {
     hash        : createHash,
-    validate    : validateHash,
+    validateHash    : validateHash,
     randomPassword
 };
