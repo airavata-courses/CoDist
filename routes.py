@@ -1,6 +1,8 @@
+from os import PRIO_USER
 from random import SystemRandom
 from fastapi import FastAPI
 from pydantic import BaseModel
+import asyncio
 
 from plottimgDemo import getPlottingDataController
 
@@ -21,5 +23,7 @@ async def root():
 
 @app.post("/getPlottedData")
 async def getPlottedData( requestBody: getPlottedDataBody ):
-    result = getPlottingDataController(dict(requestBody))
+    result = await asyncio.wait([getPlottingDataController(dict(requestBody))])
+    # return result
+    print("result hereeee==", result )
     return { "message" : "Hello World"}

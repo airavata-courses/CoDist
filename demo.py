@@ -12,8 +12,7 @@ import os
 import nexradaws
 import datetime
 from decouple import config
-import asyncio
-import pdb
+import pdb 
 
 cloudinary.config( 
   cloud_name = config('CLOUDINARY_CLOUD_NAME'), 
@@ -21,11 +20,7 @@ cloudinary.config(
   api_secret = config('CLOUDINARY_API_SECRET') 
 )
 
-async def uploadImage(imageFileName, dataFileName):
-    result = uploader.upload(imageFileName, public_id = dataFileName )
-    return result
-
-async def getPlottingDataController( filters ):
+def getPlottingDataController( filters ):
     print(filters)
     year = filters['year']
     month = filters['month']
@@ -128,52 +123,51 @@ async def getPlottingDataController( filters ):
             add_timestamp(ax, f.dt, y=0.02, high_contrast=False)
         except Exception as e:
             print(f"Exception raised e: {e}")
+    
+
+        plt.suptitle('KVWX Level 2 Data', fontsize=20)
+        plt.tight_layout()
+        # plt.show()
+        # plt.pause(5)
+        # plt.close("all")
+
+        """
+        NAMING CONVENTIONS:
+        LOCAL PLOT IMAGE:
+        <USER_NAME>_<USER_ID>_<DATAFILENAME> + ".png"
+        Example: ADITYA/1/KMHX20140703_182118_V06.png
+
+        AWS PLOT IMAGE:
+        <USER_NAME>/<USER_ID>/<DATAFILENAME> + ".png"
+        Example: ADITYA/1/KMHX20140703_182118_V06.png
 
 
-    plt.suptitle('KVWX Level 2 Data', fontsize=20)
-    plt.tight_layout()
-    # plt.show()
-    # plt.pause(5)
-    # plt.close("all")
+        """
 
-    """
-    NAMING CONVENTIONS:
-    LOCAL PLOT IMAGE:
-    <USER_NAME>_<USER_ID>_<DATAFILENAME> + ".png"
-    Example: ADITYA/1/KMHX20140703_182118_V06.png
-
-    AWS PLOT IMAGE:
-    <USER_NAME>/<USER_ID>/<DATAFILENAME> + ".png"
-    Example: ADITYA/1/KMHX20140703_182118_V06.png
+        pltLocalFileName = str("local") + "_" + dataFileName + ".png"
+    
+        plt.savefig(pltLocalFileName, bbox_inches='tight')
 
 
-    """
+        
+        ### CODE TO UPLOAD TO S3 Bucket.
+        result = uploader.upload(pltLocalFileName, public_id = dataFileName )
 
-    pltLocalFileName = str("local") + "_" + dataFileName + ".png"
-
-    plt.savefig(pltLocalFileName, bbox_inches='tight')
+        print("result===", result)
 
 
-    ### CODE TO UPLOAD TO S3 Bucket.
-    response = await asyncio.wait([uploadImage(pltLocalFileName, dataFileName)])
-    # awaitio.uploadImage(pltLocalFileName, dataFileName)
+        print("Local File name"+pltLocalFileName)
+        ### CODE FOR DELETING THE DOWNLOADED FILE.
+        try:
+            if os.path.isfile(DirectoryPath + '\\' + dataFileName):
+                os.remove(dataFileName)
+        except Exception as e:
+                print(e)
 
-    print("resul key===", type( response[0]) )
+        try:    
+            if os.path.isfile(DirectoryPath + '\\' + pltLocalFileName):
+                os.remove(pltLocalFileName)
+        except Exception as e:
+            print(e)
 
-    for i in response[0]:
-        print(i+'\n')
-
-    ### CODE FOR DELETING THE DOWNLOADED FILE.
-    try:
-        if os.path.isfile(DirectoryPath + '\\' + dataFileName):
-            os.remove(dataFileName)
-    except Exception as e:
-            (e)
-
-    try:    
-        if os.path.isfile(DirectoryPath + '\\' + pltLocalFileName):
-            os.remove(pltLocalFileName)
-    except Exception as e:
-        print(e)
-
-    return response.result()
+        return result
