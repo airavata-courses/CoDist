@@ -16,12 +16,20 @@ history-session/api/v1/user-history/{:id}
 history-session/api/v1/logs
     POST: add a new log from the request data sent as JSON
 
+"ERROR:THERE IS AN ERROR"
+"Request:STATION"
+
+
+Tag will be: user-request.
+
+REQUIRED CreatedOn TimeStamp: YYYY-MM-DD HH:MM:SS
+
 
 ### Steps
 1. Install Go
 2. Install Gin https://gin-gonic.com/docs/quickstart/
 3. Gin Documentation https://gin-gonic.com/docs/
-
+4. POSTGRES: go get -u github.com/lib/pq  https://www.calhoun.io/connecting-to-a-postgresql-database-with-gos-database-sql-package/
 
 --- Least Important
 ### Resources
@@ -32,3 +40,5 @@ history-session/api/v1/logs
 5. https://go.dev/doc/tutorial/web-service-gin
 6. https://go.dev/doc/effective_go Learn Effective Go
 7. https://go.dev/doc/code
+8. https://dashboard.ngrok.com/get-started/setup
+9. Go Packages https://www.youtube.com/watch?v=vYD9XWi_Xw8&t=537s    https://www.youtube.com/watch?v=nLaxs5w9bZc
