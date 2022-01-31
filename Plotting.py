@@ -12,63 +12,63 @@ import requests
 import pdb
 import os
 import nexradaws
-from datetime import datetime
+import datetime
+
 
 """USER INPUT"""
-startYear = 2013
-startMonth = 5
-startDay =  31
+year = "2013"
+month = "5"
+day =  "31"
 STATION ='KTLX'
-radar_id = STATION
-startHour = 17
-startMinute = 18
-startSecond = 36
+hour = "17"
+minute = "18"
+second = "36"
+userId = '1'
+userName = 'Aditya'
+
+
+"""ABSOLUTES"""
+DirectoryPath = os.path.dirname(os.path.abspath(__file__)) 
 
 
 """MAKING AN END TIME"""
 
-endYear = 2013
-endMonth = 5
-endDay =  31
-endHour = 18
-endMinute = 18
-endSecond = 36
+# Convert Input String to int
 
-start = datetime(startYear, startMonth, startDay, startHour, startMinute, startSecond)
-end =  datetime(endYear, endMonth, endDay, endHour, endMinute, endSecond) 
+current = datetime.datetime(int(year), int(month), int(day), int(hour), int(minute), int(second) )
+start = current - datetime.timedelta(days=1)
+# end = start + datetime.timedelta(days=1)
 
-"""ABSOLUTES"""
-
-DirectoryPath = os.path.dirname(os.path.abspath(__file__)) 
+"""Downloading the latest available file"""
 
 conn = nexradaws.NexradAwsInterface()
 
-scans = conn.get_avail_scans_in_range(start, end, radar_id)
+scans = conn.get_avail_scans_in_range(start, current, STATION)
 
+toBeDownloaded = scans[-1]
+# File to be downloaded is scans[-1]
 # pdb.set_trace()
-""" 
-INPUT FROM DATA INGESTOR
-    USER_NAME:
-    USER_ID: 
-    url : AWS S3 NOAA Data URL
-"""
+dataFileName = toBeDownloaded.key.split("/")[-1]
 
-USER_NAME = 'ADITYA'
-USER_ID = '01'
-url = "https://noaa-nexrad-level2.s3.amazonaws.com/2014/07/03/KMHX/KMHX20140703_182118_V06.gz"
+results = conn.download(toBeDownloaded, DirectoryPath)
 
-newUrl = "https://noaa-nexrad-level2.s3.amazonaws.com/2022/01/27/KTLX/KTLX20220127_234818_V06.gz"
+for scan in results.iter_success():
+    print ("{} volume scan time {}".format(scan.radar_id,scan.scan_time ))
+
+# url = "https://noaa-nexrad-level2.s3.amazonaws.com/2014/07/03/KMHX/KMHX20140703_182118_V06.gz"
+
+# newUrl = "https://noaa-nexrad-level2.s3.amazonaws.com/2022/01/27/KTLX/KTLX20220127_234818_V06.gz"
 
 
-""" DOWNLOAD THE FILE AND SAVE IT """
-if url.find('/'):
-    dataFileName =  url.rsplit('/', 1)[1]
+# """ DOWNLOAD THE FILE AND SAVE IT """
+# if url.find('/'):
+#     dataFileName =  url.rsplit('/', 1)[1]
 
-downloaded_obj = requests.get(url, allow_redirects=True)
+# downloaded_obj = requests.get(url, allow_redirects=True)
 
-with open(dataFileName,'wb') as f:
-    f.write(downloaded_obj.content)
-f.close()
+# with open(dataFileName,'wb') as f:
+#     f.write(downloaded_obj.content)
+# f.close()
 
 
 """CODE FOR PLOTTING"""
@@ -161,14 +161,11 @@ Example: ADITYA/1/KMHX20140703_182118_V06.png
 
 """
 
-pltLocalFileName = USER_NAME + "_" + str(USER_ID) + "_" + dataFileName + ".png"
-pltAWSFileName = USER_NAME + "/" + str(USER_ID) + "/" + dataFileName + ".png"
-
-# pltLocalFileName = "Temp File Name.png"
+pltLocalFileName = userName + "_" + str(userId) + "_" + dataFileName + ".png"
+pltAWSFileName = userName + "/" + str(userId) + "/" + dataFileName + ".png"
 
 plt.savefig(pltLocalFileName, bbox_inches='tight')
 
-# pdb.set_trace()
 
 ### CODE TO UPLOAD TO S3 Bucket.
 
@@ -200,6 +197,6 @@ except Exception as e:
 # ax = fig.add_subplot(2,2,1)
 # radar = results.open_pyart()
 # display = pyart.graph.RadarDisplay(radar)
-# display.plot('reflectivity',0,ax=ax,title="{} {}".format(results.radar_id,results.scan_time))
+# display.plot('reflectivity',0,ax=ax,title="{} {}".format(results.STATION,results.scan_time))
 # display.set_limits((-150, 150), (-150, 150), ax=ax)
 
