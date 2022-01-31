@@ -22,12 +22,12 @@ exports.verifyAccessToken = async function (req, res, next) {
         let ifValidUser = await UserModel.findOne({ "email" : decryptedToken.email, "sessionToken" : decryptedToken.sessionToken })
 
         if( !ifValidUser ) {
-            return res.status(500).json(response.build('UNAUTHORIZED_USER', { "authorized" : false }))
+            return res.status(500).json(response.build('UNAUTHORIZED_USER', { "authorized" : false , "userId" : decryptedToken['id']}))
         }
 		
 		writeLogInfo(['[verifyAccessToken]', '[middleware] response : ', decryptedToken]);
 
-        return res.status(200).json(response.build("SUCCESS", { result: { "authorized" : true } } ));
+        return res.status(200).json(response.build("SUCCESS", { result: { "authorized" : true, "userId" : decryptedToken['id'] } } ));
 
 	} catch (error) {
 			writeLogErrorTrace(['[verifyAccessToken]', '[controller] Error: ', error]);
