@@ -7,8 +7,6 @@ class DisplayLogo extends React.Component {
             <div>
                 <img src={logo} className="App-logo" alt="logo" />
             </div>
-
-            // <h1>Hiii</h1>
       );
     }
   }

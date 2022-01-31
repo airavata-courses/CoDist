@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import Login from './Login';
+// import Login from './Login';
 
 export default function EnterDetails() {
   const [firstName, setFirstname] = useState("");
@@ -19,23 +19,26 @@ export default function EnterDetails() {
     event.preventDefault();
     
     const data = { firstName, lastName, email, password };
-    const token = 'a123b';
+    // const token = 'a123b';
 
     console.log(data)
-    axios.post('https://50ba-2601-801-103-1100-24e9-afa0-7f34-37df.ngrok.io/signup',
-    { headers: { 'authorization' : token }, firstName, lastName, email, password })
+    axios.post('https://jsonplaceholder.typicode.com/posts',
+    { headers: { "authorization" : "token" }, firstName, lastName, email, password })
     .then(res => {
-      // token = setToken(res.authorization);
-      console.log("This is the response : \n", res.data.SignUpStatus);
-      console.log("Full Response ", res);
+      console.log("This is the response : \n", res.data.headers.authorization);
+      console.log("Full Response ", res.data.authorization);
+
+      if (res.data.email.length > 0){
+        alert("Registered");
+        <a href= "http://localhost:3000/"/>
+      }
+        
     })
     .catch(err =>{
       console.log("Error is : ", err)
     });
 
-    // fetch('https://50ba-2601-801-103-1100-24e9-afa0-7f34-37df.ngrok.io/signup')
-    // .then(response => response.json())
-    // .then(data => this.setState({ totalReactPackages: data.total }));
+
 
 
   }
@@ -45,8 +48,6 @@ export default function EnterDetails() {
 
 
     <div className="Login">
-      
-      
       
       <Form onSubmit={handleSubmit}>
         

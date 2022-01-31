@@ -1,8 +1,12 @@
-.App {
-  text-align: center;
-  background-color:green;
-  }
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap");
 
+.App {
+  min-height: 100vh;
+  display: flex;
+  background-image: url("./background.jpeg");
+  background-position: center;
+  background-size: cover;
+}
 .App-logo {
   height: 20vmin;
   width: 100vmin;
@@ -17,7 +21,7 @@
 } */
 
 .App-header {
-  background-color: #4e6592;
+  background-color: #88a7e7;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

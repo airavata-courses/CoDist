@@ -3,6 +3,11 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 // import "./App.css";
+import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; 
+import Dashboard from "./Dashboard";
+
+
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -15,21 +20,21 @@ export default function Login() {
   function handleSubmit(event) {
     event.preventDefault();
     
-    // const data = { email, password };
-    // const requestOptions = {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(data)
-    // };
-
-    // axios.post( "http://5a08-2001-18e8-2-28b8-f000-00-dcc.ngrok.io/signup" ,  requestOptions)
-    // .then(res => console.log(res));
+    var userInfo;
 
     const data = { email, password };
     console.log(data)
     axios.post('https://jsonplaceholder.typicode.com/posts', data)
-    .then(res => console.log(res))
-    .then(res => localStorage.setItem('token', res.id))
+    .then(res => {
+      console.log("this is Data : ", res.data);
+      userInfo = res.data;
+      console.log("this is user info : ", userInfo.email, userInfo.id);
+      if (userInfo.id == 101){
+        alert("Registered");
+        <a href= "http://localhost:3000/"/>
+      }
+    })
+    .then(res => localStorage.setItem('This is DATA', res.data))
     .catch(err =>{
       console.log("Error is : ", err)
     });

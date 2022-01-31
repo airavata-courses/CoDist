@@ -2,42 +2,35 @@ import React from "react";
 import './App.css';
 import Landingpage from "./Components/Landingpage";
 import EnterDetails from "./Components/LandingComponents/EnterDetails";
+import Dashboard from "./Components/LandingComponents/Dashboard";
+// import { useState } from "react";
+// import { useContext } from "react";
+import { BrowserRouter as Router, Routes, Route, Redirect } from "react-router-dom";
+// import { authContext } from "./Components/authContext";
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom" 
+function App(){
 
-class App extends React.Component {
+    // const authConxt = useContext(authContext);
 
-  render() {
-      return (
+    // const [auth, setAuth] = useState(false);
+    // const [token, setToken] = useState("pppp");
+    
+    
+    return (
+  
+            <Router>
+              <Routes>
+                  <Route exact path='/' element={< Landingpage />}/>
+                  <Route exact path='/register' element={< EnterDetails />}/>
+                  {/* <authConxt.isLoggedIn && ( Route exact path='/profile' element={<Dashboard />)} /> */}
+                  <Route path = '*' element={<Landingpage />}> </Route>
+                  <Route exact path='/plotting' element={< Dashboard />}/>
+                </Routes>
+            </Router>
 
-
-        <Router>
-          <Routes>
-              <Route exact path='/' element={< Landingpage />}/>
-              <Route exact path='/register' element={< EnterDetails />}/>
-              <Route exact path='/dashboard' element={< EnterDetails />}/>
-              
-            </Routes>
-        </Router>
           );
-  }
-}
+    }
+  
+
 
 export default App;
-
-
-// <div className="App">
-//                           <header className="App-header">
-//                             <DisplayLogo></DisplayLogo>
-//                             <p>
-//                               Login to check weather update
-//                             </p>
-//                             <Login></Login>
-                            
-//                             <h3>Not resistered</h3>
-                            
-//                             <Createaccount></Createaccount>
-//                             {/* <GLogin></GLogin>
-//                             <GLogout></GLogout> */}
-//                           </header>
-//                         </div>
