@@ -32,8 +32,7 @@ incomes = [
 def getFunctionCall():
     return '''
               <h1>The language value is: {}</h1>
-              <h1>The framework value is: {}</h1>
-              <h1>The website value is: {}'''.format(request.args)
+              '''.format(request.get_json())
 
 @app.route('/getPlottedData', methods=['POST'])
 async def getPlottedData():
