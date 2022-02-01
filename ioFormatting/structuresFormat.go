@@ -27,10 +27,20 @@ type ReturnLog struct {
 	// Service       string `json:"service"`
 }
 
-type BodyOfReturnLog struct {
-	Body []*ReturnLog `json:"body"`
+type UserHistoryResponseFormat struct {
+	Status   string      `json:"status"`
+	IsError  string      `json:"isError"`
+	Response []ReturnLog `json:"response"`
+	Message  string      `json:"message"`
 }
 
 type LogIdentifierResponse struct {
 	LogIdentifier string `json:"logIdentifier"`
+}
+
+type LogIdentifierResponseFormat struct {
+	Status   string                `json:"status"`
+	IsError  string                `json:"isError"`
+	Response LogIdentifierResponse `json:"response"`
+	Message  string                `json:"message"`
 }

@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"project/ioFormatting"
+	"strings"
 )
 
 var db *sql.DB
@@ -68,13 +69,14 @@ func getLogIdentifier() string {
 }
 func InsertIntoQuery(newLog ioFormatting.InputLog) string {
 
+	var message string
+
 	if db == nil {
 		StarterCode()
 	}
 
 	CreateTableIfNotExistsQuery()
 
-	log.Println("newLog Identifier", newLog.LogIdentifier)
 	isEmpty := newLog.LogIdentifier == ""
 	if isEmpty {
 		log.Println("REQUEST TYPE")
@@ -90,15 +92,21 @@ func InsertIntoQuery(newLog ioFormatting.InputLog) string {
 
 	_, err := db.Exec(sqlStatement, newLog.UserId, newLog.LogIdentifier, newLog.LogType, newLog.LogDetails)
 	if err != nil {
-		panic(err)
+		message = "ERROR WHILE INSERT INTO QUERY EXECUTION"
+		log.Println(err)
 	}
 	log.Println("LOG INSERTED: ", newLog.LogIdentifier)
-
+	if strings.HasPrefix(message, "ERROR") {
+		return message
+	}
 	return newLog.LogIdentifier
 }
 
 // Array of Objects.
-func GetUserHistory(requestedUserId string) []ioFormatting.ReturnLog {
+func GetUserHistory(requestedUserId string) ([]ioFormatting.ReturnLog, string) {
+	var message string = "LOGS OF THE SPECIFIED USER"
+	var returnlogs []ioFormatting.ReturnLog
+
 	if db == nil {
 		StarterCode()
 	}
@@ -114,12 +122,11 @@ func GetUserHistory(requestedUserId string) []ioFormatting.ReturnLog {
 
 	rows, err := db.Query(sqlStatement, requestedUserId)
 	if err != nil {
-		log.Println("GetUserHistory Error")
-		panic(err)
+		log.Println("GetUserHistory ", err)
+		message = "ERROR WHILE GetUserHistory"
+		return returnlogs, message
 	}
 	defer rows.Close()
-
-	var returnlogs []ioFormatting.ReturnLog
 
 	for rows.Next() {
 
@@ -127,18 +134,21 @@ func GetUserHistory(requestedUserId string) []ioFormatting.ReturnLog {
 
 		err = rows.Scan(&returnLog.UserId, &returnLog.LogIdentifier, &returnLog.LogType, &returnLog.LogDetails, &returnLog.InsertedOn)
 		if err != nil {
-			// handle this error
-			panic(err)
+			message = "ERROR WHILE GetUserHistory WHILE SCANNING THE ROW"
+			log.Println(message, err)
+			return returnlogs, message
 		}
 
 		returnlogs = append(returnlogs, returnLog)
 		// get any error encountered during iteration
 		err = rows.Err()
 		if err != nil {
-			panic(err)
+			message = "ERROR WHILE GetUserHistory WHILE ITERATIONS"
+			log.Println(message, err)
+			return returnlogs, message
 		}
 	}
-	return returnlogs
+	return returnlogs, message
 }
 func StarterCode() {
 
