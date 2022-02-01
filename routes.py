@@ -1,12 +1,14 @@
 from random import SystemRandom
-from fastapi import FastAPI
+from flask import Flask, jsonify, request
 from pydantic import BaseModel
 import asyncio
 import json
-
 from Plotting import getPlottingDataController
 
-app = FastAPI()
+
+
+app = Flask(__name__)
+
 
 class getPlottedDataBody(BaseModel):
     year : str
@@ -17,17 +19,30 @@ class getPlottedDataBody(BaseModel):
     minute : str
     second : str
 
-@app.get("/ping")
+@app.route("/ping")
 async def root():
-    return { "ping" : "PONG"}
+    return jsonify({ "ping" : "PONG"})
 
-@app.post("/getPlottedData")
-async def getPlottedData( requestBody: getPlottedDataBody ):
+
+incomes = [
+  { 'description': 'salary', 'amount': 5000 }
+]
+
+@app.route('/getFunctionCall', methods=['POST'])
+def getFunctionCall():
+    return '''
+              <h1>The language value is: {}</h1>
+              <h1>The framework value is: {}</h1>
+              <h1>The website value is: {}'''.format(request.args)
+
+@app.route('/getPlottedData', methods=['POST'])
+async def getPlottedData():
+    # print("WE are here",requestBody)
     try:
-        done,pending = await asyncio.wait([getPlottingDataController(dict(requestBody))])
+        done,pending = await asyncio.wait([getPlottingDataController(dict(request.get_json()))])
         # return result
         for t in done:
-            return json.dumps({
+            return ({
                 "status" : True,
                 "isError" : False,
                 "response" : {
@@ -36,7 +51,7 @@ async def getPlottedData( requestBody: getPlottedDataBody ):
             })
             
     except Exception as e:
-        return json.dumps({
+        return({
             "status" : True,
             "isError" : True,
             "statusCode" : "INTERNAL_SERVER_ERROR",
@@ -44,3 +59,5 @@ async def getPlottedData( requestBody: getPlottedDataBody ):
                 "result" : e
             }
         })
+if __name__ == "__main__":
+    app.run()
