@@ -2,6 +2,7 @@ from random import SystemRandom
 from fastapi import FastAPI
 from pydantic import BaseModel
 import asyncio
+import json
 
 from Plotting import getPlottingDataController
 
@@ -26,20 +27,20 @@ async def getPlottedData( requestBody: getPlottedDataBody ):
         done,pending = await asyncio.wait([getPlottingDataController(dict(requestBody))])
         # return result
         for t in done:
-            return {
+            return json.dumps({
                 "status" : True,
                 "isError" : False,
                 "response" : {
                     "result" : t.result() 
                 }
-            }
+            })
             
     except Exception as e:
-        return {
+        return json.dumps({
             "status" : True,
             "isError" : True,
             "statusCode" : "INTERNAL_SERVER_ERROR",
             "response" : {
                 "result" : e
             }
-        }
+        })
