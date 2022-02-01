@@ -24,3 +24,7 @@ Source: https://unidata.github.io/python-gallery/examples/Nexrad_S3_Demo.html#pl
 
 ### Rabbit MQ
 1. pip install pika.
+
+
+#### Commands
+1. set FLASK_APP=hello.py in python enviornment, in the codist folder.

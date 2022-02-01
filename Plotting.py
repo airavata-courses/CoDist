@@ -16,7 +16,7 @@ from uploadImages import uploadImage
 
 
 async def getPlottingDataController( filters ):
-    # print(filters)
+    print(filters)
     year = filters['year']
     month = filters['month']
     day = filters['day']
