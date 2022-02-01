@@ -81,9 +81,9 @@ func main() {
 	router := gin.Default()
 
 	// router.GET("history-session/api/v1/user-history/", getLogs)
-	router.GET("history-session/api/v1/user-history/:userId", getLogsById)
+	router.GET("history-service/api/v1/user-history/:userId", getLogsById)
 
-	router.POST("history-session/api/v1/logs/", postLogs)
+	router.POST("history-service/api/v1/logs/", postLogs)
 	// router.POST("history-session/api/v1/logs/:logId)
 
 	router.Run("localhost:8080")
