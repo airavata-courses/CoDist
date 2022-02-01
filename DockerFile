@@ -1,7 +1,0 @@
-FROM python
-
-WORKDIR /python_plotting_application
-
-COPY Plotting.py ./
-
-RUN
