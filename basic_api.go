@@ -25,8 +25,8 @@ func postLogs(c *gin.Context) {
 		return
 	}
 
-	database.InsertIntoQuery(newLog)
-	c.IndentedJSON(http.StatusAccepted, "success")
+	returnIdentity := database.InsertIntoQuery(newLog)
+	c.IndentedJSON(http.StatusAccepted, returnIdentity)
 }
 
 func getLogsById(c *gin.Context) {

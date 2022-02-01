@@ -32,21 +32,69 @@ func CreateTableIfNotExistsQuery() {
 	log.Println("SUCCESSFULLY CREATED TABLE	OR ALREADY PRESENT.")
 }
 
-func InsertIntoQuery(newLog ioFormatting.InputLog) {
+func getLogIdentifier() string {
+
+	log.Println("getLogIdentifier")
+
+	identifierNotFound := true
+	estimatedLogIdentifier := ""
+	for identifierNotFound {
+		estimatedLogIdentifier = GetNumber()
+		sqlStatement := `
+			SELECT *
+			FROM logs_table
+			WHERE log_identifier = $1`
+
+		rows, err := db.Query(sqlStatement, estimatedLogIdentifier)
+		if err != nil {
+			log.Println("getLogIdentifier Error", err)
+			panic(err)
+		}
+		defer rows.Close()
+
+		howManyRows := 0
+		for rows.Next() {
+			howManyRows = howManyRows + 1
+		}
+		log.Println("ROWS GOT", howManyRows)
+
+		if howManyRows == 0 {
+			identifierNotFound = false
+			log.Println(identifierNotFound, estimatedLogIdentifier)
+		}
+	}
+	log.Println("Choosen Log Identifier", estimatedLogIdentifier)
+	return estimatedLogIdentifier
+}
+func InsertIntoQuery(newLog ioFormatting.InputLog) string {
+
 	if db == nil {
 		StarterCode()
 	}
 
 	CreateTableIfNotExistsQuery()
 
+	log.Println("newLog Identifier", newLog.LogIdentifier)
+	isEmpty := newLog.LogIdentifier == ""
+	if isEmpty {
+		log.Println("REQUEST TYPE")
+		newLog.LogIdentifier = getLogIdentifier()
+	}
+
+	log.Println("newLog Identifier After Calling log identifier", newLog.LogIdentifier)
+
 	sqlStatement := `
 		INSERT INTO logs_table (user_id, log_identifier, log_type, log_details)
-		VALUES ($1, $2, $3, $4)`
+		VALUES ($1, $2, $3, $4)
+		`
 
 	_, err := db.Exec(sqlStatement, newLog.UserId, newLog.LogIdentifier, newLog.LogType, newLog.LogDetails)
 	if err != nil {
 		panic(err)
 	}
+	log.Println("LOG INSERTED: ", newLog.LogIdentifier)
+
+	return newLog.LogIdentifier
 }
 
 // Array of Objects.
