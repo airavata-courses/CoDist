@@ -15,7 +15,7 @@ Using Fast-API to develop the API Gateaway.
 
 ### Steps
 1. Python Version 3.10
-2. Libraries Installed: numpy, boto3, botocare, matplotlib, metpy, (mpl_toolkits from matplotlib), nexradaws, arm-pyart(Not Properly installed)
+2. Libraries Installed: numpy, boto3, botocare, matplotlib, metpy, (mpl_toolkits from matplotlib), nexradaws, arm-pyart(Not Properly installed), cloudinary, python-decouple, FastAPI, uvicorn
 3. Activated Script Running for VENV VSCODE (https://www.stanleyulili.com/powershell/solution-to-running-scripts-is-disabled-on-this-system-error-on-powershell/)
 
 ### LINKS

@@ -1,10 +1,9 @@
-from os import PRIO_USER
 from random import SystemRandom
 from fastapi import FastAPI
 from pydantic import BaseModel
 import asyncio
 
-from plotting import getPlottingDataController
+from Plotting import getPlottingDataController
 
 app = FastAPI()
 
@@ -31,7 +30,7 @@ async def getPlottedData( requestBody: getPlottedDataBody ):
                 "status" : True,
                 "isError" : False,
                 "response" : {
-                    { "result" : t.result() }
+                    "result" : t.result() 
                 }
             }
             
