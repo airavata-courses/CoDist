@@ -25,8 +25,11 @@ func postLogs(c *gin.Context) {
 		return
 	}
 
+	var responseLog ioFormatting.LogIdentifierResponse
 	returnIdentity := database.InsertIntoQuery(newLog)
-	c.IndentedJSON(http.StatusAccepted, returnIdentity)
+	responseLog.LogIdentifier = returnIdentity
+	c.BindJSON(&responseLog)
+	c.IndentedJSON(http.StatusAccepted, responseLog)
 }
 
 func getLogsById(c *gin.Context) {
