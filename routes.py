@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import asyncio
 
-from plottimgDemo import getPlottingDataController
+from plotting import getPlottingDataController
 
 app = FastAPI()
 
@@ -23,7 +23,24 @@ async def root():
 
 @app.post("/getPlottedData")
 async def getPlottedData( requestBody: getPlottedDataBody ):
-    result = await asyncio.wait([getPlottingDataController(dict(requestBody))])
-    # return result
-    print("result hereeee==", result )
-    return { "message" : "Hello World"}
+    try:
+        done,pending = await asyncio.wait([getPlottingDataController(dict(requestBody))])
+        # return result
+        for t in done:
+            return {
+                "status" : True,
+                "isError" : False,
+                "response" : {
+                    { "result" : t.result() }
+                }
+            }
+            
+    except Exception as e:
+        return {
+            "status" : True,
+            "isError" : True,
+            "statusCode" : "INTERNAL_SERVER_ERROR",
+            "response" : {
+                "result" : e
+            }
+        }
