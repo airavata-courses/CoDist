@@ -53,7 +53,7 @@ exports.logIn = async( req, res, next ) => {
             return res.status(500).json(response.build('ERROR_INVALID_PASSWORD', {}));
         }
 
-        const data = underscore.pick(userData , 'id', 'firstName', 'lastName', 'email' );
+        const data = underscore.pick(userData , '_id', 'firstName', 'lastName', 'email' );
         data['sessionToken'] = getUniqueCode()
         const token = await new jwt().sign(data, process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_EXPIRY
@@ -69,6 +69,26 @@ exports.logIn = async( req, res, next ) => {
     }
     catch(error) {
         writeLogErrorTrace(['[login]', '[controller] Error: ', error]);
+        return res.status(500).json(response.build('ERROR_SERVER_ERROR', {error: error}));
+    }
+}
+
+
+exports.logOut = async( req, res, next ) => {
+    try {
+
+        requestBody  = req.body
+        writeLogInfo(['[logout]', '[controller] called : ' , requestBody ]);
+
+        let data = await UserModel.update( { "_id" : requestBody['userId']}, { "sessionToken" : "" } )
+
+        writeLogInfo(['[logout]', '[controller] response body: ', data ]);
+
+        return res.status(200).json(response.build("SUCCESS", { result: "Logged Out Successfully." } ));
+
+    }
+    catch(error) {
+        writeLogErrorTrace(['[logout]', '[controller] Error: ', error]);
         return res.status(500).json(response.build('ERROR_SERVER_ERROR', {error: error}));
     }
 }
