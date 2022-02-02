@@ -118,9 +118,10 @@ func GetUserHistory(requestedUserId string) ([]ioFormatting.ReturnLog, string) {
 	sqlStatement := `
 		SELECT user_id, log_identifier, log_type, log_details, inserted_on
 		FROM logs_table
-		WHERE user_id = $1;`
+		WHERE user_id = $1 OR user_id= $2;`
 
-	rows, err := db.Query(sqlStatement, requestedUserId)
+	c := '"'
+	rows, err := db.Query(sqlStatement, requestedUserId, string(c)+requestedUserId+string(c))
 	if err != nil {
 		log.Println("GetUserHistory ", err)
 		message = "ERROR WHILE GetUserHistory"

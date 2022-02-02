@@ -18,6 +18,18 @@ func postLogs(c *gin.Context) {
 	var responseIdentifier ioFormatting.LogIdentifierResponse
 	code := http.StatusOK
 
+	// log.Println(c)
+	// // d, _ := json.Marshal(*c)
+	// body, _ := ioutil.ReadAll(c.Request.Body)
+	// log.Println(body)
+	// if err := json.Unmarshal(body, &newLog); err != nil {
+	// 	log.Println("Error in Post Request, Error is:", err)
+	// 	c.IndentedJSON(http.StatusBadRequest, newLog)
+	// 	return
+	// }
+
+	// body, _ := ioutil.ReadAll(c.Request.Body)
+	// log.Println("Body of request is", string(body))
 	if err := c.BindJSON(&newLog); err != nil {
 		log.Println("Error in Post Request, Error is:", err)
 		c.IndentedJSON(http.StatusBadRequest, newLog)
@@ -83,7 +95,7 @@ func main() {
 	// router.GET("history-session/api/v1/user-history/", getLogs)
 	router.GET("history-service/api/v1/user-history/:userId", getLogsById)
 
-	router.POST("history-service/api/v1/logs/", postLogs)
+	router.POST("history-service/api/v1/logs", postLogs)
 	// router.POST("history-session/api/v1/logs/:logId)
 
 	router.Run("localhost:8080")
