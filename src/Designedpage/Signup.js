@@ -33,6 +33,8 @@ let navigate = useNavigate();
     var lastName = data.get('lastName')
     var email = data.get('email')
     var password = data.get('password')
+
+    console.log("Data is :",data)
     
     // console.log({
     //   email: email,
@@ -41,7 +43,7 @@ let navigate = useNavigate();
     //   lastName: lastName,
     // });
 
-    axios.post('https://jsonplaceholder.typicode.com/posts', data)
+    axios.post('http://localhost:8080/signUp', {firstName, lastName, email, password})
     .then(res => {
       console.log("Full Response STATUS ", res.data.status);
       if ( res.data.status ){
@@ -49,7 +51,7 @@ let navigate = useNavigate();
         navigate("/") ;
       }
       else{
-        alert("User Already Exist");
+        alert("User Already Exists");
       }
         
     })

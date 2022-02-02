@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -33,6 +33,8 @@ const {username, setUsername} = useContext(LoginContext)
 let navigate = useNavigate(); 
 
 const handleSubmit = (event) => {
+
+    
     
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -44,12 +46,16 @@ const handleSubmit = (event) => {
 
     const input = { email, password };
     console.log(input)
-    axios.post('https://jsonplaceholder.typicode.com/posts', { headers: { "authorization" : 'token' }, input })
-    .then(res => {
+    axios.post('http://localhost:8080/login', { headers: { "authorization" : 'token' }, email, password })
+    .then((res) => {
       console.log("this is Data : ", res);
       
       if (email.length > 0){
+ 
         setAuth(true);
+        setToken(String(res.data.response.result.sessionToken))
+        setTimeout(() => { console.log('random')}, 5000);
+        console.log('token set to: ', token)
         setUsername(JSON.stringify(email))
         navigate("/profile") ;
       }

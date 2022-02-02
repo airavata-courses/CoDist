@@ -19,7 +19,7 @@ import Stack from '@mui/material/Stack';
 import axios from 'axios';
 
 import { useContext, useState } from 'react';
-import {LoginContext} from '../Context/LoginContext';
+import { LoginContext } from '../Context/LoginContext';
 import Select from 'react-select';
 
 import { useNavigate } from "react-router-dom";
@@ -36,70 +36,75 @@ const tiers = [
 
 function PricingContent() {
 
-  const {auth, setAuth} = useContext(LoginContext)
-  const {token, setToken} = useContext(LoginContext)
-  const {username, setUsername} = useContext(LoginContext)
-  const [date, newDate] = React.useState(new Date('2018-01-01T00:00:00.000Z'));
+  const { auth, setAuth } = useContext(LoginContext)
+  const { token, setToken } = useContext(LoginContext)
+  const { username, setUsername } = useContext(LoginContext)
+  const [date, newDate] = React.useState(new Date(''));
   const [selectRadar, setSelectRadar] = useState("");
-  const {imgSource, setImgsource} = useState("")
+  const { imgSource, setImgsource } = useState("")
 
   let navigate = useNavigate();
 
 
   const options = [
-    {value:1, label:'Select radar'},
-    {value:1, label:'Radar1'},
-    {value:2, label:'Radar2'},
-    {value:3, label:'Radar3'},
-    {value:4, label:'Radar4'},
-    {value:5, label:'Radar5'},
-    {value:6, label:'Radar6'},
-    {value:7, label:'Radar7'},
+    { value: 1, label: 'Select radar' },
+    { value: 1, label: 'KABR' },
+    { value: 2, label: 'KABX' },
+    { value: 3, label: 'KAMA' },
+    { value: 4, label: 'PAHG' },
+    { value: 5, label: 'PGUA' },
+    { value: 6, label: 'KFFC' },
+    { value: 7, label: 'KBBX' },
   ];
 
-const getWeather = (event) => {
+  const getWeather = (event) => {
+
+    event.preventDefault();
+    // const data = new FormData(event.currentTarget);
+      var year= String(date.getFullYear())
+      var month= String(date.getMonth() + 1)
+      var day= String(date.getDate())
+      var hour= String(date.getHours())
+      var minute= String(date.getMinutes()) 
+      var second= String(date.getSeconds())
+      var station= selectRadar.label
+      var authToken= token
+
+    // Put code for validating data
     
-  event.preventDefault();
-  // const data = new FormData(event.currentTarget);
-  var plotdata = {"year" : date.getFullYear() ,"month": date.getMonth()+1, "day": date.getDate(), "hour": date.getHours(), "minute": date.getMinutes(), "second": date.getSeconds(), "station": selectRadar.label}
+    console.log('token in profile is: ',token)
 
-  console.log(plotdata)
+    axios.post('http://localhost:8080/plotting', { headers: { "authToken": "jsknjskn" }, year, month, day, hour, minute, second, station, authToken })
+      .then(res => {
+        console.log("this is Data : ", res);
 
-  axios.post('https://jsonplaceholder.typicode.com/posts', { headers: { "authorization" : token }, plotdata })
-  .then(res => {
-    console.log("this is Data : ", res);
-    
-    // if (username.length > 0){
-    // {
-    //   setImgsource(res.Source);
-    // }
-    window.open('http://res.cloudinary.com/dzlhjgubi/image/upload/v1643659320/KTLX20200531_171209_V06.png', '_blank', 'noopener,noreferrer')
+        window.open('http://res.cloudinary.com/dzlhjgubi/image/upload/v1643659320/KTLX20200531_171209_V06.png', '_blank', 'noopener,noreferrer')
 
-    }
-  )
-  .catch(err =>{
-    console.log("Error is : ", err)
-  });
+      }
+      )
+      .catch(err => {
+        console.log("Error is : ", err)
+      });
 
   };
 
 
   const handleLogout = (event) => {
-    
-      setAuth(false);
-      setUsername("");
-      setToken("null")
-      navigate("/") ;
 
-      console.log("Coming to console",  date)
-    };
+    setAuth(false);
+    setUsername("");
+    setToken("null")
+    navigate("/");
+
+    console.log("Coming to console", date)
+  };
 
   const getHistory = (event) => {
-    
-      alert("checking history")
-  
-    };
-    
+
+    alert("checking history")
+
+  };
+
 
   return (
     <React.Fragment>
@@ -115,7 +120,7 @@ const getWeather = (event) => {
           <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
             {username}
           </Typography>
-          
+
           <Button onClick={handleLogout} variant="outlined" sx={{ my: 1, mx: 1.5 }}>
             Logout
           </Button>
@@ -130,50 +135,52 @@ const getWeather = (event) => {
           color="text.primary"
           gutterBottom
         >
-          Select your choise! 
+          Select your choise!
         </Typography>
       </Container>
       {/* End hero unit */}
       <Container maxWidth="md" component="main">
         <Typography variant="h9" color="inherit" noWrap sx={{ flexGrow: 1 }}>
           <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <Stack spacing={3}>
-                    <DateTimePicker
-                    renderInput={(params) => <TextField {...params} />}
-                    value={date}
-                    onChange={(newDate) => {
-                      newDate(date);
-                    }}
-                  />
-                </Stack>
-          </LocalizationProvider>
-              
-              {/* <FormControl fullWidth> */}
-                {/* <InputLabel id="demo-simple-select-label">Age</InputLabel> */}
-                  <Select
-                    value = {selectRadar} 
-                    options={options} 
-                    onChange={selectRadar => setSelectRadar(selectRadar)}
-                  >
-                  </Select>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <Stack spacing={3}>
+                <DateTimePicker
+                  renderInput={(params) => <TextField {...params} />}
+                  value={date}
+                  onChange={date => newDate(date)}
+                //   onChange={(newDate) => {
+                //     newDate(date);
+                //   }
+                // }
+                />
+              </Stack>
+            </LocalizationProvider>
+
+            {/* <FormControl fullWidth> */}
+            {/* <InputLabel id="demo-simple-select-label">Age</InputLabel> */}
+            <Select
+              value={selectRadar}
+              options={options}
+              onChange={selectRadar => setSelectRadar(selectRadar)}
+            >
+            </Select>
             {/* </FormControl> */}
 
-              <Button fullWidth onClick={getWeather} > Get Weather Forecast </Button>
-        
-        </Box>
-    
+            <Button fullWidth onClick={getWeather} > Get Weather Forecast </Button>
+
+          </Box>
+
         </Typography>
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)' }}>
-              <br/><br/>
-                 
-                  <Button fullWidth onClick={getHistory} > User history </Button>
-            </Box>
+        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)' }}>
+          <br /><br />
+
+          <Button fullWidth onClick={getHistory} > User history </Button>
+        </Box>
       </Container>
-      
-      
+
+
       {/* {Image && } */}
-      
+
     </React.Fragment>
   );
 }
