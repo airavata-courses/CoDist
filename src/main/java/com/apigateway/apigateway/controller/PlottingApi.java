@@ -1,0 +1,193 @@
+package com.apigateway.apigateway.controller;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeoutException;
+
+
+import com.apigateway.apigateway.model.PlottingModel;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@CrossOrigin(origins = "*")
+@RestController
+public class PlottingApi {
+    private static Map<String, String> linkParams = new HashMap<>();
+    private static Map<String, String> loggerRequest = new HashMap<>();
+    private static Map<String, String> loggerRequest1 = new HashMap<>();
+
+    @Autowired
+    AuthenticationApi authentication;
+
+    private static String tempURL = "http://localhost:3333/registry/api/v1/user/signUp";
+
+    @JsonDeserialize
+    @PostMapping(value = "/plotting")
+    public Object createLink(@RequestBody PlottingModel plotting, @RequestHeader Map<String, String> plottingHeaders) throws IOException, TimeoutException, InterruptedException {
+        linkParams.put("year", plotting.year);
+        linkParams.put("month", plotting.month);
+        linkParams.put("day", plotting.day);
+        linkParams.put("hour", plotting.hour);
+        linkParams.put("minute", plotting.minute);
+        linkParams.put("second", plotting.second);
+        linkParams.put("station", plotting.station);
+
+
+        JSONObject linkParamsNew = new JSONObject(linkParams);
+        Gson gson = new Gson();
+
+        System.out.println("New link params " + linkParamsNew);
+//
+        System.out.println("Auth token: " + plottingHeaders.get("authToken"));
+
+        Map<String, Boolean> authResp = new HashMap<String, Boolean>();
+        Map<String, String> authResp1 = new HashMap<String, String>();
+
+        JsonElement authenticated = (JsonElement) authentication.Authentication_Check(plottingHeaders.get("authToken"));
+        System.out.println("received from function " + authenticated.getAsJsonObject().get("authorized"));
+
+//        First visit to Log DB
+        if (String.valueOf(authenticated.getAsJsonObject().get("authorized")).equals("true")) {
+            System.out.println("came inside if: ");
+            authResp.put("authenticaton", true);
+            loggerRequest.put("userId", String.valueOf(authenticated.getAsJsonObject().get("userId")));
+            loggerRequest.put("logType", "REQUEST");
+            loggerRequest.put("logDetails", String.valueOf(linkParamsNew));
+
+            System.out.println("logger reuqest  is " + loggerRequest);
+
+            String loggerRequestNew = gson.toJson(loggerRequest);
+
+            System.out.println("log request " + loggerRequestNew);
+
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper
+                    .writeValueAsString(loggerRequest);
+
+            System.out.println("firstlog is " + requestBody);
+
+            HttpClient client = HttpClient.newHttpClient();
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://309e-2601-801-100-f620-6ca5-3a1a-c3d2-91ac.ngrok.io/history-service/api/v1/logs"))
+                    .POST( HttpRequest.BodyPublishers.ofString( requestBody) )
+                    .build();
+
+            HttpResponse<String> resp = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            String respBody = resp.body();
+            JSONObject bodyJSON = new JSONObject(respBody);
+
+            JsonElement jsonElement = gson.fromJson(bodyJSON.toString(), JsonElement.class);
+
+            System.out.println("json elements is " + jsonElement);
+
+            JsonElement firstLogResp = (jsonElement
+                    .getAsJsonObject().get("response")
+                    .getAsJsonObject().get("logIdentifier"));
+
+            System.out.println("response is: " + firstLogResp);
+
+//            Request to plotting
+
+            String requestBodyPlotting = mapper
+                    .writeValueAsString(linkParams);
+
+            HttpRequest requestPlotting = HttpRequest.newBuilder()
+                    .uri(URI.create("http://f89b-2601-801-100-f620-6ca5-3a1a-c3d2-91ac.ngrok.io/getPlottedData"))
+                    .header("Content-Type", "application/json; charset=UTF-8")
+                    .POST( HttpRequest.BodyPublishers.ofString( requestBodyPlotting) )
+                    .build();
+
+
+            HttpResponse<String> respPlotting = client.send(requestPlotting, HttpResponse.BodyHandlers.ofString());
+
+            String respBodyPlotting = respPlotting.body();
+            JSONObject bodyJSONPlotting = new JSONObject(respBodyPlotting);
+
+            JsonElement plottingElement = gson.fromJson(bodyJSONPlotting.toString(), JsonElement.class);
+
+            JsonElement plottingElementNew = (plottingElement.
+                    getAsJsonObject().get("response").
+                    getAsJsonObject().get("result")).
+                    getAsJsonObject().get("url");
+
+            System.out.println("response from plotting: " + plottingElementNew);
+
+            //Sending Response to Logger
+
+            loggerRequest1.put("userId", String.valueOf(authenticated.getAsJsonObject().get("userId")));
+            loggerRequest1.put("logIdentifier", String.valueOf(firstLogResp));
+            loggerRequest1.put("logType", "RESPONSE");
+            loggerRequest1.put("logDetails", String.valueOf(plottingElementNew));
+
+            System.out.println("logger reuqest 1 is " + loggerRequest1);
+
+            String loggerRequest1New = gson.toJson(loggerRequest1);
+
+            System.out.println("log request 1 " + loggerRequest1New);
+
+
+            String requestBodyRespLog = mapper
+                    .writeValueAsString(loggerRequest1);
+
+            System.out.println("requestbodyResplog is " + requestBodyRespLog);
+
+            HttpRequest requestRespLog = HttpRequest.newBuilder()
+                    .uri(URI.create("http://309e-2601-801-100-f620-6ca5-3a1a-c3d2-91ac.ngrok.io/history-service/api/v1/logs"))
+                    .POST( HttpRequest.BodyPublishers.ofString( requestBodyRespLog) )
+                    .build();
+
+            HttpResponse<String> respRespLog = client.send(requestRespLog, HttpResponse.BodyHandlers.ofString());
+
+            String respBodyRespLog = respRespLog.body();
+            JSONObject bodyJSONRespLog = new JSONObject(respBodyRespLog);
+
+            JsonElement finalJSONElement = gson.fromJson(bodyJSONRespLog.toString(), JsonElement.class);
+
+            System.out.println("new response from log: " + finalJSONElement);
+
+            return bodyJSONRespLog.toString();
+
+        } else if (authenticated.getAsJsonObject().get("authentication").equals("false")) {
+            authResp.put("authentication", false);
+            return authResp;
+        } else {
+            authResp1.put("authentication", "Server_Error");
+            System.out.println("Didn't return anything");
+        }
+
+//        ObjectMapper mapper = new ObjectMapper();
+//        String requestBody = mapper
+//                .writeValueAsString(linkParams);
+//
+//        System.out.println("REQ BODY: " + requestBody);
+//        HttpClient client = HttpClient.newHttpClient();
+//
+//        HttpRequest request = HttpRequest.newBuilder()
+//                .uri(URI.create(tempURL))
+//                .header("Content-Type", "application/json; charset=UTF-8")
+//                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+//                .build();
+//
+//        Object resp = client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+//                .thenApply(HttpResponse::body)
+//                .thenAccept(System.out::println);
+//
+//        System.out.println("response is : " + resp);
+
+        return ResponseEntity.accepted().body(authResp);
+
+    }
+}
