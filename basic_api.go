@@ -105,5 +105,5 @@ func main() {
 
 	router.GET("history-service/api/v1/ping", ping)
 
-	router.Run("localhost:8080")
+	router.Run("localhost:8085")
 }
