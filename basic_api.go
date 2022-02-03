@@ -89,6 +89,11 @@ func getLogsById(c *gin.Context) {
 	c.IndentedJSON(code, responseLog)
 }
 
+func ping(c *gin.Context) {
+	code := http.StatusOK
+	c.IndentedJSON(code, "Pong")
+
+}
 func main() {
 	router := gin.Default()
 
@@ -97,6 +102,8 @@ func main() {
 
 	router.POST("history-service/api/v1/logs", postLogs)
 	// router.POST("history-session/api/v1/logs/:logId)
+
+	router.GET("history-service/api/v1/ping", ping)
 
 	router.Run("localhost:8080")
 }
