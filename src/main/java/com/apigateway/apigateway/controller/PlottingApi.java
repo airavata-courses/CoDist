@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 
+import com.apigateway.apigateway.model.BaseUrl;
+import com.apigateway.apigateway.model.LoginModel;
 import com.apigateway.apigateway.model.PlottingModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -29,6 +31,9 @@ public class PlottingApi {
 
     @Autowired
     AuthenticationApi authentication;
+
+    @Autowired
+    BaseUrl url;
 
     private static String tempURL = "http://localhost:3333/registry/api/v1/user/signUp";
 
@@ -68,6 +73,7 @@ public class PlottingApi {
             authResp.put("authenticaton", true);
             loggerRequest.put("userId", String.valueOf(authenticated.getAsJsonObject().get("userId")));
             loggerRequest.put("logType", "REQUEST");
+            loggerRequest.put("URL", "NA");
             loggerRequest.put("logDetails", String.valueOf(linkParamsNew));
 
             System.out.println("logger reuqest  is " + loggerRequest);
@@ -84,8 +90,10 @@ public class PlottingApi {
 
             HttpClient client = HttpClient.newHttpClient();
 
+            System.out.println("Logger url is : " + url.Logger + "/history-service/api/v1/logs");
+
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://9215-2601-801-100-f620-6421-5ed3-940c-28ea.ngrok.io/history-service/api/v1/logs"))
+                    .uri(URI.create(url.Logger + "/history-service/api/v1/logs"))
                     .POST( HttpRequest.BodyPublishers.ofString( requestBody) )
                     .build();
 
@@ -110,7 +118,7 @@ public class PlottingApi {
                     .writeValueAsString(linkParams);
 
             HttpRequest requestPlotting = HttpRequest.newBuilder()
-                    .uri(URI.create("http://7abc-2601-801-100-f620-6421-5ed3-940c-28ea.ngrok.io/getPlottedData"))
+                    .uri(URI.create(url.Plotting + "/getPlottedData"))
                     .header("Content-Type", "application/json; charset=UTF-8")
                     .POST( HttpRequest.BodyPublishers.ofString( requestBodyPlotting) )
                     .build();
@@ -134,7 +142,8 @@ public class PlottingApi {
             loggerRequest1.put("userId", String.valueOf(authenticated.getAsJsonObject().get("userId")));
             loggerRequest1.put("logIdentifier", String.valueOf(firstLogResp));
             loggerRequest1.put("logType", "RESPONSE");
-            loggerRequest1.put("logDetails", String.valueOf(plottingElementNew));
+            loggerRequest1.put("URL", String.valueOf(plottingElementNew));
+            loggerRequest1.put("logDetails", String.valueOf(linkParamsNew));
 
             System.out.println("logger reuqest 1 is " + loggerRequest1);
 
@@ -149,7 +158,7 @@ public class PlottingApi {
             System.out.println("requestbodyResplog is " + requestBodyRespLog);
 
             HttpRequest requestRespLog = HttpRequest.newBuilder()
-                    .uri(URI.create("http://9215-2601-801-100-f620-6421-5ed3-940c-28ea.ngrok.io/history-service/api/v1/logs"))
+                    .uri(URI.create(url.Logger + "/history-service/api/v1/logs"))
                     .POST( HttpRequest.BodyPublishers.ofString( requestBodyRespLog) )
                     .build();
 
@@ -171,25 +180,6 @@ public class PlottingApi {
             authResp1.put("authentication", "Server_Error");
             System.out.println("Didn't return anything");
         }
-
-//        ObjectMapper mapper = new ObjectMapper();
-//        String requestBody = mapper
-//                .writeValueAsString(linkParams);
-//
-//        System.out.println("REQ BODY: " + requestBody);
-//        HttpClient client = HttpClient.newHttpClient();
-//
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .uri(URI.create(tempURL))
-//                .header("Content-Type", "application/json; charset=UTF-8")
-//                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-//                .build();
-//
-//        Object resp = client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-//                .thenApply(HttpResponse::body)
-//                .thenAccept(System.out::println);
-//
-//        System.out.println("response is : " + resp);
 
         return ResponseEntity.accepted().body(authResp);
 

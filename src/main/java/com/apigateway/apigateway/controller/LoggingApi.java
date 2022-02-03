@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 
+import com.apigateway.apigateway.model.BaseUrl;
 import com.apigateway.apigateway.model.PlottingModel;
 import com.apigateway.apigateway.model.UserLogModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,6 +31,9 @@ public class LoggingApi {
 
     @Autowired
     AuthenticationApi authentication;
+
+    @Autowired
+    BaseUrl url;
 
     private static String tempURL = "http://localhost:3333/registry/api/v1/user/signUp";
 
@@ -68,7 +72,7 @@ public class LoggingApi {
             System.out.println("http://9215-2601-801-100-f620-6421-5ed3-940c-28ea.ngrok.io/history-service/api/v1/user-history/" + UserId);
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://9215-2601-801-100-f620-6421-5ed3-940c-28ea.ngrok.io/history-service/api/v1/user-history/" + UserId ))
+                    .uri(URI.create(url.Logger + "/history-service/api/v1/user-history/" + UserId ))
                     .GET()
                     .build();
 

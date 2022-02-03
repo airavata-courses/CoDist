@@ -1,10 +1,12 @@
 package com.apigateway.apigateway.controller;
 
 
+import com.apigateway.apigateway.model.BaseUrl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +21,8 @@ import java.util.concurrent.TimeoutException;
 @Service
 public class AuthenticationApi {
 
-
+    @Autowired
+    BaseUrl url;
 
     public Object Authentication_Check(Object auth)
             throws IOException, TimeoutException, InterruptedException {
@@ -34,7 +37,7 @@ public class AuthenticationApi {
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:3333/registry/api/v1/security/authorize"))
+                .uri(URI.create(url.Registry + "/registry/api/v1/security/authorize"))
                 .header("codist-access-token", (String)auth)
                 .POST( HttpRequest.BodyPublishers.ofString( requestBody) )
                 .build();
