@@ -35,6 +35,9 @@ public class PlottingApi {
     @JsonDeserialize
     @PostMapping(value = "/plotting")
     public Object createLink(@RequestBody PlottingModel plotting, @RequestHeader Map<String, String> plottingHeaders) throws IOException, TimeoutException, InterruptedException {
+        System.out.println("plotting received is " + plotting);
+        System.out.println("header received is: " + plottingHeaders);
+
         linkParams.put("year", plotting.year);
         linkParams.put("month", plotting.month);
         linkParams.put("day", plotting.day);
@@ -43,18 +46,20 @@ public class PlottingApi {
         linkParams.put("second", plotting.second);
         linkParams.put("station", plotting.station);
 
+        System.out.println("Orifinak link parmas " + linkParams);
 
         JSONObject linkParamsNew = new JSONObject(linkParams);
         Gson gson = new Gson();
 
-        System.out.println("New link params " + linkParamsNew);
-//
-        System.out.println("Auth token: " + plottingHeaders.get("authToken"));
+        System.out.println("linkparams new is " + linkParamsNew);
+
+//        System.out.println("Auth token: " + plottingHeaders.get("authToken"));
 
         Map<String, Boolean> authResp = new HashMap<String, Boolean>();
         Map<String, String> authResp1 = new HashMap<String, String>();
 
-        JsonElement authenticated = (JsonElement) authentication.Authentication_Check(plottingHeaders.get("authToken"));
+//        JsonElement authenticated = (JsonElement) authentication.Authentication_Check(plottingHeaders.get("authToken"));
+        JsonElement authenticated = (JsonElement) authentication.Authentication_Check(plotting.authToken);
         System.out.println("received from function " + authenticated.getAsJsonObject().get("authorized"));
 
 //        First visit to Log DB
@@ -80,7 +85,7 @@ public class PlottingApi {
             HttpClient client = HttpClient.newHttpClient();
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://309e-2601-801-100-f620-6ca5-3a1a-c3d2-91ac.ngrok.io/history-service/api/v1/logs"))
+                    .uri(URI.create("http://2f7e-2001-18e8-2-28b6-ec7f-147c-48d1-3e2f.ngrok.io/history-service/api/v1/logs"))
                     .POST( HttpRequest.BodyPublishers.ofString( requestBody) )
                     .build();
 
@@ -105,7 +110,7 @@ public class PlottingApi {
                     .writeValueAsString(linkParams);
 
             HttpRequest requestPlotting = HttpRequest.newBuilder()
-                    .uri(URI.create("http://f89b-2601-801-100-f620-6ca5-3a1a-c3d2-91ac.ngrok.io/getPlottedData"))
+                    .uri(URI.create("http://63b3-2001-18e8-2-28b6-ec7f-147c-48d1-3e2f.ngrok.io/getPlottedData"))
                     .header("Content-Type", "application/json; charset=UTF-8")
                     .POST( HttpRequest.BodyPublishers.ofString( requestBodyPlotting) )
                     .build();
@@ -145,7 +150,7 @@ public class PlottingApi {
             System.out.println("requestbodyResplog is " + requestBodyRespLog);
 
             HttpRequest requestRespLog = HttpRequest.newBuilder()
-                    .uri(URI.create("http://309e-2601-801-100-f620-6ca5-3a1a-c3d2-91ac.ngrok.io/history-service/api/v1/logs"))
+                    .uri(URI.create("http://2f7e-2001-18e8-2-28b6-ec7f-147c-48d1-3e2f.ngrok.io/history-service/api/v1/logs"))
                     .POST( HttpRequest.BodyPublishers.ofString( requestBodyRespLog) )
                     .build();
 
@@ -158,7 +163,7 @@ public class PlottingApi {
 
             System.out.println("new response from log: " + finalJSONElement);
 
-            return bodyJSONRespLog.toString();
+            return plottingElementNew.toString();
 
         } else if (authenticated.getAsJsonObject().get("authentication").equals("false")) {
             authResp.put("authentication", false);

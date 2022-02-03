@@ -8,5 +8,6 @@ public class PlottingModel {
     public String minute;
     public String second;
     public String station;
+    public String authToken;
 
 }
