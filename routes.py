@@ -4,7 +4,7 @@ from pydantic import BaseModel
 import asyncio
 import json
 from Plotting import getPlottingDataController
-
+import json
 
 
 app = Flask(__name__)
@@ -50,13 +50,19 @@ async def getPlottedData():
             })
             
     except Exception as e:
+        # print("Exception raised: ", e)
         return({
             "status" : True,
             "isError" : True,
             "statusCode" : "INTERNAL_SERVER_ERROR",
             "response" : {
-                "result" : e
+                "result" : str(e)
             }
         })
+
+
 if __name__ == "__main__":
     app.run()
+
+# {'month': '2', 'hour': '0', 'year': '2022', 'station': 'KABX', 'day': '1', 'minute': '1', 'second': '31'}
+# {'month': '2', 'hour': '12', 'year': '2022', 'station': 'KABX', 'day': '1', 'minute': '1', 'second': '31'}
