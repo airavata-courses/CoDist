@@ -84,6 +84,7 @@ function PricingContent() {
     axios.post(baseUrl+'/plotting', {year, month, day, hour, minute, second, station, authToken }, { headers: { "authToken" : String(authToken) , 'Access-Control-Allow-Origin': "*"} })
     .then((res) => {
       console.log("this is Data : ", res);
+      window.open(res.data)
      })
     .catch(err =>{
       console.log("Error is : ", err)
@@ -107,10 +108,11 @@ function PricingContent() {
     event.preventDefault()    
     console.log("Profile getHistory Function.")
 
-      axios.post('http://930d-2601-801-103-1100-e4da-695-aec6-f00f.ngrok.io/logging', {userId, token })
+      axios.post(baseUrl+'/logging', {userId, token })
       .then(res => {
         console.log("this is log response : ", res);
-        console.log("This is log data : ", res.data);
+        console.log("This is log data : ", res.data.response);
+        var sortedData = res.data.response.sort((a, b) => b.insertedOn - a.insertedOn)
         setLogs(res.data)
         navigate("/history");
       }
@@ -164,10 +166,10 @@ function PricingContent() {
                   renderInput={(params) => <TextField {...params} />}
                   value={date}
                   onChange={date => newDate(date)}
-                  onChange={(newDate) => {
-                    newDate(date);
-                  }
-                }
+                  // onChange={(newDate) => {
+                  //   newDate(date);
+                  // }
+                // }
                 />
               </Stack>
             </LocalizationProvider>

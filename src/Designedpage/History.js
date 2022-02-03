@@ -44,14 +44,26 @@ export default function History(props) {
             alignItems: 'center',
           }}
         >
-        {logs.response.map((item, i) => (
-                <tr key={i}>
-                <td>{item.insertedOn}</td>
-                <td>{item.logDetails}</td>
-                <td>{item.logtype}</td>
-                </tr>
-            ))}
-          
+            <table style={{border: "1px solid black" }}>
+            <tr >
+                <th style={{border: "1px solid black" }}>TIMESTAMP</th>
+                <th style={{border: "1px solid black" }}>LOG ID</th>
+                <th style={{border: "1px solid black" }}>LOG TYPE</th>
+                <th style={{border: "1px solid black" }}>LOG DETAILS</th>
+                <th style={{border: "1px solid black" }}>URL</th>
+            </tr>
+            {logs.response.map((item, i) => (
+                    <tr key={i}>
+                    <td style={{border: "1px solid black" }}>{item.insertedOn}</td>
+                    <td style={{border: "1px solid black" }}>{JSON.parse(item.logIdentifier)}</td>
+                    <td style={{border: "1px solid black" }}>{item.logType}</td>
+                    <td style={{border: "1px solid black" }}>{item.logDetails}</td>
+                    <td style={{border: "1px solid black" }}>{item.url}</td>
+                    </tr>
+                ))}
+            </table>
+
+
         </Box>
       </Container>
     </ThemeProvider>
