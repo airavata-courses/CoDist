@@ -18,7 +18,8 @@ from uploadImages import uploadImage
 async def getPlottingDataController( filters ):
     print(filters)
     if filters == None or len(filters) <=6 :
-        return TypeError("Input Data of not the correct form")
+        print("Data Not Proper")
+        return None
     
     year = filters['year']
     month = filters['month']
@@ -28,50 +29,55 @@ async def getPlottingDataController( filters ):
     minute = filters['minute']
     second = filters['second']
 
-    """ABSOLUTES"""
-    DirectoryPath = os.path.dirname(os.path.abspath(__file__)) 
-
-    """MAKING AN END TIME"""
-    # Convert Input String to int
-
-    current = datetime.datetime(int(year), int(month), int(day), int(hour), int(minute), int(second) )
-    start = current - datetime.timedelta(days=1)
-
-    print(f'CURRENT TIME:', current)
-    print(f'START TIME: ', start )
-
-    """Downloading the latest available file"""
-
-    conn = nexradaws.NexradAwsInterface()
-
-    scans = conn.get_avail_scans_in_range(start, current, STATION)
-
-    for i in range(len(scans) - 1, -1, -1):
-        key = scans[i].key.split("/")[-1]
-        if key[-3:] != "MDM":
-            toBeDownloaded = scans[i]
-            break
-        else:
-            print("skipping data set", key)
-
-  
-    dataFileName = toBeDownloaded.key.split("/")[-1]
-
-    results = conn.download(toBeDownloaded, DirectoryPath)
-
-    for scan in results.iter_success():
-        print ("{} volume scan time {}".format(scan.radar_id,scan.scan_time ))
-
-    """CODE FOR PLOTTING"""
     try:
-        f = Level2File(dataFileName)
-    except:
-        print("Error in File Reading")
-        return  TypeError("Not able to read Downloaded File")
+        """ABSOLUTES"""
+        DirectoryPath = os.path.dirname(os.path.abspath(__file__)) 
 
+        """MAKING AN END TIME"""
+        # Convert Input String to int
 
-    sweep = 0
+        current = datetime.datetime(int(year), int(month), int(day), int(hour), int(minute), int(second) )
+        start = current - datetime.timedelta(days=1)
+
+        print(f'CURRENT TIME:', current)
+        print(f'START TIME: ', start )
+
+        """Downloading the latest available file"""
+    
+        conn = nexradaws.NexradAwsInterface()
+
+        scans = conn.get_avail_scans_in_range(start, current, STATION)
+
+        for i in range(len(scans) - 1, -1, -1):
+            key = scans[i].key.split("/")[-1]
+            if key[-3:] != "MDM":
+                toBeDownloaded = scans[i]
+                break
+            else:
+                print("skipping data set", key)
+
+    
+        dataFileName = toBeDownloaded.key.split("/")[-1]
+
+        results = conn.download(toBeDownloaded, DirectoryPath)
+        
+        for scan in results.iter_success():
+            print ("{} volume scan time {}".format(scan.radar_id,scan.scan_time ))
+
+        """CODE FOR PLOTTING"""
+        try:
+            f = Level2File(dataFileName)
+        except:
+            print("Error in File Reading")
+            return  TypeError("Not able to read Downloaded File")
+    except Exception as e:
+        print("Error while scanning and downloading data: ", e )
+        return None
+
+    
     try:
+        sweep = 0
+
         # First item in ray is header, which has azimuth angle
         az = np.array([ray[0].az_angle for ray in f.sweeps[sweep]])
 
@@ -99,7 +105,7 @@ async def getPlottingDataController( filters ):
         fig, axes = plt.subplots(2, 2, figsize=(15, 15))
     except Exception as e:
         print("Error while arranging Data configuration",e)
-        return TypeError("Not able to upload file")
+        return None
 
     try: 
 
@@ -134,15 +140,17 @@ async def getPlottingDataController( filters ):
             except Exception as e:
                 print(f"Exception raised e: {e}")
     
+        try:
+            plt.suptitle('KVWX Level 2 Data', fontsize=20)
+            plt.tight_layout()
 
-        plt.suptitle('KVWX Level 2 Data', fontsize=20)
-        plt.tight_layout()
 
+            pltLocalFileName = str("local") + "_" + dataFileName + ".png"
 
-        pltLocalFileName = str("local") + "_" + dataFileName + ".png"
-
-        plt.savefig(pltLocalFileName, bbox_inches='tight')
-
+            plt.savefig(pltLocalFileName, bbox_inches='tight')
+        except Exception as e:
+            print("Exception raised while saving the image to local storage", e)
+            return None
         try:
             ### CODE TO UPLOAD TO Online Service.
             done, pending = await asyncio.wait([uploadImage(pltLocalFileName, dataFileName)])
@@ -151,12 +159,12 @@ async def getPlottingDataController( filters ):
                 result = t.result()
         except Exception as e:
             print("Error generted while uploading file", e)
-
-            return TypeError("Not able to upload file")
+            return None
+        
         ### CODE FOR DELETING THE DOWNLOADED FILE.
         deleteLocalFiles( dataFileName, pltLocalFileName )
 
         return result
     except Exception as e:
         print(f'Exception Raised {e}')
-        return TypeError("Not able to upload file")
+        return None

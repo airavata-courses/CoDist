@@ -1,3 +1,4 @@
+from logging import raiseExceptions
 from random import SystemRandom
 from flask import Flask, jsonify, request
 from pydantic import BaseModel
@@ -5,52 +6,52 @@ import asyncio
 import json
 from Plotting import getPlottingDataController
 import json
-
+from flask_inputs import Inputs
+from flask_inputs.validators import JsonSchema
 
 app = Flask(__name__)
 
-
-class getPlottedDataBody(BaseModel):
-    year : str
-    month : str
-    day : str
-    station : str
-    hour : str
-    minute : str
-    second : str
+schema = {
+    "year" : 'str',
+    "month" : 'str',
+    "day" : 'str',
+    "station" : 'str',
+    "hour" : 'str',
+    "minute" : 'str',
+    "second" : 'str'
+}
+class getPlottedDataBodyInputs(Inputs):
+    json = [JsonSchema(schema=schema)]
 
 @app.route("/ping")
 async def root():
     return jsonify({ "ping" : "PONG,BING BONG"})
 
-
-incomes = [
-  { 'description': 'salary', 'amount': 5000 }
-]
-
-@app.route('/getFunctionCall', methods=['POST'])
-def getFunctionCall():
-    return '''
-              <h1>The language value is: {}</h1>
-              '''.format(request.get_json())
-
 @app.route('/getPlottedData', methods=['POST'])
 async def getPlottedData():
     # print("WE are here",requestBody)
     try:
-        done,pending = await asyncio.wait([getPlottingDataController(dict(request.get_json()))])
+        # inputs = getPlottedDataBodyInputs(request)
+        # if inputs.validate():
+        #     return jsonify(success=False, errors=inputs.errors)
+
+        done,pending = await asyncio.wait([getPlottingDataController( dict(request.get_json())  )])
         # return result
+        print("done Object is: ", done)
         for t in done:
-            return ({
-                "status" : True,
-                "isError" : False,
-                "response" : {
-                    "result" : t.result() 
-                }
-            })
-            
+            if t.result() == None:
+                raise Exception
+        for t in done:
+                    return ({
+                        "status" : True,
+                        "isError" : False,
+                        "response" : {
+                            "result" : t.result() 
+                        }
+                    })
+                
     except Exception as e:
-        # print("Exception raised: ", e)
+        print("Exception raised: ", e)
         return({
             "status" : True,
             "isError" : True,
@@ -59,7 +60,6 @@ async def getPlottedData():
                 "result" : str(e)
             }
         })
-
 
 if __name__ == "__main__":
     app.run()
