@@ -1,6 +1,7 @@
 botocore==1.23.41
 cloudinary==1.28.1
 Flask==2.0.2
+Flask_Inputs==0.3.0
 matplotlib==3.5.1
 MetPy==1.1.0
 nexradaws==1.1
