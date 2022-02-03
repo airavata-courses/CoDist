@@ -21,7 +21,7 @@ class getPlottedDataBody(BaseModel):
 
 @app.route("/ping")
 async def root():
-    return jsonify({ "ping" : "PONG"})
+    return jsonify({ "ping" : "PONG,BING BONG"})
 
 
 incomes = [
