@@ -16,12 +16,13 @@ func CreateTableIfNotExistsQuery() {
 	}
 
 	sqlStatement := `
-		CREATE TABLE IF NOT EXISTS logs_table(
+		CREATE TABLE IF NOT EXISTS logs_table_url(
 			id SERIAL PRIMARY KEY,
 			log_identifier VARCHAR,
 			log_type VARCHAR,
 			log_details VARCHAR,
 			user_id VARCHAR,
+			url VARCHAR,
 			inserted_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 		)`
 	_, err := db.Exec(sqlStatement)
@@ -43,7 +44,7 @@ func getLogIdentifier() string {
 		estimatedLogIdentifier = GetNumber()
 		sqlStatement := `
 			SELECT *
-			FROM logs_table
+			FROM logs_table_url
 			WHERE log_identifier = $1`
 
 		rows, err := db.Query(sqlStatement, estimatedLogIdentifier)
@@ -86,11 +87,11 @@ func InsertIntoQuery(newLog ioFormatting.InputLog) string {
 	log.Println("newLog Identifier After Calling log identifier", newLog.LogIdentifier)
 
 	sqlStatement := `
-		INSERT INTO logs_table (user_id, log_identifier, log_type, log_details)
-		VALUES ($1, $2, $3, $4)
+		INSERT INTO logs_table_url (user_id, log_identifier, log_type, log_details, url)
+		VALUES ($1, $2, $3, $4, $5)
 		`
 
-	_, err := db.Exec(sqlStatement, newLog.UserId, newLog.LogIdentifier, newLog.LogType, newLog.LogDetails)
+	_, err := db.Exec(sqlStatement, newLog.UserId, newLog.LogIdentifier, newLog.LogType, newLog.LogDetails, newLog.Url)
 	if err != nil {
 		message = "ERROR WHILE INSERT INTO QUERY EXECUTION"
 		log.Println(err)
@@ -116,9 +117,10 @@ func GetUserHistory(requestedUserId string) ([]ioFormatting.ReturnLog, string) {
 	log.Println("logger in GetUserHistory")
 
 	sqlStatement := `
-		SELECT user_id, log_identifier, log_type, log_details, inserted_on
-		FROM logs_table
-		WHERE user_id = $1 OR user_id= $2;`
+		SELECT user_id, log_identifier, log_type, log_details, inserted_on, url
+		FROM logs_table_url
+		WHERE user_id = $1 OR user_id= $2
+		ORDER BY inserted_on DESC;`
 
 	c := '"'
 	rows, err := db.Query(sqlStatement, requestedUserId, string(c)+requestedUserId+string(c))
@@ -133,7 +135,7 @@ func GetUserHistory(requestedUserId string) ([]ioFormatting.ReturnLog, string) {
 
 		var returnLog ioFormatting.ReturnLog
 
-		err = rows.Scan(&returnLog.UserId, &returnLog.LogIdentifier, &returnLog.LogType, &returnLog.LogDetails, &returnLog.InsertedOn)
+		err = rows.Scan(&returnLog.UserId, &returnLog.LogIdentifier, &returnLog.LogType, &returnLog.LogDetails, &returnLog.InsertedOn, &returnLog.Url)
 		if err != nil {
 			message = "ERROR WHILE GetUserHistory WHILE SCANNING THE ROW"
 			log.Println(message, err)
