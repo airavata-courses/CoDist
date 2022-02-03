@@ -13,6 +13,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { baseUrl } from '../baseurls';
+
 
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
@@ -43,7 +45,7 @@ let navigate = useNavigate();
     //   lastName: lastName,
     // });
 
-    axios.post('http://5892-2001-18e8-2-28b8-f000-00-dcc.ngrok.io/signUp', {firstName, lastName, email, password})
+    axios.post(baseUrl+'/signUp', {firstName, lastName, email, password})
     .then(res => {
       console.log("Full Response STATUS ", res.data.status);
       if ( res.data.status ){

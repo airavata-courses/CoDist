@@ -25,10 +25,12 @@ function App()
     const [token, setToken] = useState("");
     // const [auth, setAuth] = useState(false);
     const [userId, setUserId] = useState("")
+    const [logs, setLogs] = useState("");
+
     
     return (
     <div> 
-        <LoginContext.Provider value = {{username, setUsername, auth, setAuth, token, setToken, userId, setUserId}}>
+        <LoginContext.Provider value = {{username, setUsername, auth, setAuth, token, setToken, userId, setUserId, logs, setLogs}}>
             <Router>
               <Routes>
                 {auth && <Route exact path="/profile" element={<Profile/>} />}
@@ -37,6 +39,7 @@ function App()
                 {/* <Route exact path="/profile" element={<Profile/>} /> */}
                 <Route exact path="/register" element={<Signup />} />
                 <Route exact path="*" element={<Errorpage />} />
+                <Route exact path="/history" element={<History />} />
               </Routes>
             </Router>
         </LoginContext.Provider>

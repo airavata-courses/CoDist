@@ -19,6 +19,7 @@ import { useContext } from 'react';
 import {LoginContext} from '../Context/LoginContext';
 
 import { useNavigate } from "react-router-dom";
+import { baseUrl } from '../baseurls';
 
 
 
@@ -47,7 +48,7 @@ const handleSubmit = (event) => {
 
     const input = { email, password };
     console.log(input)
-    axios.post('https://17b1-2601-801-103-1100-e4da-695-aec6-f00f.ngrok.io/login', {email, password }, { headers: { "authorization" : 'token' , 'Access-Control-Allow-Origin': "*"} })
+    axios.post(baseUrl+'/login', {email, password }, { headers: { "authorization" : 'token' , 'Access-Control-Allow-Origin': "*"} })
     .then((res) => {
       console.log("this is Data : ", res);
       

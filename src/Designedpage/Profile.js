@@ -15,6 +15,9 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import Stack from '@mui/material/Stack';
 
+import { baseUrl } from '../baseurls';
+
+
 
 import axios from 'axios';
 
@@ -44,6 +47,7 @@ function PricingContent() {
   const [date, newDate] = React.useState(new Date(''));
   const [selectRadar, setSelectRadar] = useState("");
   const { imgSource, setImgsource } = useState("")
+  const {logs, setLogs} = useContext(LoginContext);
 
   let navigate = useNavigate();
 
@@ -77,41 +81,15 @@ function PricingContent() {
     console.log('token in profile is: ', authToken)
 
     console.log("Hour is: ", hour)
-    axios.post('http://17b1-2601-801-103-1100-e4da-695-aec6-f00f.ngrok.io/plotting', {year, month, day, hour, minute, second, station, authToken }, { headers: { "authToken" : String(authToken) , 'Access-Control-Allow-Origin': "*"} })
+    axios.post(baseUrl+'/plotting', {year, month, day, hour, minute, second, station, authToken }, { headers: { "authToken" : String(authToken) , 'Access-Control-Allow-Origin': "*"} })
     .then((res) => {
       console.log("this is Data : ", res);
-    })
+     })
     .catch(err =>{
       console.log("Error is : ", err)
     });
 
-    // fetch('http://17b1-2601-801-103-1100-e4da-695-aec6-f00f.ngrok.io/plotting', {
-    //   method: 'post',
-    //   headers: {'Content-Type':'application/json', 'Access-Control-Allow-Origin': "*"},
-    //   body: {
-    //     "year": year, "month": month, "day":day,"hour": hour, "minute":minute, "second": second, "station":station, "authToken": authToken}
-    //   })
-    //   .then( (response) => response.json())
-    //   .catch((err)=> console.log(err));
-
-
     
-    // axios.post('https://cors-anywhere.herokuapp.com/https://5892-2001-18e8-2-28b8-f000-00-dcc.ngrok.io/plotting', { year, month, day, hour, minute, second, station, authToken },   {headers: { "Access-Control-Allow-Origin": "*", "authToken" : token } } )
-    
-    //   .then(res => {
-    //     console.log("this is Plotted Result : ", res);
-    //     console.log("this is Plotted image : ", res.data);
-
-    //     // window.open('http://res.cloudinary.com/dzlhjgubi/image/upload/v1643659320/KTLX20200531_171209_V06.png', '_blank', 'noopener,noreferrer')
-    //     window.open(res.data, '_blank', 'noopener,noreferrer')
-
-
-    //   }
-    //   )
-    //   .catch(err => {
-    //     console.log("Error is : ", err)
-    //   });
-
   };
 
 
@@ -126,27 +104,21 @@ function PricingContent() {
   };
 
   const getHistory = (event) => {
-    // navigate("/history")
-    
+    event.preventDefault()    
     console.log("Profile getHistory Function.")
-    getUserHistoryData(userId, token);
 
-    // axios.post('http://5892-2001-18e8-2-28b8-f000-00-dcc.ngrok.io/logging', userId  )
-    //   .then(res => {
-    //     console.log("this is Plotted Result : ", res);
-    //     console.log("this is Plotted image : ", res.data);
-
-    //     // window.open('http://res.cloudinary.com/dzlhjgubi/image/upload/v1643659320/KTLX20200531_171209_V06.png', '_blank', 'noopener,noreferrer')
-    //     window.open(res.data, '_blank', 'noopener,noreferrer')
-
-
-    //   }
-    //   )
-    //   .catch(err => {
-    //     console.log("Error is : ", err)
-    //   });
-    // alert("checking history")
-
+      axios.post('http://930d-2601-801-103-1100-e4da-695-aec6-f00f.ngrok.io/logging', {userId, token })
+      .then(res => {
+        console.log("this is log response : ", res);
+        console.log("This is log data : ", res.data);
+        setLogs(res.data)
+        navigate("/history");
+      }
+      )
+      .catch(err => {
+        console.log("Error is : ", err)
+      });
+       
   };
 
 
@@ -192,10 +164,10 @@ function PricingContent() {
                   renderInput={(params) => <TextField {...params} />}
                   value={date}
                   onChange={date => newDate(date)}
-                //   onChange={(newDate) => {
-                //     newDate(date);
-                //   }
-                // }
+                  onChange={(newDate) => {
+                    newDate(date);
+                  }
+                }
                 />
               </Stack>
             </LocalizationProvider>
