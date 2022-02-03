@@ -5,6 +5,7 @@ type InputLog struct {
 	LogIdentifier string `json:"logIdentifier"`
 	LogType       string `json:"logType"`
 	LogDetails    string `json:"logDetails"`
+	Url           string `json:"url"`
 	// CreatedOn     string `json:"createdOn"`
 	// Message       string `json:"message"`
 	// Service       string `json:"service"`
@@ -22,6 +23,7 @@ type ReturnLog struct {
 	LogType       string `json:"logType"`
 	LogDetails    string `json:"logDetails"`
 	InsertedOn    string `json:"insertedOn"`
+	Url           string `json:"url"`
 	// CreatedOn     string `json:"createdOn"`
 	// Message       string `json:"message"`
 	// Service       string `json:"service"`
