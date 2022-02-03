@@ -53,7 +53,7 @@ public class PlottingApi {
 
         System.out.println("linkparams new is " + linkParamsNew);
 
-//        System.out.println("Auth token: " + plottingHeaders.get("authToken"));
+        System.out.println("Auth token: " + plottingHeaders.get("authToken"));
 
         Map<String, Boolean> authResp = new HashMap<String, Boolean>();
         Map<String, String> authResp1 = new HashMap<String, String>();
@@ -85,7 +85,7 @@ public class PlottingApi {
             HttpClient client = HttpClient.newHttpClient();
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://2f7e-2001-18e8-2-28b6-ec7f-147c-48d1-3e2f.ngrok.io/history-service/api/v1/logs"))
+                    .uri(URI.create("http://9215-2601-801-100-f620-6421-5ed3-940c-28ea.ngrok.io/history-service/api/v1/logs"))
                     .POST( HttpRequest.BodyPublishers.ofString( requestBody) )
                     .build();
 
@@ -110,11 +110,10 @@ public class PlottingApi {
                     .writeValueAsString(linkParams);
 
             HttpRequest requestPlotting = HttpRequest.newBuilder()
-                    .uri(URI.create("http://63b3-2001-18e8-2-28b6-ec7f-147c-48d1-3e2f.ngrok.io/getPlottedData"))
+                    .uri(URI.create("http://7abc-2601-801-100-f620-6421-5ed3-940c-28ea.ngrok.io/getPlottedData"))
                     .header("Content-Type", "application/json; charset=UTF-8")
                     .POST( HttpRequest.BodyPublishers.ofString( requestBodyPlotting) )
                     .build();
-
 
             HttpResponse<String> respPlotting = client.send(requestPlotting, HttpResponse.BodyHandlers.ofString());
 
@@ -150,7 +149,7 @@ public class PlottingApi {
             System.out.println("requestbodyResplog is " + requestBodyRespLog);
 
             HttpRequest requestRespLog = HttpRequest.newBuilder()
-                    .uri(URI.create("http://2f7e-2001-18e8-2-28b6-ec7f-147c-48d1-3e2f.ngrok.io/history-service/api/v1/logs"))
+                    .uri(URI.create("http://9215-2601-801-100-f620-6421-5ed3-940c-28ea.ngrok.io/history-service/api/v1/logs"))
                     .POST( HttpRequest.BodyPublishers.ofString( requestBodyRespLog) )
                     .build();
 

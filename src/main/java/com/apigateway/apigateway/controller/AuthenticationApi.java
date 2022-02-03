@@ -49,6 +49,8 @@ public class AuthenticationApi {
 
         JsonElement jsonElement = gson.fromJson(bodyJSON.toString(), JsonElement.class);
 
+        System.out.println("Original auth response: " + jsonElement);
+
         JsonElement authResponse = (jsonElement
                 .getAsJsonObject().get("response")
                 .getAsJsonObject().get("result"));

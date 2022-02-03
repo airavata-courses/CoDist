@@ -13,6 +13,7 @@ import java.util.concurrent.TimeoutException;
 import com.apigateway.apigateway.model.PlottingModel;
 import com.apigateway.apigateway.model.UserLogModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.json.JSONObject;
@@ -21,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+@CrossOrigin(origins = "*")
 @RestController
 public class LoggingApi {
     private static Map<String, String> linkParams = new HashMap<>();
@@ -31,20 +33,23 @@ public class LoggingApi {
 
     private static String tempURL = "http://localhost:3333/registry/api/v1/user/signUp";
 
+    @JsonDeserialize
     @PostMapping(value = "/logging")
     public Object createLink(@RequestBody UserLogModel logmodel, @RequestHeader Map<String, String> loggingHeaders) throws IOException, TimeoutException, InterruptedException {
         linkParams.put("userId", logmodel.userId);
+        linkParams.put("authToken", logmodel.token);
 
         JSONObject linkParamsNew = new JSONObject(linkParams);
         Gson gson = new Gson();
 
         System.out.println("New link params " + linkParamsNew);
 
-        System.out.println("Auth token: " + loggingHeaders.get("authToken"));
+//        System.out.println("Auth token: " + loggingHeaders.get("authToken"));
 
         Map<String, Boolean> authResp = new HashMap<String, Boolean>();
 
-        JsonElement authenticated = (JsonElement) authentication.Authentication_Check(loggingHeaders.get("authToken"));
+//        JsonElement authenticated = (JsonElement) authentication.Authentication_Check(loggingHeaders.get("authToken"));
+        JsonElement authenticated = (JsonElement) authentication.Authentication_Check(logmodel.token);
         System.out.println("received from function " + authenticated.getAsJsonObject().get("authorized"));
 
 
@@ -60,10 +65,10 @@ public class LoggingApi {
             HttpClient client = HttpClient.newHttpClient();
 
             System.out.println("Fine belwo link");
-            System.out.println("http://309e-2601-801-100-f620-6ca5-3a1a-c3d2-91ac.ngrok.io/history-service/api/v1/user-history/" + UserId);
+            System.out.println("http://9215-2601-801-100-f620-6421-5ed3-940c-28ea.ngrok.io/history-service/api/v1/user-history/" + UserId);
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://309e-2601-801-100-f620-6ca5-3a1a-c3d2-91ac.ngrok.io/history-service/api/v1/user-history/" + UserId ))
+                    .uri(URI.create("http://9215-2601-801-100-f620-6421-5ed3-940c-28ea.ngrok.io/history-service/api/v1/user-history/" + UserId ))
                     .GET()
                     .build();
 
