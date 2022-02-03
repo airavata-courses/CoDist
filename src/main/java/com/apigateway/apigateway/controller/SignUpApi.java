@@ -11,12 +11,14 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 
+import com.apigateway.apigateway.model.BaseUrl;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +29,9 @@ import com.apigateway.apigateway.model.SignUp;
 @RestController
 public class SignUpApi {
     private static Map<String, String> linkParams = new HashMap<>();
-//    private static String tempURL = "http://e271-66-244-80-73.ngrok.io/registry/api/v1/user/signUp" ;
+
+    @Autowired
+    public BaseUrl url;
 
     @JsonDeserialize
     @PostMapping(value = "/signUp")
@@ -51,7 +55,7 @@ public class SignUpApi {
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:3333/registry/api/v1/user/signUp"))
+                .uri(URI.create(url.Registry + "/registry/api/v1/user/signUp"))
                 .header("Content-Type", "application/json; charset=UTF-8")
                 .POST( HttpRequest.BodyPublishers.ofString( requestBody) )
                 .build();
