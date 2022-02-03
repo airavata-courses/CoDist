@@ -18,7 +18,7 @@ from uploadImages import uploadImage
 async def getPlottingDataController( filters ):
     print(filters)
     if filters == None or len(filters) <=6 :
-        print("Data Not Proper")
+        print("Data not of full length")
         return None
     
     year = filters['year']
@@ -28,13 +28,16 @@ async def getPlottingDataController( filters ):
     hour = filters['hour']
     minute = filters['minute']
     second = filters['second']
-
+ 
+    if not isinstance(year, str) or not isinstance(month, str) or not isinstance(day, str) or not isinstance(STATION, str) or not isinstance(hour, str) or not isinstance(minute, str) or not isinstance(second, str):
+        print("Data types Not Proper")
+        return None
     try:
         """ABSOLUTES"""
         DirectoryPath = os.path.dirname(os.path.abspath(__file__)) 
 
         """MAKING AN END TIME"""
-        # Convert Input String to int
+        # Convert Input String to   int
 
         current = datetime.datetime(int(year), int(month), int(day), int(hour), int(minute), int(second) )
         start = current - datetime.timedelta(days=1)

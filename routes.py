@@ -31,10 +31,6 @@ async def root():
 async def getPlottedData():
     # print("WE are here",requestBody)
     try:
-        # inputs = getPlottedDataBodyInputs(request)
-        # if inputs.validate():
-        #     return jsonify(success=False, errors=inputs.errors)
-
         done,pending = await asyncio.wait([getPlottingDataController( dict(request.get_json())  )])
         # return result
         print("done Object is: ", done)
@@ -51,18 +47,25 @@ async def getPlottedData():
                     })
                 
     except Exception as e:
-        print("Exception raised: ", e)
-        return({
-            "status" : True,
-            "isError" : True,
-            "statusCode" : "INTERNAL_SERVER_ERROR",
-            "response" : {
-                "result" : str(e)
-            }
-        })
+        try:
+            print("Exception raised: ", e)
+            return({
+                "status" : True,
+                "isError" : True,
+                "statusCode" : "INTERNAL_SERVER_ERROR OR REQUESTED DATA MISMATCH",
+                "response" : {
+                    "result" : str(e)
+                }
+            })
+        except Exception as e:
+            return({
+                "status" : True,
+                "isError" : True,
+                "statusCode" : "INTERNAL_SERVER_ERROR OR REQUESTED DATA MISMATCH",
+                "response" : {
+                    "result" : "was not able to convert the Error to string"
+                }
+            })
 
 if __name__ == "__main__":
     app.run()
-
-# {'month': '2', 'hour': '0', 'year': '2022', 'station': 'KABX', 'day': '1', 'minute': '1', 'second': '31'}
-# {'month': '2', 'hour': '12', 'year': '2022', 'station': 'KABX', 'day': '1', 'minute': '1', 'second': '31'}
