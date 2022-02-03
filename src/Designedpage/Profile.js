@@ -24,6 +24,7 @@ import Select from 'react-select';
 
 import { useNavigate } from "react-router-dom";
 
+import {getUserHistoryData} from '../logic/getUserHistory'
 
 const tiers = [
   {
@@ -39,6 +40,7 @@ function PricingContent() {
   const { auth, setAuth } = useContext(LoginContext)
   const { token, setToken } = useContext(LoginContext)
   const { username, setUsername } = useContext(LoginContext)
+  const {userId, setUserId} = useContext(LoginContext)
   const [date, newDate] = React.useState(new Date(''));
   const [selectRadar, setSelectRadar] = useState("");
   const { imgSource, setImgsource } = useState("")
@@ -61,30 +63,54 @@ function PricingContent() {
 
     event.preventDefault();
     // const data = new FormData(event.currentTarget);
-      var year= String(date.getFullYear())
-      var month= String(date.getMonth() + 1)
-      var day= String(date.getDate())
-      var hour= String(date.getHours())
-      var minute= String(date.getMinutes()) 
-      var second= String(date.getSeconds())
-      var station= selectRadar.label
-      var authToken= token
+    var year = String(date.getFullYear())
+    var month = String(date.getMonth() + 1)
+    var day = String(date.getDate())
+    var hour = String(date.getHours())
+    var minute = String(date.getMinutes())
+    var second = String(date.getSeconds())
+    var station = selectRadar.label
+    var authToken = token
 
     // Put code for validating data
+
+    console.log('token in profile is: ', authToken)
+
+    console.log("Hour is: ", hour)
+    axios.post('http://17b1-2601-801-103-1100-e4da-695-aec6-f00f.ngrok.io/plotting', {year, month, day, hour, minute, second, station, authToken }, { headers: { "authToken" : String(authToken) , 'Access-Control-Allow-Origin': "*"} })
+    .then((res) => {
+      console.log("this is Data : ", res);
+    })
+    .catch(err =>{
+      console.log("Error is : ", err)
+    });
+
+    // fetch('http://17b1-2601-801-103-1100-e4da-695-aec6-f00f.ngrok.io/plotting', {
+    //   method: 'post',
+    //   headers: {'Content-Type':'application/json', 'Access-Control-Allow-Origin': "*"},
+    //   body: {
+    //     "year": year, "month": month, "day":day,"hour": hour, "minute":minute, "second": second, "station":station, "authToken": authToken}
+    //   })
+    //   .then( (response) => response.json())
+    //   .catch((err)=> console.log(err));
+
+
     
-    console.log('token in profile is: ',token)
+    // axios.post('https://cors-anywhere.herokuapp.com/https://5892-2001-18e8-2-28b8-f000-00-dcc.ngrok.io/plotting', { year, month, day, hour, minute, second, station, authToken },   {headers: { "Access-Control-Allow-Origin": "*", "authToken" : token } } )
+    
+    //   .then(res => {
+    //     console.log("this is Plotted Result : ", res);
+    //     console.log("this is Plotted image : ", res.data);
 
-    axios.post('http://localhost:8080/plotting', { headers: { "authToken": "jsknjskn" }, year, month, day, hour, minute, second, station, authToken })
-      .then(res => {
-        console.log("this is Data : ", res);
+    //     // window.open('http://res.cloudinary.com/dzlhjgubi/image/upload/v1643659320/KTLX20200531_171209_V06.png', '_blank', 'noopener,noreferrer')
+    //     window.open(res.data, '_blank', 'noopener,noreferrer')
 
-        window.open('http://res.cloudinary.com/dzlhjgubi/image/upload/v1643659320/KTLX20200531_171209_V06.png', '_blank', 'noopener,noreferrer')
 
-      }
-      )
-      .catch(err => {
-        console.log("Error is : ", err)
-      });
+    //   }
+    //   )
+    //   .catch(err => {
+    //     console.log("Error is : ", err)
+    //   });
 
   };
 
@@ -100,8 +126,26 @@ function PricingContent() {
   };
 
   const getHistory = (event) => {
+    // navigate("/history")
+    
+    console.log("Profile getHistory Function.")
+    getUserHistoryData(userId, token);
 
-    alert("checking history")
+    // axios.post('http://5892-2001-18e8-2-28b8-f000-00-dcc.ngrok.io/logging', userId  )
+    //   .then(res => {
+    //     console.log("this is Plotted Result : ", res);
+    //     console.log("this is Plotted image : ", res.data);
+
+    //     // window.open('http://res.cloudinary.com/dzlhjgubi/image/upload/v1643659320/KTLX20200531_171209_V06.png', '_blank', 'noopener,noreferrer')
+    //     window.open(res.data, '_blank', 'noopener,noreferrer')
+
+
+    //   }
+    //   )
+    //   .catch(err => {
+    //     console.log("Error is : ", err)
+    //   });
+    // alert("checking history")
 
   };
 
@@ -135,7 +179,7 @@ function PricingContent() {
           color="text.primary"
           gutterBottom
         >
-          Select your choise!
+          Select your choice!
         </Typography>
       </Container>
       {/* End hero unit */}

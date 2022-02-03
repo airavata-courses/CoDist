@@ -29,6 +29,7 @@ export default function SignIn() {
 const {auth, setAuth} = useContext(LoginContext)
 const {token, setToken} = useContext(LoginContext)
 const {username, setUsername} = useContext(LoginContext)
+const {userId, setUserId} = useContext(LoginContext)
 
 let navigate = useNavigate(); 
 
@@ -46,16 +47,19 @@ const handleSubmit = (event) => {
 
     const input = { email, password };
     console.log(input)
-    axios.post('http://localhost:8080/login', { headers: { "authorization" : 'token' }, email, password })
+    axios.post('https://17b1-2601-801-103-1100-e4da-695-aec6-f00f.ngrok.io/login', {email, password }, { headers: { "authorization" : 'token' , 'Access-Control-Allow-Origin': "*"} })
     .then((res) => {
       console.log("this is Data : ", res);
       
+      // 
       if (email.length > 0){
  
         setAuth(true);
-        setToken(String(res.data.response.result.sessionToken))
-        setTimeout(() => { console.log('random')}, 5000);
+        setToken(String(res.data.response.result.token))
         console.log('token set to: ', token)
+        console.log("User Id: ",String(res.data.response.result.id))
+
+        setUserId(String(res.data.response.result.id))
         setUsername(JSON.stringify(email))
         navigate("/profile") ;
       }

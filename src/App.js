@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 // import Appchild from "./Component/Appchild"
 // import Landingpage from './Pages/Landingpage';
-// import Profile from './Pages/Profile';
 import Registration from './Pages/Registration';
 import Errorpage from './Pages/Errorpage';
-
+import History from './Designedpage/History';
 
 import SignIn from './Designedpage/Login';
 import Signup from './Designedpage/Signup';
@@ -25,33 +24,23 @@ function App()
     const [auth, setAuth] = useState(false);
     const [token, setToken] = useState("");
     // const [auth, setAuth] = useState(false);
+    const [userId, setUserId] = useState("")
     
-
     return (
     <div> 
-        
-
-
-        <LoginContext.Provider value = {{username, setUsername, auth, setAuth, token, setToken}}>
-
+        <LoginContext.Provider value = {{username, setUsername, auth, setAuth, token, setToken, userId, setUserId}}>
             <Router>
-            
-
               <Routes>
                 {auth && <Route exact path="/profile" element={<Profile/>} />}
+                {auth && <Route exact path="/history" element={<History/>} />}
                 <Route exact path="/" element={<SignIn/>} />
                 {/* <Route exact path="/profile" element={<Profile/>} /> */}
                 <Route exact path="/register" element={<Signup />} />
                 <Route exact path="*" element={<Errorpage />} />
-                
               </Routes>
-              
             </Router>
-
         </LoginContext.Provider>
-
       </div>
-    
   );
 }
 

@@ -43,7 +43,7 @@ let navigate = useNavigate();
     //   lastName: lastName,
     // });
 
-    axios.post('http://localhost:8080/signUp', {firstName, lastName, email, password})
+    axios.post('http://5892-2001-18e8-2-28b8-f000-00-dcc.ngrok.io/signUp', {firstName, lastName, email, password})
     .then(res => {
       console.log("Full Response STATUS ", res.data.status);
       if ( res.data.status ){
