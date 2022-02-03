@@ -1,6 +1,7 @@
 # Source: https://unidata.github.io/python-gallery/examples/Nexrad_S3_Demo.html#plot-the-data
 
 
+from logging import raiseExceptions
 from botocore.client import Config
 import matplotlib.pyplot as plt
 from metpy.io import Level2File
@@ -14,9 +15,11 @@ import asyncio
 from deleteFiles import deleteLocalFiles
 from uploadImages import uploadImage
 
-
 async def getPlottingDataController( filters ):
     print(filters)
+    if filters == None or len(filters) <=6 :
+        return TypeError("Input Data of not the correct form")
+    
     year = filters['year']
     month = filters['month']
     day = filters['day']
@@ -34,15 +37,24 @@ async def getPlottingDataController( filters ):
     current = datetime.datetime(int(year), int(month), int(day), int(hour), int(minute), int(second) )
     start = current - datetime.timedelta(days=1)
 
+    print(f'CURRENT TIME:', current)
+    print(f'START TIME: ', start )
+
     """Downloading the latest available file"""
 
     conn = nexradaws.NexradAwsInterface()
 
     scans = conn.get_avail_scans_in_range(start, current, STATION)
 
-    toBeDownloaded = scans[-1]
-    # File to be downloaded is scans[-1]
-    # pdb.set_trace()
+    for i in range(len(scans) - 1, -1, -1):
+        key = scans[i].key.split("/")[-1]
+        if key[-3:] != "MDM":
+            toBeDownloaded = scans[i]
+            break
+        else:
+            print("skipping data set", key)
+
+  
     dataFileName = toBeDownloaded.key.split("/")[-1]
 
     results = conn.download(toBeDownloaded, DirectoryPath)
@@ -55,6 +67,7 @@ async def getPlottingDataController( filters ):
         f = Level2File(dataFileName)
     except:
         print("Error in File Reading")
+        return  TypeError("Not able to read Downloaded File")
 
 
     sweep = 0
@@ -86,67 +99,64 @@ async def getPlottingDataController( filters ):
         fig, axes = plt.subplots(2, 2, figsize=(15, 15))
     except Exception as e:
         print("Error while arranging Data configuration",e)
+        return TypeError("Not able to upload file")
+
+    try: 
+
+        for var_data, var_range, colors, lbl, ax in zip((ref, rho, zdr, phi),
+                                                        (ref_range, rho_range, zdr_range, phi_range),
+                                                        (ref_cmap, 'plasma', 'viridis', 'viridis'),
+                                                        ('REF (dBZ)', 'RHO', 'ZDR (dBZ)', 'PHI'),
+                                                        axes.flatten()):
+            try:
+                # Turn into an array, then mask
+                data = np.ma.array(var_data)
+                data[np.isnan(data)] = np.ma.masked
+
+                # Convert az,range to x,y
+                xlocs = var_range * np.sin(np.deg2rad(az[:, np.newaxis]))
+                ylocs = var_range * np.cos(np.deg2rad(az[:, np.newaxis]))
+
+                # Define norm for reflectivity
+                norm = ref_norm if colors == ref_cmap else None
+
+                # Plot the data
+                a = ax.pcolormesh(xlocs, ylocs, data, cmap=colors, norm=norm)
+
+                divider = make_axes_locatable(ax)
+                cax = divider.append_axes('right', size='5%', pad=0.05)
+                fig.colorbar(a, cax=cax, orientation='vertical', label=lbl)
+
+                ax.set_aspect('equal', 'datalim')
+                ax.set_xlim(-100, 100)
+                ax.set_ylim(-100, 100)
+                add_timestamp(ax, f.dt, y=0.02, high_contrast=False)
+            except Exception as e:
+                print(f"Exception raised e: {e}")
+    
+
+        plt.suptitle('KVWX Level 2 Data', fontsize=20)
+        plt.tight_layout()
 
 
-    for var_data, var_range, colors, lbl, ax in zip((ref, rho, zdr, phi),
-                                                    (ref_range, rho_range, zdr_range, phi_range),
-                                                    (ref_cmap, 'plasma', 'viridis', 'viridis'),
-                                                    ('REF (dBZ)', 'RHO', 'ZDR (dBZ)', 'PHI'),
-                                                    axes.flatten()):
+        pltLocalFileName = str("local") + "_" + dataFileName + ".png"
+
+        plt.savefig(pltLocalFileName, bbox_inches='tight')
+
         try:
-            # Turn into an array, then mask
-            data = np.ma.array(var_data)
-            data[np.isnan(data)] = np.ma.masked
+            ### CODE TO UPLOAD TO Online Service.
+            done, pending = await asyncio.wait([uploadImage(pltLocalFileName, dataFileName)])
 
-            # Convert az,range to x,y
-            xlocs = var_range * np.sin(np.deg2rad(az[:, np.newaxis]))
-            ylocs = var_range * np.cos(np.deg2rad(az[:, np.newaxis]))
-
-            # Define norm for reflectivity
-            norm = ref_norm if colors == ref_cmap else None
-
-            # Plot the data
-            a = ax.pcolormesh(xlocs, ylocs, data, cmap=colors, norm=norm)
-
-            divider = make_axes_locatable(ax)
-            cax = divider.append_axes('right', size='5%', pad=0.05)
-            fig.colorbar(a, cax=cax, orientation='vertical', label=lbl)
-
-            ax.set_aspect('equal', 'datalim')
-            ax.set_xlim(-100, 100)
-            ax.set_ylim(-100, 100)
-            add_timestamp(ax, f.dt, y=0.02, high_contrast=False)
+            for t in done:
+                result = t.result()
         except Exception as e:
-            print(f"Exception raised e: {e}")
+            print("Error generted while uploading file", e)
 
+            return TypeError("Not able to upload file")
+        ### CODE FOR DELETING THE DOWNLOADED FILE.
+        deleteLocalFiles( dataFileName, pltLocalFileName )
 
-    plt.suptitle('KVWX Level 2 Data', fontsize=20)
-    plt.tight_layout()
-
-    """
-    NAMING CONVENTIONS:
-    LOCAL PLOT IMAGE:
-    <USER_NAME>_<USER_ID>_<DATAFILENAME> + ".png"
-    Example: ADITYA/1/KMHX20140703_182118_V06.png
-
-    AWS PLOT IMAGE:
-    <USER_NAME>/<USER_ID>/<DATAFILENAME> + ".png"
-    Example: ADITYA/1/KMHX20140703_182118_V06.png
-
-
-    """
-
-    pltLocalFileName = str("local") + "_" + dataFileName + ".png"
-
-    plt.savefig(pltLocalFileName, bbox_inches='tight')
-
-    ### CODE TO UPLOAD TO S3 Bucket.
-    done, pending = await asyncio.wait([uploadImage(pltLocalFileName, dataFileName)])
-
-    for t in done:
-        result = t.result()
-
-    ### CODE FOR DELETING THE DOWNLOADED FILE.
-    deleteLocalFiles( dataFileName, pltLocalFileName )
-
-    return result
+        return result
+    except Exception as e:
+        print(f'Exception Raised {e}')
+        return TypeError("Not able to upload file")
