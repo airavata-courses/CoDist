@@ -52,17 +52,22 @@ const handleSubmit = (event) => {
     .then((res) => {
       console.log("this is Data : ", res);
       
-      // 
-      if (email.length > 0){
+      if(res.data.statusCode == "userNotExists"){
+        alert("SIGN UP PLEASE")
+      }else if (res.data.status){
  
         setAuth(true);
+        
         setToken(String(res.data.response.result.token))
-        console.log('token set to: ', token)
-        console.log("User Id: ",String(res.data.response.result.id))
-
-        setUserId(String(res.data.response.result.id))
+        console.log('token set to: ', String(res.data.response.result.token))
+  
+        setUserId(String(res.data.response.result._id))
+        console.log("User Id: ",String(res.data.response.result._id))
+  
         setUsername(JSON.stringify(email))
         navigate("/profile") ;
+      }else{
+        alert("User Not Authenticated")
       }
     })
     .catch(err =>{

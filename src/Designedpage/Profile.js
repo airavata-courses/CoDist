@@ -112,13 +112,16 @@ function PricingContent() {
       .then(res => {
         console.log("this is log response : ", res);
         console.log("This is log data : ", res.data.response);
-        var sortedData = res.data.response.sort((a, b) => b.insertedOn - a.insertedOn)
-        setLogs(res.data)
-        navigate("/history");
-      }
-      )
+        if ( (res.data.response == null) || ( !Array.isArray(res.data.respone)) || res.data.response.length == 0 ){
+          alert("History deos not exists!")
+        }else if(auth){
+          setLogs(res.data)
+          navigate("/history");
+        }
+      })
       .catch(err => {
         console.log("Error is : ", err)
+        alert("Some Error Generated")
       });
        
   };
