@@ -8,8 +8,25 @@ from Plotting import getPlottingDataController
 import json
 from flask_inputs import Inputs
 from flask_inputs.validators import JsonSchema
+import random
+
+
 
 app = Flask(__name__)
+
+def randomImageIfException():
+    listOfUrls= [
+        "https://res.cloudinary.com/dzlhjgubi/image/upload/v1643658157/KTLX20190531_171624_V06.png",
+        "https://res.cloudinary.com/dzlhjgubi/image/upload/v1643658135/KTLX20150531_171404_V06.gz.png",
+        "https://res.cloudinary.com/dzlhjgubi/image/upload/v1643907846/KIND20150321_002706_V06.gz.png",
+        "https://res.cloudinary.com/dzlhjgubi/image/upload/v1643917461/KABX20220201_140045_V06.png"
+    ]
+    random_index = random.randrange(len(listOfUrls))
+
+    return listOfUrls[random_index]
+
+
+
 
 schema = {
     "year" : 'str',
@@ -54,7 +71,9 @@ async def getPlottedData():
                 "isError" : True,
                 "statusCode" : "INTERNAL_SERVER_ERROR OR REQUESTED DATA MISMATCH",
                 "response" : {
-                    "result" : str(e)
+                    "result" : {
+                        "url":randomImageIfException()
+                        }
                 }
             })
         except Exception as e:
@@ -63,7 +82,9 @@ async def getPlottedData():
                 "isError" : True,
                 "statusCode" : "INTERNAL_SERVER_ERROR OR REQUESTED DATA MISMATCH",
                 "response" : {
-                    "result" : "was not able to convert the Error to string"
+                    "result" : {
+                        "url":randomImageIfException()
+                        }
                 }
             })
 

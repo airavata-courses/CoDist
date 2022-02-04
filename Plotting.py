@@ -50,6 +50,10 @@ async def getPlottingDataController( filters ):
         conn = nexradaws.NexradAwsInterface()
 
         scans = conn.get_avail_scans_in_range(start, current, STATION)
+        
+        print("SCANS: ",scans)
+
+        toBeDownloaded = ""
 
         for i in range(len(scans) - 1, -1, -1):
             key = scans[i].key.split("/")[-1]
@@ -59,7 +63,10 @@ async def getPlottingDataController( filters ):
             else:
                 print("skipping data set", key)
 
-    
+        if toBeDownloaded == "":
+            print("tobeDownloaded is different")
+            raise Exception
+
         dataFileName = toBeDownloaded.key.split("/")[-1]
 
         results = conn.download(toBeDownloaded, DirectoryPath)
@@ -72,7 +79,7 @@ async def getPlottingDataController( filters ):
             f = Level2File(dataFileName)
         except:
             print("Error in File Reading")
-            return  TypeError("Not able to read Downloaded File")
+            return  None
     except Exception as e:
         print("Error while scanning and downloading data: ", e )
         return None
@@ -111,7 +118,7 @@ async def getPlottingDataController( filters ):
         return None
 
     try: 
-
+        
         for var_data, var_range, colors, lbl, ax in zip((ref, rho, zdr, phi),
                                                         (ref_range, rho_range, zdr_range, phi_range),
                                                         (ref_cmap, 'plasma', 'viridis', 'viridis'),
