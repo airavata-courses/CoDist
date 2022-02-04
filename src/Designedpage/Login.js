@@ -37,7 +37,7 @@ let navigate = useNavigate();
 
 useEffect(()=>{
   console.log("Token Value", token)
-},[token]);
+},[token, auth, userId]);
 
 const handleSubmit = async (event) => {
 

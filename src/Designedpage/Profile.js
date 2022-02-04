@@ -169,10 +169,6 @@ function PricingContent() {
                   renderInput={(params) => <TextField {...params} />}
                   value={date}
                   onChange={date => newDate(date)}
-                  // onChange={(newDate) => {
-                  //   newDate(date);
-                  // }
-                // }
                 />
               </Stack>
             </LocalizationProvider>
