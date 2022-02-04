@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
+import Card from './Card'
+
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -31,12 +31,38 @@ export default function History(props) {
     const {logs, setLogs} = useContext(LoginContext)
     const theme = createTheme();
     console.log("logs" , logs.response)
+    const filteredLogs = logs.filter(e=> e.logType === "RESPONSE");
+
+    console.log("Filtered LOGS: ", filteredLogs)
 
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-        <Box
+        <div style={{margin:'40px'}} >
+
+        {filteredLogs.map((e) =>{
+            return (
+              <Card  userId={e.userId} 
+                      logIdentifier={JSON.parse(e.logIdentifier)} 
+                      insertedOn={e.insertedOn} 
+                      logType = {e.logType}
+                      logDetails = {e.logDetails}
+                      url = {e.url}
+                      />
+          );})}
+            
+            
+
+
+          {logs.map((e)=>{
+              
+          })}
+          </div>
+
+
+
+        {/* <Box
           sx={{
             marginTop: 8,
             display: 'flex',
@@ -64,7 +90,7 @@ export default function History(props) {
             </table>
 
 
-        </Box>
+        </Box> */}
       </Container>
     </ThemeProvider>
   );

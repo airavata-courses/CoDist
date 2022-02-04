@@ -27,16 +27,8 @@ import Select from 'react-select';
 
 import { useNavigate } from "react-router-dom";
 
-import {getUserHistoryData} from '../logic/getUserHistory'
+// import {getUserHistoryData} from '../logic/getUserHistory'
 
-const tiers = [
-  {
-    buttonText: 'Get Weather update',
-  },
-  {
-    buttonText: 'Get started',
-  }
-];
 
 function PricingContent() {
 
@@ -46,10 +38,13 @@ function PricingContent() {
   const {userId, setUserId} = useContext(LoginContext)
   const [date, newDate] = React.useState(new Date(''));
   const [selectRadar, setSelectRadar] = useState("");
-  const { imgSource, setImgsource } = useState("")
   const {logs, setLogs} = useContext(LoginContext);
 
   let navigate = useNavigate();
+
+  
+  console.log("Tis is profileToken", token)
+  console.log("Tis is profile User ID", userId)
 
 
   const options = [
@@ -66,7 +61,6 @@ function PricingContent() {
   const getWeather = (event) => {
 
     event.preventDefault();
-    // const data = new FormData(event.currentTarget);
     var year = String(date.getFullYear())
     var month = String(date.getMonth() + 1)
     var day = String(date.getDate())
@@ -78,44 +72,34 @@ function PricingContent() {
 
     // Put code for validating data
 
-    console.log('token in profile is: ', authToken)
-
-    console.log("Hour is: ", hour)
-    axios.post(baseUrl+'/plotting', {year, month, day, hour, minute, second, station, authToken }, { headers: { "authToken" : String(authToken) , 'Access-Control-Allow-Origin': "*"} })
+    axios.post(baseUrl+'/plotting', { year, month, day, hour, minute, second, station, authToken }, { headers: { "authToken" : String(authToken) , 'Access-Control-Allow-Origin': "*"} })
     .then((res) => {
       console.log("this is Data : ", res);
       window.open(res.data)
      })
     .catch(err =>{
       console.log("Error is : ", err)
-    });
-
-    
+    });    
   };
 
 
   const handleLogout = (event) => {
-
     setAuth(false);
     setUsername("");
     setToken("null")
     navigate("/");
-
-    console.log("Coming to console", date)
-  };
+};
 
   const getHistory = (event) => {
     event.preventDefault()    
-    console.log("Profile getHistory Function.")
 
-      axios.post(baseUrl+'/logging', {userId, token })
+      axios.post(baseUrl+'/logging', { userId, token })
       .then(res => {
-        console.log("this is log response : ", res);
-        console.log("This is log data : ", res.data.response);
-        if ( (res.data.response == null) || ( !Array.isArray(res.data.respone)) || res.data.response.length == 0 ){
+
+        if ( (res.data.response == null) || ( !Array.isArray(res.data.response)) || res.data.response.length == 0 ){
           alert("History deos not exists!")
         }else if(auth){
-          setLogs(res.data)
+          setLogs(res.data.response)
           navigate("/history");
         }
       })

@@ -15,8 +15,7 @@ export function GetUserHistoryData(userId, token){
 
 
     // https://jsonplaceholder.typicode.com/todos/
-    // axios.post('https://17b1-2601-801-103-1100-e4da-695-aec6-f00f.ngrok.io/logging', {userId, token })
-      
+    
       axios.post(baseUrl + '/logging', {userId, token })
       .then(res => {
         console.log("this is Plotted Result : ", res);
