@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { baseUrl } from '../baseurls';
+import validator from 'validator';
 
 
 import axios from 'axios';
@@ -21,9 +22,20 @@ import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
+
+
+function validateName(name){    
+  var re = /^[A-Za-z]+$/;
+  if(re.test(name))
+     return true
+  else
+     return false   
+}
+
+
 export default function SignUp() {
 
-
+  
 let navigate = useNavigate(); 
 
   const handleSubmit = (event) => {
@@ -37,13 +49,12 @@ let navigate = useNavigate();
     var password = data.get('password')
 
     console.log("Data is :",data)
+
     
-    // console.log({
-    //   email: email,
-    //   password: password,
-    //   firstName: firstName,
-    //   lastName: lastName,
-    // });
+    
+    if (!validator.isEmail(email) || password.length < 4 || !validateName(firstName) || !validateName(lastName)) {
+      alert('Email or password is not correct! \n- firstname, lastname should only contains Alphabet \n- Email format (xyz@domain.com)\n- password length should be >4')
+    }
 
     axios.post(baseUrl+'/signUp', {firstName, lastName, email, password})
     .then(res => {

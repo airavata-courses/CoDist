@@ -23,10 +23,10 @@ function App()
             <LoginContext.Provider value = {{username, setUsername, auth, setAuth, token, setToken, userId, setUserId, logs, setLogs}}>
                 <Router>
                   <Routes>
-                    {auth && <Route exact path="/profile" element={<Profile/>} />}
+                    {/* {auth && <Route exact path="/profile" element={<Profile/>} />} */}
                     {auth && <Route exact path="/history" element={<History/>} />}
                     <Route exact path="/" element={<SignIn/>} />
-                    {/* <Route exact path="/profile" element={<Profile/>} /> */}
+                    <Route exact path="/profile" element={<Profile/>} />
                     <Route exact path="/register" element={<Signup />} />
                     <Route exact path="*" element={<Errorpage />} />
                     
