@@ -22,12 +22,12 @@ exports.verifyAccessToken = async function (req, res, next) {
         let ifValidUser = await UserModel.findOne({ "email" : decryptedToken.email, "sessionToken" : decryptedToken.sessionToken })
 
         if( !ifValidUser ) {
-            return res.status(500).json(response.build('UNAUTHORIZED_USER', { "authorized" : false , "userId" : decryptedToken['id']}))
+            return res.status(500).json(response.build('UNAUTHORIZED_USER', { "authorized" : false , "userId" : decryptedToken['_id']}))
         }
 		
 		writeLogInfo(['[verifyAccessToken]', '[controller] response : ', decryptedToken]);
 
-        return res.status(200).json(response.build("SUCCESS", { result: { "authorized" : true, "userId" : decryptedToken['id'] } } ));
+        return res.status(200).json(response.build("SUCCESS", { result: { "authorized" : true, "userId" : decryptedToken['_id'] } } ));
 
 	} catch (error) {
 			writeLogErrorTrace(['[verifyAccessToken]', '[controller] Error: ', error]);
@@ -48,7 +48,7 @@ exports.verifyAccessTokenMiddleware = async function (req, res, next) {
         let ifValidUser = await UserModel.findOne({ "email" : decryptedToken.email, "sessionToken" : decryptedToken.sessionToken })
 
         if( !ifValidUser ) {
-            return res.status(500).json(response.build('UNAUTHORIZED_USER', { "authorized" : false , "userId" : decryptedToken['id']}))
+            return res.status(500).json(response.build('UNAUTHORIZED_USER', { "authorized" : false , "userId" : decryptedToken['_id']}))
         }
 		
 		writeLogInfo(['[verifyAccessTokenMiddleware]', '[controller] response : ', decryptedToken]);
