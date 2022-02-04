@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -31,11 +31,17 @@ const {auth, setAuth} = useContext(LoginContext)
 const {token, setToken} = useContext(LoginContext)
 const {username, setUsername} = useContext(LoginContext)
 const {userId, setUserId} = useContext(LoginContext)
+const [tokenState, setTokenState] = useState("")
 
 let navigate = useNavigate(); 
 
-const handleSubmit = (event) => {
+useEffect(()=>{
+  console.log("Token Value", token)
+},[token]);
 
+const handleSubmit = async (event) => {
+
+    
     
     
     event.preventDefault();
@@ -48,7 +54,7 @@ const handleSubmit = (event) => {
 
     const input = { email, password };
     console.log(input)
-    axios.post(baseUrl+'/login', {email, password }, { headers: { "authorization" : 'token' , 'Access-Control-Allow-Origin': "*"} })
+    await axios.post(baseUrl+'/login', {email, password }, { headers: { "authorization" : 'token' , 'Access-Control-Allow-Origin': "*"} })
     .then((res) => {
       console.log("this is Data : ", res);
       
@@ -58,11 +64,12 @@ const handleSubmit = (event) => {
  
         setAuth(true);
         
-        setToken(String(res.data.response.result.token))
-        console.log('token set to: ', String(res.data.response.result.token))
-  
+        setToken(res.data.response.result.token)
+
+        console.log("Token Value set to: ", token)
+
         setUserId(String(res.data.response.result._id))
-        console.log("User Id: ",String(res.data.response.result._id))
+        console.log("User Id: ",userId)
   
         setUsername(JSON.stringify(email))
         navigate("/profile") ;
