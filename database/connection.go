@@ -10,7 +10,8 @@ import (
 // Returns a String for connection
 func getConnectionString() string {
 	fmt.Println("getConnectionString")
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+	host, port, user, password, dbname := GetdbCred()
+	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+
 		"password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
 

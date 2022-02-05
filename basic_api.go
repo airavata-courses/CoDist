@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"project/database"
 	"project/ioFormatting"
 	"project/validations"
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func postLogs(c *gin.Context) {
@@ -105,5 +107,15 @@ func main() {
 
 	router.GET("history-service/api/v1/ping", ping)
 
-	router.Run("localhost:8085")
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("Some error occured while loading ENV file. Err: %s", err)
+	}
+
+	HOST := os.Getenv("API_HOST")
+
+	PORT := os.Getenv("API_PORT")
+
+	hostport := HOST + ":" + PORT
+	router.Run(hostport)
 }
