@@ -64,12 +64,13 @@ public class LoggingApi {
 //            ObjectMapper mapper = new ObjectMapper();
 //            String requestBody = mapper
 //                    .writeValueAsString(linkParamsNew);
+
             String UserId = (String) linkParamsNew.get("userId");
 
             HttpClient client = HttpClient.newHttpClient();
 
             System.out.println("Fine belwo link");
-            System.out.println("http://9215-2601-801-100-f620-6421-5ed3-940c-28ea.ngrok.io/history-service/api/v1/user-history/" + UserId);
+            System.out.println(url.Logger + "/history-service/api/v1/user-history/" + UserId);
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url.Logger + "/history-service/api/v1/user-history/" + UserId ))
