@@ -69,7 +69,8 @@ const handleSubmit = async (event) => {
           setToken(res.data.response.result.token)
 
           console.log("Token Value set to: ", token)
-
+          
+          console.log("res.data.response.result ID: ",res.data.response.result)
           setUserId(String(res.data.response.result._id))
           console.log("User Id: ",userId)
     

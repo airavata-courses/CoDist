@@ -58,21 +58,15 @@ function PricingContent() {
   const { token, setToken } = useContext(LoginContext)
   const { username, setUsername } = useContext(LoginContext)
   const { userId, setUserId} = useContext(LoginContext)
-  // const [ date, newDate] = React.useState(new Date());
-  // const [ time, newTime] = React.useState("");
+  const [ date, newDate] = React.useState(new Date());
+  const [ time, newTime] = React.useState("");
 
-  const {defaultDate, setDefaultDate} = useContext(LoginContext);
-  const {defaultStation, setdefaultStation} = useContext(LoginContext);
-  const {defaultTime, setDefaultTime} = useContext(LoginContext);
-  
   const [ selectRadar, setSelectRadar] = useState("");
   const { imgSource, setImgsource } = useState("")
   const { logs, setLogs} = useContext(LoginContext);  
 
   let navigate = useNavigate();
 
-  console.log('token in profile is: ', token)
-  console.log('userId in profile is: ', userId)
 
   const options = [
     { value: 1, label: 'KABR' },
@@ -82,29 +76,29 @@ function PricingContent() {
     { value: 5, label: 'PGUA' },
     { value: 6, label: 'KFFC' },
     { value: 7, label: 'KBBX' },
-    { value: 8, label: 'KAKQ' },
   ];
 
   const getWeather = (event) => {
 
     event.preventDefault();
     // const data = new FormData(event.currentTarget);
-    var year = String(defaultDate.getFullYear())
-    var month = String(defaultDate.getMonth()+1)
-    var day = String(defaultDate.getDate())
-    var hour = String(defaultTime.getHours())
-    var minute = String(defaultTime.getMinutes())
-    var second = String(defaultTime.getSeconds())
+    var year = String(date.getFullYear())
+    var month = String(date.getMonth())
+    var day = String(date.getDate())
+    var hour = String(time.getHours())
+    var minute = String(time.getMinutes())
+    var second = String(time.getSeconds())
     var station = selectRadar.label
     var authToken = token
 
     console.log("Hey I am new one ", year, month, day, hour, minute, second, station)
     
-    console.log("Default Date: ", defaultDate)
-    
-    console.log("Default Time: ", defaultTime)
+    console.log('token in profile is: ', authToken)
 
-      if(validateInputs(year, month, day, defaultTime.getHours(), minute, second, station)){
+
+
+    // console.log("Hour is: "  + hour)
+      if(validateInputs(year, month, day, time.getHours(), minute, second, station)){
         axios.post(baseUrl+'/plotting', {year, month, day, hour, minute, second, station, authToken}, { headers: { "authToken" : String(authToken) , 'Access-Control-Allow-Origin': "*"} })
         .then((res) => {
           console.log("this is Data : ", res);
@@ -118,7 +112,6 @@ function PricingContent() {
         alert ("Incorrect format")
       }
   };
-  // date
 
 
   const handleLogout = (event) => {
@@ -128,7 +121,7 @@ function PricingContent() {
     setToken("null")
     navigate("/");
 
-    console.log("Coming to console", defaultDate)
+    console.log("Coming to console", date)
   };
 
   const getHistory = (event) => {
@@ -152,18 +145,6 @@ function PricingContent() {
       });
        
   };
-
-  function onDateChange(defaultDate){
-    console.log("On change",defaultDate)
-
-    setDefaultDate(defaultDate)
-  }
-
-  function onTimeChange(defaultTime){
-    console.log("On Chagne Time: ", defaultTime)
-    setDefaultTime(defaultTime)
-  }
-
 
 
   return (
@@ -208,8 +189,8 @@ function PricingContent() {
                 label="Select Date"
                 openTo="year"
                 views={['year', 'month', 'day']}
-                value={defaultDate}
-                onChange={defaultDate => onDateChange(defaultDate)}
+                value={date}
+                onChange={date => newDate(date)}
                 renderInput={(params) => <TextField {...params} />}
                 maxDate={new Date()}
               />
@@ -221,8 +202,8 @@ function PricingContent() {
                 inputFormat="HH:mm:ss"
                 mask="__:__:__"
                 label="Select time"
-                value={defaultTime}
-                onChange={defaultTime => onTimeChange(defaultTime)}
+                value={time}
+                onChange={time => newTime(time)}
                 renderInput={(params) => <TextField {...params} />}
                 
               />

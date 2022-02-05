@@ -16,11 +16,14 @@ function App()
     const [token, setToken] = useState("");
     const [userId, setUserId] = useState("")
     const [logs, setLogs] = useState("");
+    const [defaultDate, setDefaultDate] = useState("");
+    const [defaultTime, setDefaultTime] = useState("");
+    const [defaultStation, setDefaultStation] = useState("")
 
     
     return (
         <div> 
-            <LoginContext.Provider value = {{username, setUsername, auth, setAuth, token, setToken, userId, setUserId, logs, setLogs}}>
+            <LoginContext.Provider value = {{username, setUsername, auth, setAuth, token, setToken, userId, setUserId, logs, setLogs, defaultDate, setDefaultDate, defaultStation, setDefaultStation, defaultTime, setDefaultTime}}>
                 <Router>
                   <Routes>
                     {/* {auth && <Route exact path="/profile" element={<Profile/>} />} */}

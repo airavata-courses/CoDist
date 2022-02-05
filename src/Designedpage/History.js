@@ -41,7 +41,7 @@ export default function History(props) {
         <CssBaseline />
         <div style={{margin:'40px'}} >
 
-        {filteredLogs.map((e) =>{
+        {filteredLogs.map((e, i) =>{
             return (
               <Card  userId={e.userId} 
                       logIdentifier={JSON.parse(e.logIdentifier)} 
@@ -49,6 +49,7 @@ export default function History(props) {
                       logType = {e.logType}
                       logDetails = {e.logDetails}
                       url = {e.url}
+                      mapId = {i}
                       />
           );})}
             
