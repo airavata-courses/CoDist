@@ -9,8 +9,9 @@ import json
 from flask_inputs import Inputs
 from flask_inputs.validators import JsonSchema
 import random
-
-
+from dotenv import load_dotenv
+from os import environ
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -89,4 +90,8 @@ async def getPlottedData():
             })
 
 if __name__ == "__main__":
-    app.run()
+    
+    HOST = environ.get('ROUTES_HOST')
+    PORT = environ.get('ROUTES_PORT')
+    
+    app.run(host=HOST or 'localhost', port=PORT or 5010)
