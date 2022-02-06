@@ -185,7 +185,7 @@ The default Port is `8085` but you can change it `.env`.
     ```JSON
     {
         "status": "NOT OK",
-        "isError": "False",
+        "isError": "True",
         "response": {
             "logIdentifier": ""
         },
