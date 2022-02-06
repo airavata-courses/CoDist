@@ -27,6 +27,21 @@ go run .
 
 The default Port is `8085` but you can change it `.env`.
 
+
+### PostGreSQL Connection
+>
+    1. Install PostgreSQL.
+    2. Create a database named `demo_db` through pgadmin or SQL Shell.
+    
+>   Mention the respective POSTGRES Details required in the `.env` given in `.env.example`.
+
+>    The default and required parameters are:<br />
+    `POSTGRES_HOST=localhost`<br />
+    `POSTGRES_PORT=5432`<br />
+    `POSTGRES_USER=postgres`<br />
+    `POSTGRES_PASSWORD=admin`<br />
+    `POSTGRES_DBNAME=demo_db`<br />
+
 ## API
 **BASE URL**
 
@@ -190,7 +205,10 @@ The default Port is `8085` but you can change it `.env`.
     This is generated when an internal error is generated due to unreadable file or not correct body. The `isError` will be true and the response will have a precomputed url 
 
 
-## LINKS AND REFERENCES
+
+
+
+## Links and References
 1. Installing GIN for GO REST Service: https://gin-gonic.com/docs/quickstart/
 2. Learn GO: https://fireship.io/lessons/learn-go-in-100-lines/
 3. Documentation: https://go.dev/doc/tutorial/getting-started
