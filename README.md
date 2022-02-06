@@ -29,7 +29,7 @@ Connecting to different microservices:
  - `POST /registry/api/v1/user/signUp` - Registry microservice for signing up
  - `POST /registry/api/v1/security/authorize` - Registry microservice for authorization
  - `POST /history-service/api/v1/logs` - History microservice to post logs in the database
- - `POST /history-service/api/v1/user-history/ + UserId` - History microservice to get logs from the database
+ - `POST /history-service/api/v1/user-history/ + {UserId}` - History microservice to get logs from the database
  - `POST /getPlottedData` - Plotting microservice to make the plot
 
 
