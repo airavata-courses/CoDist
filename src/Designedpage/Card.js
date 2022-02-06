@@ -6,7 +6,6 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DateTimePicker from '@mui/lab/DateTimePicker';
 import Stack from '@mui/material/Stack';
 import { useNavigate } from "react-router-dom";
 
@@ -14,80 +13,66 @@ import {LoginContext} from '../Context/LoginContext';
 
 
 export default function BasicCard(props) {
-  console.log("PROPS IN CARD: ",props)
+    console.log("PROPS IN CARD: ",props)
 
-  const {defaultDate, setDefaultDate} = React.useContext(LoginContext);
-  // const {defaultTime, setDefaultTime} =  React.useContext(LoginContext);
-  const { selectRadar, setSelectRadar} = React.useContext(LoginContext);
+    const {defaultDate, setDefaultDate} = React.useContext(LoginContext);
+    const { selectRadar, setSelectRadar} = React.useContext(LoginContext);
 
-  var navigate = useNavigate();
-    
-  var logDetailsJSON = JSON.parse(props.logDetails)
-  console.log(logDetailsJSON)
+    var navigate = useNavigate();
+      
+    var logDetailsJSON = JSON.parse(props.logDetails)
+    console.log(logDetailsJSON)
 
-  var date = new Date(logDetailsJSON.year, logDetailsJSON.month, logDetailsJSON.day, logDetailsJSON.hour, logDetailsJSON.minute, logDetailsJSON.second);
-  var resultDate = date.toLocaleDateString("en-US", { // you can use undefined as first argument
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit"
-  }, { hour12: false });
-
-
-  const options = {label: logDetailsJSON.station }
-
-  var convertedDate = new Date(resultDate)
+    var date = new Date(logDetailsJSON.year, logDetailsJSON.month, logDetailsJSON.day, logDetailsJSON.hour, logDetailsJSON.minute, logDetailsJSON.second);
+    var resultDate = date.toLocaleDateString("en-US", { // you can use undefined as first argument
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+    }, { hour12: false });
 
 
-  if ( resultDate instanceof Date) {
-    console.log("Yes I am a date")
-  }
-  else{
-    console.log("I am NOT a date")
-  }
+    const options = {label: logDetailsJSON.station }
+    var convertedDate = new Date(resultDate)
+
+    console.log(resultDate);
+
+    function editButtonClickFunction(){
+        console.log("Edit Button Pressed." , props.mapId, logDetailsJSON.station)
+
+        setDefaultDate(convertedDate)
+        setSelectRadar(options)
+
+        navigate("/Profile")
+    }
 
 
-  console.log(resultDate);
-
-  function editButtonClickFunction(){
-    console.log("Edit Button Pressed." , props.mapId, logDetailsJSON.station)
-
-    setDefaultDate(convertedDate)
-    // setDefaultTime(convertedDate)
-    setSelectRadar(options)
-
-    navigate("/Profile")
-  }
-
-
-  return (
-    <Card sx={{ minWidth: 100 }}>
-        <CardContent>
-          <Typography component="div">
-            <a href={props.url}> See the plot</a>
-          </Typography>
-
-          <Typography>{resultDate}</Typography>
-
-          <Typography>{logDetailsJSON.station}</Typography>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <Stack spacing={3}>
-                {/* <DateTimePicker
-                  renderInput={(params) => <TextField {...params} />}
-                  value={date}
-
-                /> */}
-              </Stack>
-            </LocalizationProvider>
-        </CardContent>
-        <CardActions>
-          <Button size="small"
-            onClick = {editButtonClickFunction}
+    return (
+        <Card sx={{ minWidth: 100 }}>
+            <CardContent>
+                <Typography component="div">
+                  <a href={props.url}> See the plot</a>
+                </Typography>
                 
-          >Edit</Button>
-        </CardActions>
-      </Card>
-  );
+                <Typography>{resultDate}</Typography>
+                
+                <Typography>{logDetailsJSON.station}</Typography>
+                
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <Stack spacing={3}>
+                    </Stack>
+                </LocalizationProvider>
+            </CardContent>
+            
+            <CardActions>
+                <Button size="small"
+                  onClick = {editButtonClickFunction}
+                      
+                >Edit
+                </Button>
+            </CardActions>
+        </Card>
+    );
 }

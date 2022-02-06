@@ -1,16 +1,18 @@
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Errorpage from './Pages/Errorpage';
-import History from './Designedpage/History';
+
 import {LoginContext} from './Context/LoginContext';
-import Profile from './Designedpage/Profile';
 import React, { useState } from 'react';
+
+
+
 import SignIn from './Designedpage/Login';
 import Signup from './Designedpage/Signup';
-// import "react-loader-spinner/ssr/dist/loader/css/react-spinner-loader.css";
+import Profile from './Designedpage/Profile';
+import Errorpage from './Designedpage/Errorpage';
+import History from './Designedpage/History';
 
-// import Historyinfo from './Designedpage/Historyinfo';
 
-import { Oval } from  'react-loader-spinner'
 
 function App()
 {
