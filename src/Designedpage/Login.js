@@ -13,6 +13,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Alert from '@mui/material/Alert';
+import { css } from "@emotion/react";
+import ClipLoader from "react-spinners/ClipLoader";
+
 
 import axios from 'axios';
 
@@ -22,6 +25,8 @@ import {LoginContext} from '../Context/LoginContext';
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from '../baseurls';
 import validator from 'validator'
+import { Oval } from  'react-loader-spinner'
+
 
 
 
@@ -34,6 +39,7 @@ const {token, setToken} = useContext(LoginContext)
 const {username, setUsername} = useContext(LoginContext)
 const {userId, setUserId} = useContext(LoginContext)
 const [tokenState, setTokenState] = useState("")
+const [loading, setLoading] = useState(false)
 
 let navigate = useNavigate(); 
 
@@ -42,6 +48,7 @@ useEffect(()=>{
 },[token]);
 
 const handleSubmit = async (event) => {
+    setLoading(true)
 
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -52,12 +59,15 @@ const handleSubmit = async (event) => {
     var userInfo;
     if (!validator.isEmail(email) || password.length < 4) {
       alert('Email or password is not correct! \n- Email format (xyz@domain.com)\n- password length should be >4')
-    } 
+    }
     else{  
+
       const input = { email, password };
       console.log(input)
       await axios.post(baseUrl+'/login', {email, password }, { headers: { "authorization" : 'token' , 'Access-Control-Allow-Origin': "*"} })
       .then((res) => {
+        
+        setLoading(false)
         console.log("this is Data : ", res);
         
         if(res.data.statusCode == "userNotExists"){
@@ -74,7 +84,7 @@ const handleSubmit = async (event) => {
           setUserId(String(res.data.response.result._id))
           console.log("User Id: ",userId)
     
-          setUsername(JSON.stringify(email))
+          setUsername(email)
           navigate("/profile") ;
         }else{
           alert("User Not Authenticated")
@@ -82,6 +92,7 @@ const handleSubmit = async (event) => {
       })
       .catch(err =>{
         console.log("Error is : ", err)
+        navigate("/error")
       });
     }
 
@@ -130,13 +141,12 @@ const handleSubmit = async (event) => {
               id="password"
               autoComplete="current-password"
             />
-
-            <Button
+             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              diasbled= "true"
+              disabled= {loading}
             >
               Sign In
             </Button>
@@ -148,6 +158,7 @@ const handleSubmit = async (event) => {
               </Grid>
             </Grid>
           </Box>
+          {loading? <ClipLoader size={50} loading={loading}/>:null}
         </Box>
       </Container>
     </ThemeProvider>

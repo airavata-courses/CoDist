@@ -17,8 +17,8 @@ export default function BasicCard(props) {
   console.log("PROPS IN CARD: ",props)
 
   const {defaultDate, setDefaultDate} = React.useContext(LoginContext);
-  const {defaultTime, setDefaultTime} =  React.useContext(LoginContext);
-  const {defaultStation, setDefaultStation} =  React.useContext(LoginContext)
+  // const {defaultTime, setDefaultTime} =  React.useContext(LoginContext);
+  const { selectRadar, setSelectRadar} = React.useContext(LoginContext);
 
   var navigate = useNavigate();
     
@@ -36,14 +36,27 @@ export default function BasicCard(props) {
   }, { hour12: false });
 
 
+  const options = {label: logDetailsJSON.station }
+
+  var convertedDate = new Date(resultDate)
+
+
+  if ( resultDate instanceof Date) {
+    console.log("Yes I am a date")
+  }
+  else{
+    console.log("I am NOT a date")
+  }
+
+
   console.log(resultDate);
 
   function editButtonClickFunction(){
     console.log("Edit Button Pressed." , props.mapId, logDetailsJSON.station)
 
-    setDefaultDate(resultDate)
-    setDefaultTime(resultDate)
-    setDefaultStation(logDetailsJSON.station)
+    setDefaultDate(convertedDate)
+    // setDefaultTime(convertedDate)
+    setSelectRadar(options)
 
     navigate("/Profile")
   }

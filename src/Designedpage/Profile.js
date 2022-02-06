@@ -9,6 +9,8 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
 import TimePicker from '@mui/lab/TimePicker';
 import DatePicker from '@mui/lab/DatePicker';
+import ClipLoader from "react-spinners/ClipLoader";
+
 
 
 
@@ -18,7 +20,6 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import Stack from '@mui/material/Stack';
-
 import { baseUrl } from '../baseurls';
 
 
@@ -58,43 +59,57 @@ function PricingContent() {
   const { token, setToken } = useContext(LoginContext)
   const { username, setUsername } = useContext(LoginContext)
   const { userId, setUserId} = useContext(LoginContext)
-  // const [ date, newDate] = React.useState(new Date());
-  // const [ time, newTime] = React.useState("");
+  const [loading, setLoading] = useState(false)
 
   const {defaultDate, setDefaultDate} = useContext(LoginContext);
-  const {defaultStation, setdefaultStation} = useContext(LoginContext);
-  const {defaultTime, setDefaultTime} = useContext(LoginContext);
+  const {defaultStation, setDefaultStation} = useContext(LoginContext);
+  // const {defaultTime, setDefaultTime} = useContext(LoginContext);
   
-  const [ selectRadar, setSelectRadar] = useState("");
+  const { selectRadar, setSelectRadar} = useContext(LoginContext);
   const { imgSource, setImgsource } = useState("")
   const { logs, setLogs} = useContext(LoginContext);  
 
   let navigate = useNavigate();
 
-  console.log('token in profile is: ', token)
-  console.log('userId in profile is: ', userId)
-
+  console.log('Radar value is :',selectRadar)
+  console.log('Default date  in profile : ',defaultDate)
+  // console.log('Default time  in profile : ',defaultTime)
+  
   const options = [
-    { value: 1, label: 'KABR' },
-    { value: 2, label: 'KABX' },
-    { value: 3, label: 'KAMA' },
-    { value: 4, label: 'PAHG' },
-    { value: 5, label: 'PGUA' },
-    { value: 6, label: 'KFFC' },
-    { value: 7, label: 'KBBX' },
-    { value: 8, label: 'KAKQ' },
+    {label: 'KABR' },
+    {label: 'KABX' },
+    {label: 'KAMA' },
+    {label: 'PAHG' },
+    {label: 'PGUA' },
+    {label: 'KFFC' },
+    {label: 'KBBX' },
+    {label: 'KAKQ' },
   ];
+  // const options = [
+  //   { value: 1, label: 'KABR' },
+  //   { value: 2, label: 'KABX' },
+  //   { value: 3, label: 'KAMA' },
+  //   { value: 4, label: 'PAHG' },
+  //   { value: 5, label: 'PGUA' },
+  //   { value: 6, label: 'KFFC' },
+  //   { value: 7, label: 'KBBX' },
+  //   { value: 8, label: 'KAKQ' },
+  // ];
 
   const getWeather = (event) => {
-
     event.preventDefault();
+    setLoading(true)
+  
+
+    // setDefaultDate(Date(defaultDate))
     // const data = new FormData(event.currentTarget);
-    var year = String(defaultDate.getFullYear())
+    console.log('Clieck on weather: ',defaultDate)
     var month = String(defaultDate.getMonth()+1)
     var day = String(defaultDate.getDate())
-    var hour = String(defaultTime.getHours())
-    var minute = String(defaultTime.getMinutes())
-    var second = String(defaultTime.getSeconds())
+    var hour = String(defaultDate.getHours())
+    var minute = String(defaultDate.getMinutes())
+    var second = String(defaultDate.getSeconds())
+    var year = String(defaultDate.getFullYear())
     var station = selectRadar.label
     var authToken = token
 
@@ -102,20 +117,27 @@ function PricingContent() {
     
     console.log("Default Date: ", defaultDate)
     
-    console.log("Default Time: ", defaultTime)
+    // console.log("Default Time: ", defaultTime)
 
-      if(validateInputs(year, month, day, defaultTime.getHours(), minute, second, station)){
+    console.log('radar inside get weatther is: ',station)
+
+      if(validateInputs(year, month, day, hour, minute, second, station)){
         axios.post(baseUrl+'/plotting', {year, month, day, hour, minute, second, station, authToken}, { headers: { "authToken" : String(authToken) , 'Access-Control-Allow-Origin': "*"} })
         .then((res) => {
+          setLoading(false)
           console.log("this is Data : ", res);
           window.open(res.data)
+          console.log("Image source : ", res.data)
         })
         .catch(err =>{
           console.log("Error is : ", err)
+          navigate("/error")
         });
       }
       else{
+        setLoading(false)
         alert ("Incorrect format")
+
       }
   };
   // date
@@ -127,19 +149,24 @@ function PricingContent() {
     setUsername("");
     setToken("null")
     navigate("/");
+    
 
     console.log("Coming to console", defaultDate)
   };
 
   const getHistory = (event) => {
+    setLoading(true)
     event.preventDefault()    
     console.log("Profile getHistory Function.")
 
       axios.post(baseUrl+'/logging', {userId, token })
       .then(res => {
+        setLoading(false)
         console.log("this is log response : ", res);
         console.log("This is log data : ", res.data.response);
-        if ( (res.data.response === null) || ( !Array.isArray(res.data.response)) || res.data.response.length === 0 ){
+        // if ( (res.data.response === null) || ( !Array.isArray(res.data.response)) || res.data.response.length === 0 )
+        if ( (res.data.response === null) || ( !Array.isArray(res.data.response)) || res.data.response.length === 0 )
+        {
           alert("History deos not exists!")
         }else if(auth){
           setLogs(res.data.response)
@@ -149,6 +176,7 @@ function PricingContent() {
       .catch(err => {
         console.log("Error is : ", err)
         alert("Some Error Generated")
+        navigate("/error")
       });
        
   };
@@ -159,10 +187,10 @@ function PricingContent() {
     setDefaultDate(defaultDate)
   }
 
-  function onTimeChange(defaultTime){
-    console.log("On Chagne Time: ", defaultTime)
-    setDefaultTime(defaultTime)
-  }
+  // function onTimeChange(defaultDateTime){
+  //   console.log("On Chagne Time: ", defaultDateTime)
+  //   setDefaultDate(defaultDateTime)
+  // }
 
 
 
@@ -221,30 +249,35 @@ function PricingContent() {
                 inputFormat="HH:mm:ss"
                 mask="__:__:__"
                 label="Select time"
-                value={defaultTime}
-                onChange={defaultTime => onTimeChange(defaultTime)}
+                value={defaultDate}
+                onChange={defaultDate => onDateChange(defaultDate)}
                 renderInput={(params) => <TextField {...params} />}
                 
               />
               
               </Stack>
               <br></br>
-              <Select
+              {loading? null: <Select
+                label = {selectRadar}
                 value={selectRadar}
                 options={options}
                 onChange={selectRadar => setSelectRadar(selectRadar)}
               >
-              </Select>
+              </Select>}
               <br></br>
-              <Button fullWidth onClick={getWeather} > Get Weather Forecast </Button>
+              <Button fullWidth onClick={getWeather} disabled= {loading}> Get Weather Forecast </Button>
               </LocalizationProvider>
 
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)' }}>
           <br /><br />
 
-          <Button fullWidth onClick={getHistory} > User history </Button>
+          <Button fullWidth onClick={getHistory} disabled= {loading}> User history </Button>
         </Box>
+        <div style={{marginLeft: 255}}>
+         {loading? <ClipLoader size={50} loading={loading}/>:null}
+        </div>
+        
       </Container>
 
 

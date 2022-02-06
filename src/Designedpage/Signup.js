@@ -53,24 +53,25 @@ let navigate = useNavigate();
     
     
     if (!validator.isEmail(email) || password.length < 4 || !validateName(firstName) || !validateName(lastName)) {
-      alert('Email or password is not correct! \n- firstname, lastname should only contains Alphabet \n- Email format (xyz@domain.com)\n- password length should be >4')
+      alert('Email or password is not correct! \n- firstname, lastname should only contain alphabet \n- Email format (xyz@domain.com)\n- password length should be >4')
     }
-
-    axios.post(baseUrl+'/signUp', {firstName, lastName, email, password})
-    .then(res => {
-      console.log("Full Response STATUS ", res.data.status);
-      if ( res.data.status ){
-        alert("Registered");
-        navigate("/") ;
-      }
-      else{
-        alert("User Already Exists");
-      }
-        
-    })
-    .catch(err =>{
-      console.log("Error is : ", err)
-    });
+    else{
+      axios.post(baseUrl+'/signUp', {firstName, lastName, email, password})
+      .then(res => {
+        console.log("Full Response STATUS ", res.data.status);
+        if ( res.data.status ){
+          alert("Registered");
+          navigate("/") ;
+        }
+        else{
+          alert("User Already Exists");
+        }
+      })
+      .catch(err =>{
+        console.log("Error is : ", err)
+        navigate("/error")
+      });
+    }
 
 
   };
