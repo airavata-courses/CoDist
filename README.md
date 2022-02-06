@@ -101,7 +101,7 @@ The default Port is `8005` you can change it `.env`.
 
 * **Error Response:**
 
-  These errors will be generated when the posted body doesn't qualify the required parameters.
+  These errors will be generated when the posted body doesn't qualify the required parameters. It will set `isError` as true and return a random url of precomputed data.
   >
 
   * **Code:** 200
