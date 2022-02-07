@@ -8,10 +8,12 @@ public class BaseUrl {
 //    public String Logger = "http://localhost:8080";
 //    public String Registry = "http://localhost:3333";
 
-
-    public String Plotting = "http://7276-2601-408-c401-3903-41ba-f2b3-e651-44ee.ngrok.io";
-    public String Logger = "http://6bbf-2601-408-c401-3903-41ba-f2b3-e651-44ee.ngrok.io";
-    public String Registry = "http://localhost:3333";
+    public String Plotting = "http://devplotting:5000";
+    public String Logger = "http://devhistory:8085";
+    public String Registry = "http://devregistry:3333";
+    // public String Plotting = "http://7276-2601-408-c401-3903-41ba-f2b3-e651-44ee.ngrok.io";
+    // public String Logger = "http://6bbf-2601-408-c401-3903-41ba-f2b3-e651-44ee.ngrok.io";
+    // public String Registry = "http://localhost:3333";
 
 
 //  Registry on Tanu's Registry
