@@ -10,6 +10,14 @@ Aditya Arun Rudrawar
 
 This project provides an interface to plot historical data provided by NEXRAD AWS based on the user’s input (date, time and radar fields). It makes use of  a microservice based architecture to allocate separate functionality to each microservice. As a group with 4 members we have used 4 programming languages and two databases to build this system. The provided functionalities include user registration, logging history, editable inputs and the plotting image.
 
+## Tech Stack
+
+- Front-End: ReactJS
+- API gateway – Java Spring Boot
+- Registry – NodeJS, Database: MongoDB
+- Data Ingestion and Plotting - Python
+- Logging and History service – GoLang, Database: PostgreSQL
+
 
 ## Api-Gateaway.
 Using Fast-API to develop the API Gateaway.
