@@ -34,6 +34,7 @@ function validateInputs(year, month, day, hour, minute, second, station ){
     }
     if(!station)
         return false
+    
 
     var today = new Date().getFullYear();
     console.log("-----",today)
@@ -77,6 +78,12 @@ function PricingContent() {
         
         setLoading(true)
         event.preventDefault();
+
+        if (defaultDate === "" || defaultDate === null){
+          setLoading(false)
+          alert("Please enter valid input")
+          return
+        }
         
         console.log('Clieck on weather: ',defaultDate)
         var month = String(defaultDate.getMonth()+1)
@@ -116,8 +123,12 @@ function PricingContent() {
     const handleLogout = (event) => {
         setAuth(false);
         setUsername("");
-        setToken("null")
+        setToken("")
+        setDefaultDate("")
+        setSelectRadar("")
+        // setDefaultTime("null")
         navigate("/");
+
         console.log("Coming to console", defaultDate)
     };
 
