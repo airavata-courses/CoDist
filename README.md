@@ -20,17 +20,12 @@ This project provides an interface to plot historical data provided by NEXRAD AW
 
 ## Installation Procedure
 
-- API Gateway
-    - Ensure latest version of Java is installed
-   - Download latest version of Spring Boot
-   - Install an IDE called IntelliJ IDEA
-   - Clone the project files
-   - Go to the pom.xml file in the root directory through the IntelliJ IDE.
-   - Click on Maven which is to the extreme right and then click on build (the button is similar to a refresh button). This will load all the dependencies in your system.
-   - Once the dependencies get installed, click on the green play button at the top. This will run the API Gateway microservice.
-   - If you face issues, just ensure that the environment variables have been set correctly.
-
-
+- [Frontend - ReactJS](https://github.com/airavata-courses/CoDist/tree/basic_ui)
+- [API Gateway - Java Spring Boot](https://github.com/airavata-courses/CoDist/tree/dev-api-gateway)
+- [Plotting Microservice - Python Flask](https://github.com/airavata-courses/CoDist/tree/dev-plotting)
+- [History Microservice - Golang](https://github.com/airavata-courses/CoDist/tree/dev-history-service)
+- [Registry Microservice - NodeJS](https://github.com/airavata-courses/CoDist/tree/dev-registry)
+    
 ## Api-Gateaway.
 Using Fast-API to develop the API Gateaway.
 
