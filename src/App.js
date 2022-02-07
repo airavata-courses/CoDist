@@ -23,7 +23,7 @@ function App()
     const [logs, setLogs] = useState("");
     const [defaultDate, setDefaultDate] = useState("");
     const [defaultTime, setDefaultTime] = useState("");
-    const [ selectRadar, setSelectRadar] = useState("");
+    const [selectRadar, setSelectRadar] = useState("");
 
     
     return (
@@ -36,7 +36,7 @@ function App()
                     <Route exact path="/" element={<SignIn/>} />
                     {/* <Route exact path="/profile" element={<Profile/>} /> */}
                     <Route exact path="/register" element={<Signup />} />
-                    <Route exact path="*" element={<Errorpage />} />
+                    <Route exact path="*" element={<SignIn />} />
                     
                   </Routes>
                 </Router>

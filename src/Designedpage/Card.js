@@ -39,6 +39,13 @@ export default function BasicCard(props) {
 
     console.log(resultDate);
 
+
+    function seeThePlot(){
+      // <a href={}></a>
+      window.open(props.url)
+      navigate("/Profile")
+  }
+
     function editButtonClickFunction(){
         console.log("Edit Button Pressed." , props.mapId, logDetailsJSON.station)
 
@@ -53,7 +60,13 @@ export default function BasicCard(props) {
         <Card sx={{ minWidth: 100 }}>
             <CardContent>
                 <Typography component="div">
-                  <a href={props.url}> See the plot</a>
+                      <CardActions>
+                      <Button size="small"
+                        onClick = {seeThePlot}
+                            
+                      >See the plot
+                      </Button>
+                  </CardActions>
                 </Typography>
                 
                 <Typography>{resultDate}</Typography>
