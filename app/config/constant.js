@@ -8,7 +8,6 @@ module.exports = {
         module                      : basePath + 'app/module/controller/',
         log                         : basePath + 'asset/log/',
         moduleV1                    : basePath + 'app/module/controller/v1/',
-        rilImg                      : '/rillogo.png',
         faviconImg                  : '/favicon.ico'
     },
     maxFileSize: 2 * 1024 * 1024,
