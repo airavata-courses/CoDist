@@ -29,7 +29,8 @@ This project provides an interface to plot historical data provided by NEXRAD AW
     
 ## Microservice Architecture
 
-![Microservice Architecture](https://user-images.githubusercontent.com/38610661/152897308-cc3cee65-d00f-4af1-8496-125786bba6ef.jpeg)
+![Microservice architecture](https://user-images.githubusercontent.com/94020074/152900398-5d0eb6cc-749c-4f34-96a6-afc7e8f2896c.png)
+
 
 Please refer Wiki Page for detailed information related to all our project phases
 
