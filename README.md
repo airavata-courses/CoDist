@@ -57,11 +57,13 @@ https://react-bootstrap.github.io/
 	
 https://youtube.com/c/Codevolution 
   
+	
+	
 
 
   
   
-# Below given the docker setup for frontend
+# Below given the docker setup directions for frontend
   
 ## Getting Started with Create React App
 
