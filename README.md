@@ -1,14 +1,13 @@
 # CoDist
 Spring 2022 Project
 
-Parnal Ghundare Patil
 Tanu Kansal
+
 Chinmay Kunte
+
 Aditya Arun Rudrawar
 
-## Project Overview
-
-This project provides an interface to plot historical data provided by NEXRAD AWS based on the user’s input (date, time and radar fields). It makes use of  a microservice based architecture to allocate separate functionality to each microservice. As a group with 4 members we have used 4 programming languages and two databases to build this system. The provided functionalities include user registration, logging history, editable inputs and the plotting image.
+Parnal Ghundare Patil
 
 ## Tech Stack
 
@@ -49,7 +48,8 @@ This project provides an interface to plot historical data provided by NEXRAD AW
     
 ## Microservice Architecture
 
-![Microservice Architecture](https://user-images.githubusercontent.com/38610661/152897308-cc3cee65-d00f-4af1-8496-125786bba6ef.jpeg)
+![Microservice architecture](https://user-images.githubusercontent.com/94020074/152900398-5d0eb6cc-749c-4f34-96a6-afc7e8f2896c.png)
+
 
 Please refer Wiki Page for detailed information related to all our project phases
 
