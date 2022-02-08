@@ -25,25 +25,32 @@ Steps to follow:
 	 >npm start
 
 
-
 ### Interactions from/to frontend: 
 1. POST /signup:
-	 Send user details to api gateway, based on the response display success if registered failure message if encountered any error 
+	
+   Send user details to api gateway, based on the response display success if registered failure message if encountered any error 
 2. POST /login:
-	 Send user credential to api gateway, get authentication and navigate to profile id status is authorized
+	
+   Send user credential to api gateway, get authentication and navigate to profile id status is authorized
 3. POST /plotting:
-	 Send date, time, radar station to API gateway, expected response is link to the storage where output image is stored.  Open the link in new window.  	
+
+   Send date, time, radar station to API gateway, expected response is link to the storage where output image is stored.  Open the link in new window.  	
 4. POST /logging:
 	
-	 On clicking get history, send token and userId to API gateway, in response get the logs(past user activity). 
+   On clicking get history, send token and userId to API gateway, in response get the logs(past user activity). 
     
   
 ### Steps to start application: 
 Create application < npx create-react-app my-app >
 Go into the application folder <cd my-app>
 Start application <npm start>
+	
+	
+Setup instruction:  https://github.com/facebook/create-react-app
+
 
 ### LINKS AND REFERENCES
+	
 https://reactjs.org/docs/create-a-new-react-app.html
 	
 https://react-bootstrap.github.io/ 
