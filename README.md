@@ -25,16 +25,13 @@ This project provides an interface to plot historical data provided by NEXRAD AW
 - [Plotting Microservice - Python Flask](https://github.com/airavata-courses/CoDist/tree/dev-plotting)
 - [History Microservice - Golang](https://github.com/airavata-courses/CoDist/tree/dev-history-service)
 - [Registry Microservice - NodeJS](https://github.com/airavata-courses/CoDist/tree/dev-registry)
+
+
+## Napkin Diagram
+
+![Napkin Diagram](https://user-images.githubusercontent.com/38610661/152897261-44908232-0849-464a-ac9d-f4aa207c7a59.jpeg)
     
-## Api-Gateaway.
-Using Fast-API to develop the API Gateaway.
+## Microservice Architecture
 
-## Registry
-Using Node.js and Mongodb to perform tasks such as login, session management, Oauth, authentication and log management
+![Microservice Architecture](https://user-images.githubusercontent.com/38610661/152897308-cc3cee65-d00f-4af1-8496-125786bba6ef.jpeg)
 
-## Software Version (Parnal's)
-Python - 3.7.9
-Erlang - 24.2
-RabbitMQ - 3.9.13
-Spring Boot - 2.6.13
-Java - 17
