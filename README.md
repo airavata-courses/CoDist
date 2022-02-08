@@ -134,3 +134,19 @@ The default Port is `8005` you can change it `.env`.
 1. https://nexradaws.readthedocs.io/en/latest/Tutorial.html#Working-with-LocalNexradFile-objects
 2. https://unidata.github.io/python-gallery/examples/Nexrad_S3_Demo.html#plot-the-dat
 3. https://www.stanleyulili.com/powershell/solution-to-running-scripts-is-disabled-on-this-system-error-on-powershell/
+
+## Reasoning
+
+* To access and download the AWS S3 data based on the required parameter we used  [Nexradraws](https://nexradaws.readthedocs.io/en/latest/Tutorial.html#Tutorial) library.
+* [Unidata Python Galary](https://unidata.github.io/python-gallery/examples/Nexrad_S3_Demo.html#subset-data) This was used because of the specific reason as to how should we go about actually getting the data we want from the file, different types of elevation and products. The given demo code was perfect for our task and we were able to plot the data.
+* [FLASK](https://flask.palletsprojects.com/en/2.0.x/) This was actually our second choice. The [FAST API](https://fastapi.tiangolo.com/) was first choice because of ease of implementation but we discovered a error in requests library used by uvicorn distribution for running the Fast API module. We tried searching and found it is an error in requests library, looking for how would we solve it was taking immense time that we did not have. So we decided to switch to Flask.
+
+We decided to store the visualized images online to cloud service instead of storing it in our SQL database because of the fact that images take a lot of space which would add to the read performance and cost. Making it hard to backup the database if required. So know we would be storing the images elsewhere and store the reference to it in the database. We thought of using AWS S3 Bucket to dump the images because of the file structure it provides and highly scalable functionality. The problem was cost because at this scale there was no need of paid services, so we decided to go with other free online storage options. 
+
+* [Cloudinary](https://cloudinary.com/) This provides a fantastic python supported API for uploading images.
+
+If there was enough time I would hash the input data and the respective url for the plot generated in a persistent database, similar to the concept of  Hash Map, where the key would be the input data and value would be the url. If the exact same input was previously encountered it would pick the respected value, which would greatly reduce the extra computational task and load.
+
+
+
+
