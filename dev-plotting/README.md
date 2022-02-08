@@ -11,7 +11,7 @@ This Microservice uses:
 
 ## Installation
 
-Create an `.env` with the help of `.env.example`. All the required variables is in it.  
+Create an `.env` with the exact details of help of `example.env`. All the required variables is in it.  
 
 This service is tested on Python 3.7, 3.8, and 3.10 and will require any of these versions.
 
