@@ -1,0 +1,68 @@
+# Requirements:
+# docker
+# docker-compose
+
+# Command to Run:
+# docker-compose  -f stackWindows.yml up -d
+
+version: "2"
+
+services:
+  devgateway:
+    image: tanukansaldocker123/codist-gateway:amd64
+    container_name: devgateway
+    networks:
+      - frontend
+    ports:
+      - 8080:8080
+  devregistry:
+    image: tanukansaldocker123/codist-registry:amd64
+    container_name: devregistry
+    networks:
+      - frontend
+    ports:
+      - 3333:3333    
+  mongodb:
+    image: mongo:5.0.5-focal
+    container_name: mongoproject
+    networks:
+      - frontend
+    ports:
+      - 27017:27017
+    volumes:
+      #binding the volume to a alocal folder, create a folder of your own and paste the path
+      - /Users/tanukansal/mongodocker:/etc/mongo
+  devhistory:
+    image: tanukansaldocker123/codist-history:amd64
+    container_name: devhistory
+    networks:
+      - frontend
+    ports:
+      - 8085:8085
+  devplotting:
+    image: tanukansaldocker123/codist-plotting:amd64
+    container_name: devplotting
+    networks:
+      - frontend
+    ports:
+      - 5000:5000
+  projectthreepostgresdb:
+    image: tanukansaldocker123/codist-postgres :amd64
+    container_name: postgresproject
+    networks:
+      - frontend
+    ports:
+      - 5432:5432
+    volumes:
+      #binding the volume to a alocal folder,create a folder of your own and paste the path
+      - /Users/tanukansal/Documents/postgresDocker
+  devfrontend:
+    image: tanukansaldocker123/codist-frontend:amd64
+    container_name: devfrontend
+    networks:
+      - frontend
+    ports:
+      - 1776:1776
+networks:
+  frontend:
+    driver: bridge
