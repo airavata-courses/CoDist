@@ -50,8 +50,8 @@ This project provides an interface to plot historical data provided by NEXRAD AW
 ![Napkin Diagram](https://user-images.githubusercontent.com/38610661/152897261-44908232-0849-464a-ac9d-f4aa207c7a59.jpeg)
     
 ## Microservice Architecture
+![Architecture diagram](https://user-images.githubusercontent.com/94020074/152905274-07d2c0ec-68c2-4f04-aeb0-9334e4f00934.png)
 
-![Microservice Architecture](https://user-images.githubusercontent.com/38610661/152897308-cc3cee65-d00f-4af1-8496-125786bba6ef.jpeg)
 
 Please refer Wiki Page for detailed information related to all our project phases
 
