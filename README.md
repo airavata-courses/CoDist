@@ -31,6 +31,10 @@ This project provides an interface to plot historical data provided by NEXRAD AW
 
 ![Microservice Architecture](https://user-images.githubusercontent.com/38610661/152897308-cc3cee65-d00f-4af1-8496-125786bba6ef.jpeg)
 
+Please refer Wiki Page for detailed information related to all our project phases
+
+https://github.com/airavata-courses/CoDist/wiki/Project-Phase-I
+
 ## Microservices Installation Procedure (Not needed if Docker installation procedure is done)
 
 - [Frontend - ReactJS](https://github.com/airavata-courses/CoDist/tree/basic_ui)
