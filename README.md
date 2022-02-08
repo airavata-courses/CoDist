@@ -9,10 +9,6 @@ Aditya Arun Rudrawar
 
 Parnal Ghundare Patil
 
-## Project Overview
-
-This project provides an interface to plot historical data provided by NEXRAD AWS based on the user’s input (date, time and radar fields). It makes use of  a microservice based architecture to allocate separate functionality to each microservice. As a group with 4 members we have used 4 programming languages and two databases to build this system. The provided functionalities include user registration, logging history, editable inputs and the plotting image.
-
 ## Tech Stack
 
 - Front-End: ReactJS
