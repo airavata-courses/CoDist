@@ -1,5 +1,5 @@
 # Frontend
-This will be an interface for user to provide inputs, get results. Frontend can interact with API gateway and can not access the functionality of other micro services without authentication. Frontend will accept user input and will pass it to API-gateway in JSON format. Based on user instruction and gateway responses, UI will reflect the changes.
+This will be an interface for user to provide inputs, get results. Frontend can only interact with the API gateway and can not access the functionality of other micro services without authentication. Frontend will accept user input and will pass it to API-gateway in JSON format. Based on user instruction and gateway responses, UI will reflect the changes.
 
 ### Framework/Library used
 - ReactJS
