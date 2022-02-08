@@ -18,7 +18,11 @@ This project provides an interface to plot historical data provided by NEXRAD AW
 - Data Ingestion and Plotting - Python
 - Logging and History service – GoLang, Database: PostgreSQL
 
-## Installation Procedure
+## Docker Installation Procedure
+
+- Write over here
+
+## Microservices Installation Procedure
 
 - [Frontend - ReactJS](https://github.com/airavata-courses/CoDist/tree/basic_ui)
 - [API Gateway - Java Spring Boot](https://github.com/airavata-courses/CoDist/tree/dev-api-gateway)
