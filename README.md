@@ -18,9 +18,29 @@ This project provides an interface to plot historical data provided by NEXRAD AW
 - Data Ingestion and Plotting - Python
 - Logging and History service – GoLang, Database: PostgreSQL
 
+## Prerequisites
+- Make sure no other application running on ports: 8000, 8080, 5000, 3333, 27017, 5432, 1776
+
+- Start application in browser using: http://localhost:1776
+
+
 ## Docker Installation Procedure (Run with Docker)
 
-- Write over here
+- Install Docker and Docker-compose
+
+# Pull docker images from account: tanukansaldocker123 ( Multiple images created for multiple processor configurations )
+- docker pull tanukansaldocker123/codist-gateway:arm64 || docker pull tanukansaldocker123/codist-gateway:amd64
+- docker pull tanukansaldocker123/codist-registry:arm64 || docker pull tanukansaldocker123/codist-registry:amd64
+- docker pull tanukansaldocker123/codist-plotting:arm64 || docker pull tanukansaldocker123/codist-plotting:amd64
+- docker pull tanukansaldocker123/codist-history:arm64 || docker pull tanukansaldocker123/codist-history:amd64
+- docker pull tanukansaldocker123/codist-postgres:arm64 || docker pull tanukansaldocker123/codist-postgres:amd64
+- docker pull tanukansaldocker123/codist-frontend:arm64 || docker pull tanukansaldocker123/codist-frontend:amd64
+- docker pull mongo:5.0.5-focal
+
+- Create local folders for Mongo and Postgres volumes, and add to .yml file accordinly.
+
+# Run yml file
+- docker-compose  -f stackMac.yml up -d || docker-compose  -f stackWindows.yml up -d
 
 
 ## Napkin Diagram
