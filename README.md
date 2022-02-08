@@ -22,7 +22,7 @@ This project provides an interface to plot historical data provided by NEXRAD AW
 
 - Write over here
 
-## Microservices Installation Procedure
+## Microservices Installation Procedure (Not needed if Docker installation procedure is done)
 
 - [Frontend - ReactJS](https://github.com/airavata-courses/CoDist/tree/basic_ui)
 - [API Gateway - Java Spring Boot](https://github.com/airavata-courses/CoDist/tree/dev-api-gateway)
