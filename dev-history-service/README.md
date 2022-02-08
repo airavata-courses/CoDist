@@ -11,7 +11,7 @@ This Microservice uses:
 
 ## Installation
 
-Create an `.env` with the help of `.env.example`. All the required variables is in it.  
+Create an `.env` with the help of `example.env`. All the required variables is in it.  
 
 This service is tested on GO 1.17
 
