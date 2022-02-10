@@ -28,6 +28,9 @@ Parnal Ghundare Patil
 - Install Docker and Docker-compose
 
 # Pull docker images from account: tanukansaldocker123 ( Multiple images created for multiple processor configurations )
+
+For MAC : amd64
+For WINDOWS/LINUX: arm64
 - docker pull tanukansaldocker123/codist-gateway:arm64 || docker pull tanukansaldocker123/codist-gateway:amd64
 - docker pull tanukansaldocker123/codist-registry:arm64 || docker pull tanukansaldocker123/codist-registry:amd64
 - docker pull tanukansaldocker123/codist-plotting:arm64 || docker pull tanukansaldocker123/codist-plotting:amd64
