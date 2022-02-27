@@ -7,12 +7,12 @@ def deleteLocalFiles( dataFileName , pltLocalFileName ) :
         if os.path.isfile(DirectoryPath + '/' + dataFileName):
             os.remove(dataFileName)
     except Exception as e:
-            (e)
+            print("Exception raised while deleting the downloaded file",e)
 
     try:    
         if os.path.isfile(DirectoryPath + '/' + pltLocalFileName):
             os.remove(pltLocalFileName)
     except Exception as e:
-        print(e)
-    
+        print("Exception raised while deleting the downloaded file",e)
+        
     return True
