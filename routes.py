@@ -30,10 +30,8 @@ incomes = [
 
 @app.route('/getFunctionCall', methods=['POST'])
 def getFunctionCall():
-    return '''
-              <h1>The language value is: {}</h1>
-              <h1>The framework value is: {}</h1>
-              <h1>The website value is: {}'''.format(request.args)
+    data = request.get_json()
+    return data
 
 @app.route('/getPlottedData', methods=['POST'])
 async def getPlottedData():
