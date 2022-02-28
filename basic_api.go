@@ -20,18 +20,6 @@ func postLogs(c *gin.Context) {
 	var responseIdentifier ioFormatting.LogIdentifierResponse
 	code := http.StatusOK
 
-	// log.Println(c)
-	// // d, _ := json.Marshal(*c)
-	// body, _ := ioutil.ReadAll(c.Request.Body)
-	// log.Println(body)
-	// if err := json.Unmarshal(body, &newLog); err != nil {
-	// 	log.Println("Error in Post Request, Error is:", err)
-	// 	c.IndentedJSON(http.StatusBadRequest, newLog)
-	// 	return
-	// }
-
-	// body, _ := ioutil.ReadAll(c.Request.Body)
-	// log.Println("Body of request is", string(body))
 	if err := c.BindJSON(&newLog); err != nil {
 		log.Println("Error in Post Request, Error is:", err)
 		c.IndentedJSON(http.StatusBadRequest, newLog)
@@ -59,11 +47,13 @@ func postLogs(c *gin.Context) {
 			responseLog.IsError = "False"
 			responseIdentifier.LogIdentifier = returnIdentity
 			responseLog.Message = "Inserted Properly!"
+
 		}
 	}
 	responseLog.Response = responseIdentifier
-	c.BindJSON(&responseLog)
+	// c.BindJSON(&responseLog)
 	c.IndentedJSON(code, responseLog)
+	return
 }
 
 func getLogsById(c *gin.Context) {
