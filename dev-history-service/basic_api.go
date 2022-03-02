@@ -62,7 +62,7 @@ func postLogs(c *gin.Context) {
 		}
 	}
 	responseLog.Response = responseIdentifier
-	c.BindJSON(&responseLog)
+	//c.BindJSON(&responseLog)
 	c.IndentedJSON(code, responseLog)
 }
 
