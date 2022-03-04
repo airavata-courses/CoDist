@@ -76,7 +76,7 @@ func InsertIntoQuery(newLog ioFormatting.InputLog) string {
 		StarterCode()
 	}
 
-	CreateTableIfNotExistsQuery()
+	//CreateTableIfNotExistsQuery()
 
 	isEmpty := newLog.LogIdentifier == ""
 	if isEmpty {
@@ -112,7 +112,7 @@ func GetUserHistory(requestedUserId string) ([]ioFormatting.ReturnLog, string) {
 		StarterCode()
 	}
 
-	CreateTableIfNotExistsQuery()
+	//CreateTableIfNotExistsQuery()
 
 	log.Println("logger in GetUserHistory")
 
@@ -159,6 +159,7 @@ func StarterCode() {
 	if db == nil {
 		log.Panic("DB NOT INITIAZED PROPERLY")
 	}
+	CreateTableIfNotExistsQuery()
 
 	log.Println("DB INITIATED PROPERLY")
 }
