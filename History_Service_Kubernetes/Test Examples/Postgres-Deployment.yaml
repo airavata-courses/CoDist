@@ -1,0 +1,55 @@
+# Headless Service
+# Headless Service
+# Stateful set
+# Persistant Claims
+# Persistant Volumes
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  labels:
+    app: postgres-service
+spec:
+  ports:
+  - port: 8074
+    targetPort: 5432
+    name: postgres-service
+  clusterIP: None
+  selector:
+    app: postgres-service
+---
+# Stateful Set
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-service
+spec:
+  serviceName: postgres-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: tanukansaldocker123/codist-postgres:amd64
+        ports:
+        - containerPort: 5432
+          name: postgres
+        volumeMounts:
+        - name: www
+          mountPath: /usr/share/postgres/html
+  volumeClaimTemplates:
+  - metadata:
+      name: www
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+
