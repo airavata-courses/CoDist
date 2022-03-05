@@ -1,20 +1,16 @@
 package database
 
 import (
-	"database/sql"
 	"log"
 	"project/ioFormatting"
 	"strings"
 )
 
-var db *sql.DB
-
 func CreateTableIfNotExistsQuery() {
 
-	if db == nil {
-		StarterCode()
-	}
+	db := StartConnection()
 
+	log.Println("TABLE")
 	sqlStatement := `
 		CREATE TABLE IF NOT EXISTS logs_table_url(
 			id SERIAL PRIMARY KEY,
@@ -32,11 +28,16 @@ func CreateTableIfNotExistsQuery() {
 		panic(err)
 	}
 	log.Println("SUCCESSFULLY CREATED TABLE	OR ALREADY PRESENT.")
+
+	CloseDB(db)
 }
 
 func getLogIdentifier() string {
 
-	log.Println("getLogIdentifier")
+	log.Println("getLogIdentifier") // new Line
+	db := StartConnection()
+
+	// estimatedLogIdentifier := GetNumber() // new Line
 
 	identifierNotFound := true
 	estimatedLogIdentifier := ""
@@ -66,23 +67,25 @@ func getLogIdentifier() string {
 		}
 	}
 	log.Println("Choosen Log Identifier", estimatedLogIdentifier)
+
+	CloseDB(db)
+
 	return estimatedLogIdentifier
 }
+
 func InsertIntoQuery(newLog ioFormatting.InputLog) string {
 
 	var message string
 
-	if db == nil {
-		StarterCode()
-	}
-
-	CreateTableIfNotExistsQuery()
+	// CreateTableIfNotExistsQuery()
 
 	isEmpty := newLog.LogIdentifier == ""
 	if isEmpty {
 		log.Println("REQUEST TYPE")
 		newLog.LogIdentifier = getLogIdentifier()
 	}
+
+	db := StartConnection()
 
 	log.Println("newLog Identifier After Calling log identifier", newLog.LogIdentifier)
 
@@ -100,6 +103,8 @@ func InsertIntoQuery(newLog ioFormatting.InputLog) string {
 	if strings.HasPrefix(message, "ERROR") {
 		return message
 	}
+
+	CloseDB(db)
 	return newLog.LogIdentifier
 }
 
@@ -108,11 +113,9 @@ func GetUserHistory(requestedUserId string) ([]ioFormatting.ReturnLog, string) {
 	var message string = "LOGS OF THE SPECIFIED USER"
 	var returnlogs []ioFormatting.ReturnLog
 
-	if db == nil {
-		StarterCode()
-	}
+	db := StartConnection()
 
-	CreateTableIfNotExistsQuery()
+	// CreateTableIfNotExistsQuery()
 
 	log.Println("logger in GetUserHistory")
 
@@ -151,14 +154,17 @@ func GetUserHistory(requestedUserId string) ([]ioFormatting.ReturnLog, string) {
 			return returnlogs, message
 		}
 	}
+	CloseDB(db)
 	return returnlogs, message
 }
 func StarterCode() {
 
-	db = StartConnection()
+	db := StartConnection()
 	if db == nil {
 		log.Panic("DB NOT INITIAZED PROPERLY")
 	}
+	CreateTableIfNotExistsQuery()
 
 	log.Println("DB INITIATED PROPERLY")
+	CloseDB(db)
 }

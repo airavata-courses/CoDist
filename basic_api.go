@@ -84,7 +84,6 @@ func getLogsById(c *gin.Context) {
 func ping(c *gin.Context) {
 	code := http.StatusOK
 	c.IndentedJSON(code, "Pong")
-
 }
 func main() {
 	router := gin.Default()
