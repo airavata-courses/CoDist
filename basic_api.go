@@ -101,6 +101,8 @@ func main() {
 		log.Fatalf("Some error occured while loading ENV file. Err: %s", err)
 	}
 
+	database.StarterCode()
+
 	HOST := os.Getenv("API_HOST")
 
 	PORT := os.Getenv("API_PORT")
