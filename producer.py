@@ -7,16 +7,18 @@ connection = pika.BlockingConnection(
 
 channel = connection.channel()
 
-message = {"year" : "2022",
-    "month" : "01",
-    "day" : "29",
-    "hour" : "10",
-    "minute" : "10",
-    "second" : "10",
-    "station" : "KIND"
-}
-channel.queue_declare(queue = 'hello')
+def send_back(message):
 
-channel.basic_publish(exchange = '', routing_key = 'hello', body = json.dumps(message))
+    # message = {"year" : "2022",
+    #     "month" : "01",
+    #     "day" : "29",
+    #     "hour" : "10",
+    #     "minute" : "10",
+    #     "second" : "10",
+    #     "station" : "KIND"
+    # }
+    channel.queue_declare(queue = 'plotting_resend')
 
-channel.close()
+    channel.basic_publish(exchange = '', routing_key = 'plotting_resend', body = json.dumps(message))
+
+    channel.close()

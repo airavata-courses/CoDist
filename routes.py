@@ -41,22 +41,20 @@ schema = {
 class getPlottedDataBodyInputs(Inputs):
     json = [JsonSchema(schema=schema)]
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 @app.route('/getFunctionCall', methods=['POST'])
 def getFunctionCall():
     data = request.get_json()
     return data
-=======
+
 @app.route("/ping")
 async def root():
     return jsonify({ "ping" : "PONG,BING BONG"})
->>>>>>> e8473cbef8db98201d5b8f7163fc8a56d3519d76
-=======
+
 @app.route("/ping")
 async def root():
     return jsonify({ "ping" : "PONG,BING BONG"})
->>>>>>> e8473cbef8db98201d5b8f7163fc8a56d3519d76
+
 
 @app.route('/getPlottedData', methods=['POST'])
 async def getPlottedData():
