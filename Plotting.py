@@ -42,8 +42,8 @@ async def getPlottingDataController( filters ):
         current = datetime.datetime(int(year), int(month), int(day), int(hour), int(minute), int(second) )
         start = current - datetime.timedelta(days=1)
 
-        print(f'CURRENT TIME:', current)
-        print(f'START TIME: ', start )
+        # print(f'CURRENT TIME:', current)
+        # print(f'START TIME: ', start )
 
         """Downloading the latest available file"""
     
@@ -51,7 +51,7 @@ async def getPlottingDataController( filters ):
 
         scans = conn.get_avail_scans_in_range(start, current, STATION)
         
-        print("SCANS: ",scans)
+        # print("SCANS: ",scans)
 
         toBeDownloaded = ""
 
@@ -71,9 +71,9 @@ async def getPlottingDataController( filters ):
 
         results = conn.download(toBeDownloaded, DirectoryPath)
         
-        for scan in results.iter_success():
-            print ("{} volume scan time {}".format(scan.radar_id,scan.scan_time ))
-
+        # for scan in results.iter_success():
+        #     print ("{} volume scan time {}".format(scan.radar_id,scan.scan_time ))
+        print("File downloaded")
         """CODE FOR PLOTTING"""
         try:
             f = Level2File(dataFileName)
@@ -84,7 +84,7 @@ async def getPlottingDataController( filters ):
         print("Error while scanning and downloading data: ", e )
         return None
 
-    
+    print("Scanning and plotting.")
     try:
         sweep = 0
 
@@ -162,6 +162,8 @@ async def getPlottingDataController( filters ):
             print("Exception raised while saving the image to local storage", e)
             return None
         try:
+            
+            print("Uploading image")
             ### CODE TO UPLOAD TO Online Service.
             done, pending = await asyncio.wait([uploadImage(pltLocalFileName, dataFileName)])
 
@@ -171,6 +173,7 @@ async def getPlottingDataController( filters ):
             print("Error generted while uploading file", e)
             return None
         
+        print("Deleting local files")
         ### CODE FOR DELETING THE DOWNLOADED FILE.
         deleteLocalFiles( dataFileName, pltLocalFileName )
 
