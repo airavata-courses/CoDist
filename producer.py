@@ -2,7 +2,7 @@ import pika
 import json
 
 connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host = 'localhost')
+    pika.ConnectionParameters(host = 'localhost', heartbeat=0)
 )
 
 channel = connection.channel()
@@ -21,4 +21,4 @@ def send_back(message):
 
     channel.basic_publish(exchange = '', routing_key = 'plotting_resend', body = json.dumps(message))
 
-    channel.close()
+    # channel.close()
