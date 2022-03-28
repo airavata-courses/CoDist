@@ -2,11 +2,11 @@ import numpy as np
 from netCDF4 import Dataset
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
+import os
 
-
-def plot():
-
-    data = Dataset('tryingHard', mode='r')
+def plot(file):
+    os.chdir('/Users/chinmay/Desktop/Courses/SEM2/ADS/Project/mainRepo/Resourses')
+    data = Dataset(file, mode='r')
     lons = data.variables['lon'][:]
     lats = data.variables['lat'][:]
     T2M = data.variables['TLML'][:,:,:]  #surface specific humidity 
@@ -31,7 +31,6 @@ def plot():
 
     return 'plottedimage.png'
 
-plot()
 
 
 
