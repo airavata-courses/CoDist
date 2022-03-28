@@ -108,5 +108,9 @@ func main() {
 	PORT := os.Getenv("API_PORT")
 
 	hostport := HOST + ":" + PORT
+
+	senderRabbitConnection()
+	receiverRabbitConnection()
+
 	router.Run(hostport)
 }
