@@ -5,7 +5,7 @@ import cartopy.crs as ccrs
 import os
 
 def plot(file):
-    os.chdir('/Users/chinmay/Desktop/Courses/SEM2/ADS/Project/mainRepo/Resourses')
+    os.chdir('C:/Users/parna/Applied Distributed Systems/Project/merra-plotting-service/Resourses')
     data = Dataset(file, mode='r')
     lons = data.variables['lon'][:]
     lats = data.variables['lat'][:]

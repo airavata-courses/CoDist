@@ -28,7 +28,8 @@ class plotData(Resource):
             "second" : second
         }
 
-        # file = fetchdata(getValue) 
+        file = fetchdata(getValue)
+        print('geting file: ', file) 
         image = plot('tryingHard')
         response = upload_file(image)
 
