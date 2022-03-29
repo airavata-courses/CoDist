@@ -66,3 +66,19 @@
 #                                         transform= transform)
 #     new_dataset.write(r)
 #     new_dataset.close()
+
+
+
+import xarray as xr 
+import rioxarray as rio 
+
+def dataConversion(file):
+
+    nc_file = xr.open_dataset(file)
+    bT = nc_file['TLML']
+    print(bT)
+
+    bT = bT.rio.set_spatial_dims('lon', 'lat')
+    bT.rio.crs
+
+    bT.rio.to_raster("medsea_bottomT_raster.tiff")
