@@ -30,8 +30,3 @@ def plot(file):
     fig.savefig('plottedimage.png', format='png', dpi=360)
 
     return 'plottedimage.png'
-
-
-
-
-    

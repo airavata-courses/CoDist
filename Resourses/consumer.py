@@ -1,20 +1,18 @@
-import pika
-from plotData import plotData
+# import pika
+
+# connection = pika.BlockingConnection(
+#     pika.ConnectionParameters(host = 'localhost')
+# )
+
+# channel = connection.channel()
+
+# def callback(ch, method, properties, body):
+#     # print("Received %r " % body)
+#     print("Received: ", body)
+#     print(body)
 
 
-connection_parameter = pika.ConnectionParameters(host = 'localhost')
-connection = pika.BlockingConnection(connection_parameter)
+# channel.basic_consume (queue = 'plotting_resend', on_message_callback = callback, auto_ack = True)
 
-channel = connection.channel()
-channel.queue_declare(queue='letterbox')
-
-def onMessageReceived(ch, method, properties, body):
-    print("Received new message: ", body)
-    print(body)
-    plotData()
-
-
-channel.basic_consume (queue = 'letterbox', on_message_callback = onMessageReceived, auto_ack = True)
-
-print('Waiting for messages')
-channel.start_consuming()
+# print('Waiting for messages')
+# channel.start_consuming()

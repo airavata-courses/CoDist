@@ -1,13 +1,20 @@
-import queue
 import pika
+# from Resourses.consumer import callback
 
-connection_parameter = pika.ConnectionParameters('localhost')
+connection = pika.BlockingConnection(
+    pika.ConnectionParameters(host = 'localhost')
+)    
 
-connection  = pika.BlockingConnection(connection_parameter)
 channel = connection.channel()
-channel.queue_declare(queue='letterbox')
-message = "Hi I am doing it"
 
-channel.basic_publish(exchange = '', routing_key = 'letterbox', body = message)
+def send_file(message):
 
-connection.close()
+    print('File is: ', message)
+    channel.queue_declare(queue = 'plotting')
+
+    channel.basic_publish(exchange = '', routing_key = 'plotting', body = "Hello world!")
+
+
+
+# channel.close()
+
