@@ -2,11 +2,12 @@ from flask_restful import Resource
 from flask import jsonify, request
 from Resourses.ingester import fetchdata
 from Resourses.plotdata import plot
-from Resourses.uploadImage import upload_file
-# from Resourses.dataConversion import dataConversion
+from Resourses.uploadImage import upload_csv
+from Resourses.dataConversion import dataConversion
 from Resourses.producer import send_file
 import pika
 import json
+import os
 
 connection = pika.BlockingConnection(
     pika.ConnectionParameters(host = 'localhost')
@@ -17,15 +18,15 @@ channel = connection.channel()
 class plotData(Resource):
     def get(self):
         return "Ping pong"
-
     
     def post(self):
+
         getData = request.get_json()
         year = getData["year"]
         month = getData["month"]
         day = getData["day"]
         station = getData["station"]
-        hour = getData["year"]
+        hour = getData["hour"]
         minute = getData["minute"]
         second = getData["second"]
 
@@ -40,15 +41,18 @@ class plotData(Resource):
         }
 
         file = fetchdata(getValue)
-        send_file(file)
+        file = dataConversion(file, hour)
+        file = upload_csv(file)
+        s3_object_name = { 'objectName' : file}
+        send_file(s3_object_name)
 
-        print('geting file: ', file)
-
+        
         def callback(ch, method, properties, body):
             print("Received: ", body)
             global resp
             resp = body
             print(body)
+            os.remove(file)
             channel.stop_consuming()
             return resp
 
@@ -59,11 +63,5 @@ class plotData(Resource):
         print('Came here below start consuming')
         response = json.loads(resp)
         print('resp is: ', json.loads(resp))
-        
-        # filenew = dataConversion(file)
-        # print('file has been converted')
-        # image = plot('tryingHard')
-        # response = upload_file(image)
 
         return jsonify(response)
-        # return jsonify(body)

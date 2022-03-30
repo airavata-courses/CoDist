@@ -1,10 +1,8 @@
 import logging
 import boto3
 import cloudinary
-from cloudinary import uploader
 from decouple import config
 from botocore.exceptions import ClientError
-import os
 
 cloudinary.config( 
   cloud_name = config('CLOUDINARY_CLOUD_NAME'), 
@@ -12,30 +10,14 @@ cloudinary.config(
   api_secret = config('CLOUDINARY_API_SECRET') 
 )
 
+def upload_csv(file):
 
-def upload_file(file):
-    """Upload a file to an S3 bucket
+    print("Uploading to S3...")
+    s3_client = boto3.client('s3')
+    try:
+        response = s3_client.upload_file(file, 'project3-outputs', file)
+        print(response)
+    except ClientError as e:
+        logging.error(e)
 
-    :param file_name: File to upload
-    :param bucket: Bucket to upload to
-    :param object_name: S3 object name. If not specified then file_name is used
-    :return: True if file was uploaded, else False
-    """
-
-    # If S3 object_name was not specified, use file_name
-    # if object_name is None:
-    #     object_name = os.path.basename(file_name)
-
-    # Upload the file
-
-    result = uploader.upload(file)
-    return result
-
-    # s3_client = boto3.client('s3')
-    # try:
-    #     response = s3_client.upload_file(file, 'project3-outputs', 'image2')
-    #     print(response)
-    # except ClientError as e:
-    #     logging.error(e)
-    #     return False
-    # return response
+    return file
