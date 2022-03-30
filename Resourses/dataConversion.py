@@ -18,9 +18,10 @@ def dataConversion(file, hour):
     filename = file + ".csv"
 
     csv = np.array(T2M)
+
     np.savetxt(filename, csv,delimiter=",")
-    print('File will be deleted ')
-    os.remove(file)
+    data.close()
+    os.remove(os.getcwd()+"/"+file)
     print('DELETED')
 
     return filename

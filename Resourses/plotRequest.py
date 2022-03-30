@@ -1,3 +1,4 @@
+import asyncio
 from flask_restful import Resource
 from flask import jsonify, request
 from Resourses.ingester import fetchdata
@@ -5,6 +6,7 @@ from Resourses.plotdata import plot
 from Resourses.uploadImage import upload_csv
 from Resourses.dataConversion import dataConversion
 from Resourses.producer import send_file
+
 import pika
 import json
 import os
@@ -39,7 +41,7 @@ class plotData(Resource):
             "minute" : minute,
             "second" : second
         }
-
+        
         file = fetchdata(getValue)
         file = dataConversion(file, hour)
         file = upload_csv(file)

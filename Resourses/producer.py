@@ -8,9 +8,14 @@ connection = pika.BlockingConnection(
 
 channel = connection.channel()
 
+def start_producer():
+    print("Coming and creating plotting from function")
+    channel.queue_declare(queue = 'plotting')
+
 def send_file(objectName):
 
-    channel.queue_declare(queue = 'plotting')
+    print("Sending message...")
     channel.basic_publish(exchange = '', routing_key = 'plotting', body = json.dumps(objectName))
-
+    # channel.close()
+        
 

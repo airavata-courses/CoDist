@@ -13,10 +13,8 @@ def fetchdata(getValue):
     subdomain = year+"/"+month+"/"+"MERRA2_400.inst1_2d_lfo_Nx."+year+month+day+".nc4"
 
     URL = domain+subdomain
-
-    # URL = 'https://goldsmr4.gesdisc.eosdis.nasa.gov/data/MERRA2/M2I1NXLFO.5.12.4/2022/01/MERRA2_400.inst1_2d_lfo_Nx.20220101.nc4'
-
-    FILENAME = year+"-"+month+"-"+day+"-"+"T"+hour
+    
+    FILENAME = year+"-"+month+"-"+day+"-"+"T"+hour+".nc4"
     result = requests.get(URL)
     try:
         result.raise_for_status()
