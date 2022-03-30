@@ -1,9 +1,13 @@
 import pika
 from plotData import plot
 from uploadImage import upload_file
-from producer import send_response
+from producer import send_response, start_producer
 import os
 import json
+
+
+start_producer()
+
 connection = pika.BlockingConnection(
     pika.ConnectionParameters(host = 'localhost')
 )

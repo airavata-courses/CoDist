@@ -7,11 +7,11 @@ connection = pika.BlockingConnection(
 
 channel = connection.channel()
 
-def send_response(message):
-
+def start_producer():
+    print("Creating queue plotting_resend")
     channel.queue_declare(queue = 'plotting_resend')
-
+    
+def send_response(message):
     channel.basic_publish(exchange = '', routing_key = 'plotting_resend', body = json.dumps(message))
-
     # channel.close()
 
