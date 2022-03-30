@@ -2,7 +2,8 @@ import pika
 from plotData import plot
 from uploadImage import upload_file
 from producer import send_response
-
+import os
+import json
 connection = pika.BlockingConnection(
     pika.ConnectionParameters(host = 'localhost')
 )
@@ -10,10 +11,16 @@ connection = pika.BlockingConnection(
 channel = connection.channel()
 
 def plotback(ch, method, properties, body):
-    # print("Received %r " % body)
+
+    body = json.loads(body)
     print("Received: ", body)
-    image = plot('tryingHard')
-    response = upload_file(image)
+    object = body['objectName']
+    imagename = plot(object)
+    response = upload_file(imagename)
+    
+    os.remove(imagename)
+    os.remove(object)
+    
     print("generated response: ", response)
     send_response(response)
 
