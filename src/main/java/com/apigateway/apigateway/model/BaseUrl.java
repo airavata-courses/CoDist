@@ -9,9 +9,10 @@ public class BaseUrl {
 //    public String Registry = "http://localhost:3333";
 
 
-    public String Plotting = "http://7276-2601-408-c401-3903-41ba-f2b3-e651-44ee.ngrok.io";
-    public String Logger = "http://6bbf-2601-408-c401-3903-41ba-f2b3-e651-44ee.ngrok.io";
+    public String Plotting = "http://4a99-2001-18e8-2-28b6-e860-f7c1-1087-b608.ngrok.io";
+    public String Logger = "http://0bed-2001-18e8-2-28b6-e860-f7c1-1087-b608.ngrok.io";
     public String Registry = "http://localhost:3333";
+
 
 
 //  Registry on Tanu's Registry
