@@ -24,4 +24,4 @@ jobs:
     - run: | 
         mvn package
         cd target
-        java -jar api-gateway-0.0.1-SNAPSHOT.jar
+        # java -jar api-gateway-0.0.1-SNAPSHOT.jar
