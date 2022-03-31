@@ -17,10 +17,11 @@ channel = connection.channel()
 def plotback(ch, method, properties, body):
 
     body = json.loads(body)
+    
     print("Received: ", body)
     object = body['objectName']
     imagename = plot(object)
-    response = upload_file(imagename)
+    response = upload_file(imagename, body['userId'])
     
     os.remove(imagename)
     os.remove(object)

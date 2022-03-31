@@ -13,7 +13,7 @@ cloudinary.config(
 )
 
 
-def upload_file(file):
+def upload_file(file, userId):
 
-    result = uploader.upload(file, use_filename=True, folder="Images")
+    result = uploader.upload(file, use_filename=True, folder="Images/"+userId, public_id = file[:-8])
     return result
