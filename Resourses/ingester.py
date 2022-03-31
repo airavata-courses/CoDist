@@ -14,7 +14,7 @@ def fetchdata(getValue):
 
     URL = domain+subdomain
     
-    FILENAME = year+"-"+month+"-"+day+"-"+"T"+hour+".nc4"
+    FILENAME = year+"-"+month+"-"+day+".nc4"
     result = requests.get(URL)
     try:
         result.raise_for_status()

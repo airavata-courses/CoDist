@@ -3,9 +3,13 @@ from flask_restful import Resource
 from flask import jsonify, request
 from Resourses.ingester import fetchdata
 from Resourses.plotdata import plot
-from Resourses.uploadImage import upload_csv
+from Resourses.uploadFile import upload_csv
 from Resourses.dataConversion import dataConversion
 from Resourses.producer import send_file
+# from Resourses.validations import apiValidator
+from cloudinary import api
+import cloudinary
+from decouple import config
 
 import pika
 import json
@@ -13,6 +17,13 @@ import os
 
 connection = pika.BlockingConnection(
     pika.ConnectionParameters(host = 'localhost')
+)
+
+
+cloudinary.config( 
+  cloud_name = config('CLOUDINARY_CLOUD_NAME'), 
+  api_key = config('CLOUDINARY_API_KEY'), 
+  api_secret = config('CLOUDINARY_API_SECRET') 
 )
 
 channel = connection.channel()
@@ -27,7 +38,7 @@ class plotData(Resource):
         year = getData["year"]
         month = getData["month"]
         day = getData["day"]
-        station = getData["station"]
+        userId = getData["userId"].replace('"','')
         hour = getData["hour"]
         minute = getData["minute"]
         second = getData["second"]
@@ -36,16 +47,24 @@ class plotData(Resource):
             "year" : year,
             "month" : month,
             "day" : day,
-            "station" : station,
+            "userId" : userId,
             "hour" : hour,
             "minute" : minute,
             "second" : second
         }
-        
+
+        prefix = year + '-' + month + '-' + day
+        resources = api.resources(prefix = "Images/" + userId + "/" + prefix, type = "upload")
+        resources_check = resources['resources']
+        print('we got userid: ',userId)
+        if len(resources_check) > 0:
+            response = resources_check[0]
+            return jsonify(response)
+
         file = fetchdata(getValue)
         file = dataConversion(file, hour)
         file = upload_csv(file)
-        s3_object_name = { 'objectName' : file}
+        s3_object_name = { 'objectName' : file, "userId": userId }
         send_file(s3_object_name)
 
         
