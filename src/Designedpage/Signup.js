@@ -30,7 +30,7 @@ function validateName(name){
 
 export default function SignUp() {
 
-let navigate = useNavigate(); 
+    let navigate = useNavigate(); 
 
     const handleSubmit = (event) => {
 

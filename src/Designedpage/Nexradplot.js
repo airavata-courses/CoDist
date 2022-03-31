@@ -36,7 +36,6 @@ function Nexradpage() {
     return (
 
       <div>
-        {/* <Button variant="outlined" onClick={getNexradPlot}>Merra-Data</Button> */}
         <Button variant="outlined">NEXRAD-Data--DOing it </Button>
       </div>
       
