@@ -3,12 +3,10 @@ name: CICD
 on:
   push:
     branches:
-    - Main
-    - development
+    - dev-history-service
   pull_request:
     branches:
-    - Main
-    - development
+    - dev-history-service
 
 jobs:
   build:
