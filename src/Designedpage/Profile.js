@@ -44,7 +44,7 @@ function validateInputs(year, month, day, hour, minute, second, station ){
     return true
 }
 
-function PricingContent() {
+function ProfilePage() {
 
     const { auth, setAuth } = useContext(LoginContext)
     const { token, setToken } = useContext(LoginContext)
@@ -95,10 +95,6 @@ function PricingContent() {
         var station = selectRadar.label
         var authToken = token
 
-        // console.log("Hey I am new one ", year, month, day, hour, minute, second, station)
-        // console.log("Default Date: ", defaultDate)
-        // console.log("Default Time: ", defaultTime)
-
         console.log('radar inside get weatther is: ',station)
 
             if(validateInputs(year, month, day, hour, minute, second, station)){
@@ -126,35 +122,33 @@ function PricingContent() {
         setToken("")
         setDefaultDate("")
         setSelectRadar("")
-        // setDefaultTime("null")
         navigate("/");
 
         console.log("Coming to console", defaultDate)
     };
 
-    const getHistory = (event) => {
-        setLoading(true)
-        event.preventDefault()    
-        console.log("Profile getHistory Function.")
+    const getMerraPlot = (event) => {
+        // setLoading(true)
+        // event.preventDefault()    
+        // console.log("Profile getHistory Function.")
 
-            axios.post(baseUrl+'/logging', {userId, token })
-            .then(res => {
-                setLoading(false)
-                // console.log("this is log response : ", res);
-                // console.log("This is log data : ", res.data.response);
+        //     axios.post(baseUrl+'/logging', {userId, token })
+        //     .then(res => {
+        //         setLoading(false)
                 
-                if ( (res.data.response === null) || ( !Array.isArray(res.data.response)) || res.data.response.length === 0 )
-                {
-                    alert("History deos not exists!")
-                }else if(auth){
-                    setLogs(res.data.response)
-                    navigate("/history");
-                }
-            })
-            .catch(err => {
-                console.log("Error is : ", err)
-                navigate("/error")
-            });
+        //         if ( (res.data.response === null) || ( !Array.isArray(res.data.response)) || res.data.response.length === 0 )
+        //         {
+        //             alert("History deos not exists!")
+        //         }else if(auth){
+        //             setLogs(res.data.response)
+        //             navigate("/history");
+        //         }
+        //     })
+        //     .catch(err => {
+        //         console.log("Error is : ", err)
+        //         navigate("/error")
+        //     });
+        navigate("/profile")
         
     };
 
@@ -162,98 +156,23 @@ function PricingContent() {
         console.log("On change",defaultDate)
         setDefaultDate(defaultDate)
     }
+    function onDateChange(defaultDate){
+      console.log("On change",defaultDate)
+      setDefaultDate(defaultDate)
+    }
 
     return (
-        <React.Fragment>
-          <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
-            <CssBaseline />
-              <AppBar
-                position="static"
-                color="default"
-                elevation={0}
-                sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
-              >
-                  <Toolbar sx={{ flexWrap: 'wrap' }}>
-                      <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-                        {username}
-                      </Typography>
 
-                      <Button onClick={handleLogout} variant="outlined" sx={{ my: 1, mx: 1.5 }}>
-                        Logout
-                      </Button>
-                  </Toolbar>
-              </AppBar>
-            
-            <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 6, pb: 6 }}>
-                <Typography
-                  component="h6"
-                  variant="h2"
-                  align="center"
-                  color="text.primary"
-                  gutterBottom
-                >
-                  Select your choice!
-                </Typography>
-            </Container>
-          
-            <Container maxWidth="sm" component="main">
-                <Typography variant="h9" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <Stack spacing={3}>
-                            <DatePicker
-                              disableFuture
-                              label="Select Date"
-                              openTo="year"
-                              views={['year', 'month', 'day']}
-                              value={defaultDate}
-                              onChange={defaultDate => onDateChange(defaultDate)}
-                              maxDate={new Date()}
-                              renderInput={(params) => <TextField {...params} />}
-                            />
+      <div>
+        <Button variant="outlined" onClick={getMerraPlot}>Merra-Data</Button>
+        <Button variant="outlined" onClick={getMerraPlot}>NEXRAD-Data</Button>
+      </div>
+      
 
-                            <TimePicker
-                              ampm={false}
-                              openTo="hours"
-                              views={['hours', 'minutes', 'seconds']}
-                              inputFormat="HH:mm:ss"
-                              mask="__:__:__"
-                              label="Select time"
-                              value={defaultDate}
-                              onChange={defaultDate => onDateChange(defaultDate)}
-                              renderInput={(params) => <TextField {...params} />}
-                              
-                            />
-                      
-                        </Stack>
-                        <br/>
-                        {loading? null: <Select
-                          label = {selectRadar}
-                          value={selectRadar}
-                          options={options}
-                          onChange={selectRadar => setSelectRadar(selectRadar)}
-                        >
-                        </Select>}
-                        <br/>
-                        
-                        <Button fullWidth onClick={getWeather} disabled= {loading}> Get Weather Forecast </Button>
-                    
-                    </LocalizationProvider>
-
-                </Typography>
-                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)' }}>
-                    <br/>
-                    <Button fullWidth onClick={getHistory} disabled= {loading}> User history </Button>
-                </Box>
-                
-                <div style={{marginLeft: 255}}>
-                    {loading? <ClipLoader size={50} loading={loading}/>:null}
-                </div>
-            </Container>
-        </React.Fragment>
     );
   }
 
-  export default function Pricing() {
-    return <PricingContent />;
+  export default function Profile() {
+    return <ProfilePage />;
   }
 

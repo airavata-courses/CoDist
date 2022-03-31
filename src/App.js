@@ -9,8 +9,13 @@ import React, { useState } from 'react';
 import SignIn from './Designedpage/Login';
 import Signup from './Designedpage/Signup';
 import Profile from './Designedpage/Profile';
-import Errorpage from './Designedpage/Errorpage';
+// import Errorpage from './Designedpage/Errorpage';
 import History from './Designedpage/History';
+import Merraplot from './Designedpage/Merraplot';
+import Nexradplot from './Designedpage/Nexradplot';
+import Profiles from './Designedpage/Profiles';
+
+
 
 
 
@@ -33,9 +38,12 @@ function App()
                   <Routes>
                     {auth && <Route exact path="/profile" element={<Profile/>} />}
                     {auth && <Route exact path="/history" element={<History/>} />}
-                    <Route exact path="/" element={<SignIn/>} />
-                    {/* <Route exact path="/profile" element={<Profile/>} /> */}
+                    <Route exact path="/profiles" element={<Profiles/>} />
                     <Route exact path="/register" element={<Signup />} />
+                    <Route exact path="/merraplot" element={<Merraplot />} />
+                    <Route exact path="/nexradplot" element={<Nexradplot />} />
+                    <Route exact path="/signup" element={<Signup/>} />
+                    <Route exact path="/" element={<SignIn/>} />
                     <Route exact path="*" element={<SignIn />} />
                     
                   </Routes>
