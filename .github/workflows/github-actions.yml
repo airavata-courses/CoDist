@@ -23,4 +23,5 @@ jobs:
         java-version: '17.0.1'
     - run: | 
         mvn package
+        cd target
         java -jar api-gateway-0.0.1-SNAPSHOT.jar
