@@ -96,45 +96,23 @@ function PricingContent() {
 
     console.log('radar inside get weatther is: ', station)
 
-    if (nexrad) {
-      if (validateInputs(year, month, day, hour, minute, second, station)) {
-        axios.post(baseUrl + '/plotting', { year, month, day, hour, minute, second, station, authToken }, { headers: { "authToken": String(authToken), 'Access-Control-Allow-Origin': "*" } })
-          .then((res) => {
-            setLoading(false)
-            console.log("this is Data : ", res);
-            window.open(res.data)
-            console.log("Image source : ", res.data)
-          })
-          .catch(err => {
-            console.log("Error is : ", err)
-            navigate("/error")
-          });
-      }
-      else {
-        setLoading(false)
-        alert("Incorrect format")
-      }
+    if (validateInputs(year, month, day, hour, minute, second, station)) {
+      axios.post(baseUrl + '/plotting', { year, month, day, hour, minute, second, station, authToken }, { headers: { "authToken": String(authToken), 'Access-Control-Allow-Origin': "*" } })
+        .then((res) => {
+          setLoading(false)
+          console.log("this is Data : ", res);
+          window.open(res.data)
+          console.log("Image source : ", res.data)
+        })
+        .catch(err => {
+          console.log("Error is : ", err)
+          navigate("/error")
+        });
     }
-    if (merra) {
-      if (validateInputs(year, month, day, hour, minute, second, station)) {
-        axios.post(baseUrl + '/plottingmerra', { year, month, day, hour, minute, second, station, authToken }, { headers: { "authToken": String(authToken), 'Access-Control-Allow-Origin': "*" } })
-          .then((res) => {
-            setLoading(false)
-            console.log("this is Data : ", res);
-            window.open(res.data)
-            console.log("Image source : ", res.data)
-          })
-          .catch(err => {
-            console.log("Error is : ", err)
-            navigate("/error")
-          });
-      }
-      else {
-        setLoading(false)
-        alert("Incorrect format")
-      }
+    else {
+      setLoading(false)
+      alert("Incorrect format")
     }
-
   };
 
   const handleLogout = (event) => {
@@ -191,121 +169,6 @@ function PricingContent() {
     setDefaultDate(defaultDate)
   }
 
-  let Info;
-
-  if (nexrad) {
-    Info =
-      <Container maxWidth="sm" component="main">
-        <Typography variant="h9" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <Stack spacing={3}>
-              <DatePicker
-                disableFuture
-                label="Select Date"
-                openTo="year"
-                views={['year', 'month', 'day']}
-                value={defaultDate}
-                onChange={defaultDate => onDateChange(defaultDate)}
-                maxDate={new Date()}
-                minDate={new Date('1990-01-31')}
-                renderInput={(params) => <TextField {...params} />}
-              />
-
-              <TimePicker
-                ampm={false}
-                openTo="hours"
-                views={['hours', 'minutes', 'seconds']}
-                inputFormat="HH:mm:ss"
-                mask="__:__:__"
-                label="Select time"
-                value={defaultDate}
-                onChange={defaultDate => onDateChange(defaultDate)}
-                renderInput={(params) => <TextField {...params} />}
-              />
-
-            </Stack>
-            <br />
-            {loading ? null : <Select
-              label={selectRadar}
-              value={selectRadar}
-              options={options}
-              onChange={selectRadar => setSelectRadar(selectRadar)}
-            >
-            </Select>}
-            <br />
-
-            <Button fullWidth onClick={getWeather} disabled={loading}> Get Weather Forecast </Button>
-
-          </LocalizationProvider>
-
-        </Typography>
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)' }}>
-          <br />
-          <Button fullWidth onClick={getHistory} disabled={loading}> User history </Button>
-        </Box>
-
-        <div style={{ marginLeft: 255 }}>
-          {loading ? <ClipLoader size={50} loading={loading} /> : null}
-        </div>
-      </Container>
-  }
-  else if (merra) {
-    Info =
-      <Container maxWidth="sm" component="main">
-        <Typography variant="h9" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <Stack spacing={3}>
-              <DatePicker
-                disableFuture
-                label="Select Date"
-                openTo="year"
-                views={['year', 'month', 'day']}
-                value={defaultDate}
-                onChange={defaultDate => onDateChange(defaultDate)}
-                maxDate={new Date('2022-02-28')}
-                minDate={new Date('2022-02-01')}
-                renderInput={(params) => <TextField {...params} />}
-              />
-
-              <TimePicker
-                ampm={false}
-                openTo="hours"
-                views={['hours', 'minutes', 'seconds']}
-                inputFormat="HH:mm:ss"
-                mask="__:__:__"
-                label="Select time"
-                value={defaultDate}
-                onChange={defaultDate => onDateChange(defaultDate)}
-                renderInput={(params) => <TextField {...params} />}
-              />
-
-            </Stack>
-            <br />
-            {loading ? null : <Select
-              label={selectRadar}
-              value={selectRadar}
-              options={options}
-              onChange={selectRadar => setSelectRadar(selectRadar)}
-            >
-            </Select>}
-            <br />
-
-            <Button fullWidth onClick={getWeather} disabled={loading}> Get Weather Forecast </Button>
-
-          </LocalizationProvider>
-
-        </Typography>
-        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)' }}>
-          <br />
-          <Button fullWidth onClick={getHistory} disabled={loading}> User history </Button>
-        </Box>
-
-        <div style={{ marginLeft: 255 }}>
-          {loading ? <ClipLoader size={50} loading={loading} /> : null}
-        </div>
-      </Container>
-  }
-
   return (
     <React.Fragment>
 
@@ -351,9 +214,7 @@ function PricingContent() {
           onClick={() => typeClick('merra')}>Merra-Data</Button>
       </div>
 
-      {Info}
-
-      {/* <Container maxWidth="sm" component="main">
+      <Container maxWidth="sm" component="main">
         <Typography variant="h9" color="inherit" noWrap sx={{ flexGrow: 1 }}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Stack spacing={3}>
@@ -405,7 +266,7 @@ function PricingContent() {
         <div style={{ marginLeft: 255 }}>
           {loading ? <ClipLoader size={50} loading={loading} /> : null}
         </div>
-      </Container> */}
+      </Container>
     </React.Fragment>
   );
 }

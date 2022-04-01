@@ -75,7 +75,7 @@ const handleSubmit = async (event) => {
                 console.log("User Id: ",userId)
                 
                 setUsername(email)
-                navigate("/profile")
+                navigate("/profiles")
 
             }
             else{

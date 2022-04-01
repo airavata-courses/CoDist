@@ -5,7 +5,7 @@ import {LoginContext} from './Context/LoginContext';
 import React, { useState } from 'react';
 
 
-
+import backgroundVideo from './Blue - 5194.mp4'
 import SignIn from './Designedpage/Login';
 import Signup from './Designedpage/Signup';
 import Profile from './Designedpage/Profile';
@@ -14,6 +14,7 @@ import History from './Designedpage/History';
 import Merraplot from './Designedpage/Merraplot';
 import Nexradplot from './Designedpage/Nexradplot';
 import Profiles from './Designedpage/Profiles';
+import { background } from "@chakra-ui/react";
 
 
 
@@ -32,7 +33,10 @@ function App()
 
     
     return (
-        <div> 
+        <div >
+          {/* <video autoPlay loop muted style={{position: 'fixed', zIndex: -1, width: '100%'}}>
+            <source src={backgroundVideo} type='video/mp4'></source>
+          </video> */}
             <LoginContext.Provider value = {{username, setUsername, auth, setAuth, token, setToken, userId, setUserId, logs, setLogs, defaultDate, setDefaultDate, selectRadar, setSelectRadar, defaultTime, setDefaultTime}}>
                 <Router>
                   <Routes>
