@@ -1,0 +1,40 @@
+name: Python Package Using Anaconda
+
+on:
+  push:
+    branches: [ dev-merra-data-ingestion ]
+  pull_request:
+    branches: [ dev-merra-data-ingestion ]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Creating ENV file
+      run: cat example.env >> .env
+
+    - name: Install dependencies
+      run: |
+        # $CONDA is an environment variable pointing to the root of the miniconda directory
+        $CONDA/bin/conda  env create -f environment.yml
+
+    - name: Initialising bash environment
+      run: conda init bash
+
+    - name: Activating conda server
+      run: echo "conda activate myenv" > ~/.bashrc
+
+    - name: Installing dependencies
+      run: pip install -r requirements.txt && conda install -c conda-forge cartopy
+
+    - name: Running appliations
+      run: python main.py
+     
+      
