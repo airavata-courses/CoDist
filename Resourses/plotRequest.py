@@ -13,12 +13,21 @@ from decouple import config
 
 import pika
 import json
+from dotenv import load_dotenv
 import os
+from getPath import getEnvPath
+ 
+# dotenv_path = os.path.join("../", os.path.dirname(__file__), '.env')  # Path to .env file
+load_dotenv(getEnvPath())
 
-connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host = 'localhost')
-)
+credentials = pika.PlainCredentials( os.getenv("RABBITMQ_USER") , os.getenv("RABBITMQ_PASSWORD") )
 
+parameters = pika.ConnectionParameters( os.getenv("RABBITMQ_HOST") ,
+                                   os.getenv("RABBITMQ_PORT") ,
+                                   '/',
+                                   credentials)
+
+connection = pika.BlockingConnection(parameters)
 
 cloudinary.config( 
   cloud_name = config('CLOUDINARY_CLOUD_NAME'), 
