@@ -25,4 +25,5 @@ jobs:
     - run: npm ci
     - run: npm install
     # - run: npm start
-    - run: npm build
+    - run: npm run build
+
