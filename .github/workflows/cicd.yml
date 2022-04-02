@@ -26,7 +26,6 @@ jobs:
         host port: 5672
         rabbitmq user: 'user'
         rabbitmq password: 'password'
-        rabbitmq vhost: 'vhost_name'
 
     - name: Creating ENV file
       run: cat example.env >> .env
