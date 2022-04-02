@@ -297,7 +297,6 @@ qt=5.9.7=h468cd18_1
 qtawesome=1.0.2=pyhd3eb1b0_0
 qtconsole=5.1.1=pyhd3eb1b0_0
 qtpy=1.10.0=pyhd3eb1b0_0
-rasterio=1.2.10=pypi_0
 readline=8.1=h9ed2024_0
 regex=2021.8.3=py38h9ed2024_0
 requests=2.26.0=pyhd3eb1b0_0
