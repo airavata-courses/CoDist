@@ -21,7 +21,9 @@ def dataConversion(file, hour):
 
     np.savetxt(filename, csv,delimiter=",")
     data.close()
-    os.remove(os.getcwd()+"/"+file)
+    
+    
+    os.remove(file)
     print('DELETED')
 
     return filename
