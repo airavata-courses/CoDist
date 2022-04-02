@@ -19,7 +19,7 @@ metadata:
   labels:
     app: go
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: go
@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: go
-        image: tanukansaldocker123/codist-history:amd64
+        image: tanukansaldocker123/codist-history-test-one:amd64
         ports:
         - containerPort: 8085
         env:
