@@ -47,7 +47,7 @@ jobs:
     - name: Building the Docker Image
       run: 
 
-    Building Docker Image
+    # Building Docker Image
     - name: Docker Login
       env:
         DOCKER_USER: ${{secrets.DOCKER_USERNAME}}
