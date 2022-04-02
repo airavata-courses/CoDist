@@ -13,21 +13,20 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
 
-    services:
-      rabbitmq:
-      image: rabbitmq
-      env:
-        RABBITMQ_DEFAULT_USER: user
-        RABBITMQ_DEFAULT_PASS: password
-      ports:
-        - 5672:5672
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
+
+    - uses: getong/rabbitmq-action@v1.2
+      with:
+        rabbitmq version: '3.8.2-management-alpine'
+        host port: 5672
+        rabbitmq user: 'user'
+        rabbitmq password: 'password'
+        rabbitmq vhost: 'vhost_name'
 
     - name: Creating ENV file
       run: cat example.env >> .env
