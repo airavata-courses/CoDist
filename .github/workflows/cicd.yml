@@ -7,7 +7,7 @@ on:
     branches: [ dev-merra-data-ingestion ]
 
 env:
-  RABBITMQ_HOST=localhost
+  RABBITMQ_HOST: localhost
 
 jobs:
   build-linux:
@@ -39,9 +39,6 @@ jobs:
 
     - name: Initialising bash environment
       run: conda init bash
-
-    # - name: Activating conda server
-    #   run: echo "conda activate myenv" > ~/.bashrc
 
     - name: Activating conda server
       run: echo "conda activate base" > ~/.bashrc
