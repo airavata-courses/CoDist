@@ -6,9 +6,21 @@ on:
   pull_request:
     branches: [ dev-merra-data-ingestion ]
 
+env:
+  RABBITMQ_HOST=localhost
+
 jobs:
   build-linux:
     runs-on: ubuntu-latest
+
+    services:
+      rabbitmq:
+      image: rabbitmq
+      env:
+        RABBITMQ_DEFAULT_USER: user
+        RABBITMQ_DEFAULT_PASS: password
+      ports:
+        - 5672:5672
 
     steps:
     - uses: actions/checkout@v2
