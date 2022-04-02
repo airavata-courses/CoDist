@@ -47,17 +47,17 @@ jobs:
     # Building Docker Image
     - name: Docker Login
       env:
-          DOCKER_USER: '${{secrets.DOCKER_NAME}}'
-          DOCKER_PASSWORD: '${{secrets.DOCKER_PASSWORD}}'
+        DOCKER_USER: '${{secrets.DOCKER_NAME}}'
+        DOCKER_PASSWORD: '${{secrets.DOCKER_PASSWORD}}'
       run: |
         docker login -u '${{secrets.DOCKER_USERNAME}}' -p '${{secrets.DOCKER_PASSWORD}}'
     - name: Build the Docker Image
       # run: docker build . --file Dockerfile --tag metalman66/cicd-test:$(date + %s)
       run: |
-        docker build -t ${{secrets.DOCKER_USERNAME}}/cicd-test:arm64 .
-        docker build -t ${{secrets.DOCKER_USERNAME}}/cicd-test:amd64 .
+        docker build -t ${{ env.DOCKER_USER}}/cicd-test:arm64 .
+        docker build -t ${{ env.DOCKER_USER}}/cicd-test:amd64 .
     
     - name: Docker Push
       run: |
-        docker push '${{secrets.DOCKER_USERNAME}}'/cicd-test:arm64
-        docker push '${{secrets.DOCKER_USERNAME}}'/cicd-test:amd64
+        docker push '${{ env.DOCKER_USER }}'/cicd-test:arm64
+        docker push '${{ env.DOCKER_USER }}'/cicd-test:amd64
