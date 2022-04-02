@@ -34,7 +34,7 @@ jobs:
     - name: Activating conda server
       run: echo "conda activate base" > ~/.bashrc
 
-     - name: Lint with flake8
+    - name: Lint with flake8
       run: |
         $CONDA/bin/conda install flake8
         # stop the build if there are Python syntax errors or undefined names
