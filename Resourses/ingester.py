@@ -6,8 +6,8 @@ def fetchdata(getValue):
 
     domain = "https://goldsmr4.gesdisc.eosdis.nasa.gov/data/MERRA2/M2I1NXLFO.5.12.4/"
     year = getValue["year"]
-    month = getValue["month"]
-    day = getValue["day"]
+    month = str(getValue["month"]).zfill(2)
+    day = str(getValue["day"]).zfill(2)
     hour = getValue["hour"]
 
     subdomain = year+"/"+month+"/"+"MERRA2_400.inst1_2d_lfo_Nx."+year+month+day+".nc4"

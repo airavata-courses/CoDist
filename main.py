@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api, Resource
-from Resourses.plotRequest import plotData
 from Resourses.producer import start_producer
+from Resourses.plotRequest import plotData
 from dotenv import load_dotenv
 import os
 from getPath import getEnvPath

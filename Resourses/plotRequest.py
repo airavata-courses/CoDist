@@ -2,7 +2,6 @@ import asyncio
 from flask_restful import Resource
 from flask import jsonify, request
 from Resourses.ingester import fetchdata
-from Resourses.plotdata import plot
 from Resourses.uploadFile import upload_csv
 from Resourses.dataConversion import dataConversion
 from Resourses.producer import send_file
