@@ -43,24 +43,24 @@ jobs:
       run: |
         go build .
         
-    # # Build the Docker image
-    # - name: Building the Docker Image
-    #   run: 
+    # Build the Docker image
+    - name: Building the Docker Image
+      run: 
 
-    # Building Docker Image
-    # - name: Docker Login
-    #   env:
-    #     DOCKER_USER: ${{secrets.DOCKER_NAME}}
-    #     DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-    #   run: |
-    #     docker login -u ${{secrets.DOCKER_NAME}} -p ${{secrets.DOCKER_PASSWORD}}
-    # - name: Build the Docker Image
-    #   # run: docker build . --file Dockerfile --tag metalman66/cicd-test:$(date + %s)
-    #   run: |
-    #     docker build -t ${{secrets.DOCKER_NAME}}/cicd-test:arm64 .
-    #     docker build -t ${{secrets.DOCKER_NAME}}/cicd-test:amd64 .
+    Building Docker Image
+    - name: Docker Login
+      env:
+        DOCKER_USER: ${{secrets.DOCKER_USERNAME}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: |
+        docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+    - name: Build the Docker Image
+      # run: docker build . --file Dockerfile --tag metalman66/cicd-test:$(date + %s)
+      run: |
+        docker build -t ${{secrets.DOCKER_USERNAME}}/cicd-test:arm64 .
+        docker build -t ${{secrets.DOCKER_USERNAME}}/cicd-test:amd64 .
     
-    # - name: Docker Push
-    #   run: |
-    #     docker push ${{secrets.DOCKER_NAME}}/cicd-test:arm64
-    #     docker push ${{secrets.DOCKER_NAME}}/cicd-test:amd64
+    - name: Docker Push
+      run: |
+        docker push ${{secrets.DOCKER_USERNAME}}/cicd-test:arm64
+        docker push ${{secrets.DOCKER_USERNAME}}/cicd-test:amd64
