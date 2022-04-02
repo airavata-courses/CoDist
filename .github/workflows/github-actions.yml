@@ -54,9 +54,9 @@ jobs:
     - name: Build the Docker Image
       # run: docker build . --file Dockerfile --tag metalman66/cicd-test:$(date + %s)
       run: |
-        docker build -t ${{ env.DOCKER_USER}}/cicd-test:arm64 .
-        docker build -t ${{ env.DOCKER_USER}}/cicd-test:amd64 .
-    
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/cicd-test:arm64 .
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/cicd-test:amd64 .
+
     - name: Docker Push
       run: |
         docker push '${{ env.DOCKER_USER }}'/cicd-test:arm64
