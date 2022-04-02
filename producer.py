@@ -1,9 +1,28 @@
 import pika
 import json
+import os
+from getPath import getEnvPath
+from dotenv import load_dotenv
+ 
+load_dotenv(getEnvPath())
 
-connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host = 'localhost')
-)    
+
+# connection = pika.BlockingConnection(
+#     pika.ConnectionParameters(host = 'localhost')
+# )
+
+credentials = pika.PlainCredentials( os.getenv("RABBITMQ_USER") , os.getenv("RABBITMQ_PASSWORD") )
+
+parameters = pika.ConnectionParameters( os.getenv("RABBITMQ_HOST") ,
+                                   os.getenv("RABBITMQ_PORT") ,
+                                   '/',
+                                   credentials)
+
+connection = pika.BlockingConnection(parameters)
+
+# connection = pika.BlockingConnection(
+#     pika.ConnectionParameters(host = 'localhost')
+# )    
 
 channel = connection.channel()
 

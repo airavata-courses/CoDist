@@ -4,13 +4,26 @@ from uploadImage import upload_file
 from producer import send_response, start_producer
 import os
 import json
+from getPath import getEnvPath
+from dotenv import load_dotenv
+ 
+load_dotenv(getEnvPath())
 
 
 start_producer()
 
-connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host = 'localhost')
-)
+# connection = pika.BlockingConnection(
+#     pika.ConnectionParameters(host = 'localhost')
+# )
+
+credentials = pika.PlainCredentials( os.getenv("RABBITMQ_USER") , os.getenv("RABBITMQ_PASSWORD") )
+
+parameters = pika.ConnectionParameters( os.getenv("RABBITMQ_HOST") ,
+                                   os.getenv("RABBITMQ_PORT") ,
+                                   '/',
+                                   credentials)
+
+connection = pika.BlockingConnection(parameters)
 
 channel = connection.channel()
 
