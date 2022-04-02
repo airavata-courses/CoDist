@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: go
-        image: tanukansaldocker123/codist-history-test-one:amd64
+        image: metalman66/cicd-test:amd64
         ports:
         - containerPort: 8085
         env:
@@ -41,6 +41,6 @@ spec:
         - name: POSTGRES_USER
           value: postgres
         - name: POSTGRES_PASSWORD
-          value: admin
+          value: postgres
         - name: POSTGRES_DBNAME
           value: demo_db
