@@ -41,6 +41,6 @@ spec:
         - name: POSTGRES_USER
           value: postgres
         - name: POSTGRES_PASSWORD
-          value: postgres
+          value: admin
         - name: POSTGRES_DBNAME
-          value: postgres
+          value: demo_db
