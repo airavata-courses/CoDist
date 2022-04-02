@@ -56,6 +56,19 @@ jobs:
       run: |
         conda install -c conda-forge cartopy
 
+    # - name: Docker Login
+    #   run: |
+    #     docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+    # - name: Build the Docker Image
+    #   run: |
+    #     docker build -t ${{secrets.DOCKER_USERNAME}}/codist-merra-ingestion:arm64 .
+    #     docker build -t ${{secrets.DOCKER_USERNAME}}/codist-merra-ingestion:amd64 .
+    
+    # - name: Docker Push
+    #   run: |
+    #     docker push ${{secrets.DOCKER_USERNAME}}/codist-merra-ingestion:arm64
+    #     docker push ${{secrets.DOCKER_USERNAME}}/codist-merra-ingestion:amd64
+
     - name: Running appliations
       run: python main.py
      
