@@ -44,3 +44,4 @@ spec:
           value: postgres
         - name: POSTGRES_DBNAME
           value: demo_db
+          
