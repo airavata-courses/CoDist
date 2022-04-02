@@ -17,8 +17,8 @@ jobs:
       rabbitmq:
       image: rabbitmq
       env:
-        RABBITMQ_DEFAULT_USER: user
-        RABBITMQ_DEFAULT_PASS: password
+        - RABBITMQ_DEFAULT_USER: user
+        - RABBITMQ_DEFAULT_PASS: password
       ports:
         - 5672:5672
 
