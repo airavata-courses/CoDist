@@ -1,13 +1,7 @@
 FROM python:3.8
 FROM continuumio/miniconda3
 
-#  set the working directory in the container
 WORKDIR /app
-
-# copy the dependencies file to the working directory
-# COPY requirements.txt .
-
-# COPY environment.yml .
 
 COPY . .
 
@@ -21,11 +15,13 @@ RUN conda init bash
 
 RUN echo "conda activate myenv" > ~/.bashrc
 
-# RUN chmod +x ./install_dependenices.sh
-# RUN ./install_dependenices.sh
 
 RUN pip install -r requirements.txt && conda install -c conda-forge cartopy
 
-# RUN flask run
+RUN touch $HOME/.netrc 
+RUN echo "machine urs.earthdata.nasa.gov login tanukansalearthdata password EarthData@123" >> $HOME/.netrc
+RUN chmod 0600 $HOME/.netrc
+RUN touch $HOME/.urs_cookies
+
 CMD [ "python", "main.py"]
 
