@@ -53,7 +53,8 @@ jobs:
       run: |
         # conda env list
         python -c "import sys; print('\n'.join(sys.path))"
-        # echo "conda activate myplotenv" > ~/.bashrc
+        echo "conda deactivate miniconda"
+        echo "conda activate myplotenv" > ~/.bashrc
 
 
     - name: Installing dependencies
