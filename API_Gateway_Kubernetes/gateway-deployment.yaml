@@ -30,6 +30,6 @@ spec:
     spec:
       containers:
       - name: gateway
-        image: tanukansaldocker123/codist-gateway:amd64
+        image: metalman66/cicd-gateway-test:amd64
         ports:
         - containerPort: 8080
