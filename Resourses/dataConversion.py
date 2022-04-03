@@ -5,6 +5,7 @@ from netCDF4 import Dataset
 import numpy as np
 
 def dataConversion(file, hour):
+
     print("Converging data...")
 
     hour = int(hour)
@@ -21,7 +22,6 @@ def dataConversion(file, hour):
 
     np.savetxt(filename, csv,delimiter=",")
     data.close()
-    
     
     os.remove(file)
     print('DELETED')

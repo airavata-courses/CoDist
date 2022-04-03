@@ -5,7 +5,6 @@ from Resourses.ingester import fetchdata
 from Resourses.uploadFile import upload_csv
 from Resourses.dataConversion import dataConversion
 from Resourses.producer import send_file
-# from Resourses.validations import apiValidator
 from cloudinary import api
 import cloudinary
 from decouple import config
@@ -16,7 +15,6 @@ from dotenv import load_dotenv
 import os
 from getPath import getEnvPath
  
-# dotenv_path = os.path.join("../", os.path.dirname(__file__), '.env')  # Path to .env file
 load_dotenv(getEnvPath())
 
 credentials = pika.PlainCredentials( os.getenv("RABBITMQ_USER") , os.getenv("RABBITMQ_PASSWORD") )
@@ -24,7 +22,7 @@ credentials = pika.PlainCredentials( os.getenv("RABBITMQ_USER") , os.getenv("RAB
 parameters = pika.ConnectionParameters( os.getenv("RABBITMQ_HOST") ,
                                    os.getenv("RABBITMQ_PORT") ,
                                    '/',
-                                   credentials)
+                                   credentials, heartbeat=10000)
 
 connection = pika.BlockingConnection(parameters)
 
