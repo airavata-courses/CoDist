@@ -80,7 +80,7 @@ jobs:
       run: |
         pip list
         conda list
-        conda list -n myplotenv
+        # conda list -n myplotenv
         python consumer.py
      
       
