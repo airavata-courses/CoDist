@@ -27,6 +27,6 @@ def send_file(objectName):
 
     print("Sending message...")
     channel.basic_publish(exchange = '', routing_key = 'plotting', body = json.dumps(objectName))
-    # channel.close()
+    # channel.close()hd
         
 
