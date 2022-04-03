@@ -52,7 +52,7 @@ jobs:
 
     - name: Installing cartopy
       run: |
-        conda install -c conda-forge cartopy
+        conda install -c conda-forge cartopy -y
 
     # - name: Docker Login
     #   run: |
