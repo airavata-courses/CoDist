@@ -59,6 +59,7 @@ jobs:
     - name: Check ENV
       run: |
         conda env list
+        python -c "import sys; print('\n'.join(sys.path))"
     # - name: Docker Login
     #   run: |
     #     docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
