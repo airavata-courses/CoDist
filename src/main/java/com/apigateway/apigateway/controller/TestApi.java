@@ -11,10 +11,10 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RestController
 public class TestApi {
 
-//    @RequestMapping(value = "/test", method = GET)
-//    @ResponseBody
-//    public String Test() throws IOException, TimeoutException, InterruptedException {
-//        return "Reached";
-//    }
+    @RequestMapping(value = "/test", method = GET)
+    @ResponseBody
+    public String Test() throws IOException, TimeoutException, InterruptedException {
+        return "Reached";
+    }
 
 }

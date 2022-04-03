@@ -4,9 +4,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BaseUrl {
+    public String Registry = "http://localhost:7072";
+    //    public String Logger = "http://localhost:8080";
     public String Plotting = "http://localhost:5000";
-    public String Registry = "http://localhost:3333";
-//    public String Logger = "http://localhost:8080";
+
 
 
 //    public String Plotting = "http://4a99-2001-18e8-2-28b6-e860-f7c1-1087-b608.ngrok.io";
