@@ -79,6 +79,7 @@ jobs:
     - name: Running appliations
       run: |
         cd ..
+        ls
         python consumer.py
      
       
