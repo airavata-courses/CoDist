@@ -49,12 +49,12 @@ jobs:
     #     # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
     #     $CONDA/bin/flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-    - name: Check ENV
-      run: |
-        # conda env list
-        python -c "import sys; print('\n'.join(sys.path))"
-        echo "conda deactivate miniconda"
-        echo "conda activate myplotenv" > ~/.bashrc
+    # - name: Check ENV
+    #   run: |
+    #     # conda env list
+    #     python -c "import sys; print('\n'.join(sys.path))"
+    #     echo "conda deactivate miniconda"
+    #     echo "conda activate myplotenv" > ~/.bashrc
 
 
     - name: Installing dependencies
