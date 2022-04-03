@@ -78,9 +78,9 @@ jobs:
 
     - name: Running appliations
       run: |
-        ls
-        python -c "import cartopy.crs;"
-        cd ..
+        pip list
+        conda list
+        conda list -n myplotenv
         python consumer.py
      
       
