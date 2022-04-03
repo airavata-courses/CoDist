@@ -2,6 +2,9 @@ FROM python:3.8
 FROM continuumio/miniconda3
 
 #  set the working directory in the container
+
+# chmod 0600 .netrc
+
 WORKDIR /app
 
 COPY . .

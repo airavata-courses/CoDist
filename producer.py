@@ -16,13 +16,10 @@ credentials = pika.PlainCredentials( os.getenv("RABBITMQ_USER") , os.getenv("RAB
 parameters = pika.ConnectionParameters( os.getenv("RABBITMQ_HOST") ,
                                    os.getenv("RABBITMQ_PORT") ,
                                    '/',
-                                   credentials)
+                                   credentials, heartbeat=10000)
 
 connection = pika.BlockingConnection(parameters)
 
-# connection = pika.BlockingConnection(
-#     pika.ConnectionParameters(host = 'localhost')
-# )    
 
 channel = connection.channel()
 

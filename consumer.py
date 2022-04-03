@@ -9,7 +9,6 @@ from dotenv import load_dotenv
  
 load_dotenv(getEnvPath())
 
-
 start_producer()
 
 credentials = pika.PlainCredentials( os.getenv("RABBITMQ_USER") , os.getenv("RABBITMQ_PASSWORD") )
@@ -17,7 +16,7 @@ credentials = pika.PlainCredentials( os.getenv("RABBITMQ_USER") , os.getenv("RAB
 parameters = pika.ConnectionParameters( os.getenv("RABBITMQ_HOST") ,
                                    os.getenv("RABBITMQ_PORT") ,
                                    '/',
-                                   credentials)
+                                   credentials, heartbeat=10000)
 
 connection = pika.BlockingConnection(parameters)
 
@@ -38,8 +37,12 @@ def plotback(ch, method, properties, body):
     print("generated response: ", response)
     send_response(response)
 
+try:
+  channel.basic_consume(queue = 'plotting', on_message_callback = plotback, auto_ack = True)
+except:
+  print("An exception occurred")
 
-channel.basic_consume (queue = 'plotting', on_message_callback = plotback, auto_ack = True)
+
 
 print('Waiting for messages')
 channel.start_consuming()
