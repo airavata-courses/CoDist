@@ -49,6 +49,13 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         $CONDA/bin/flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
+    - name: Check ENV
+      run: |
+        # conda env list
+        python -c "import sys; print('\n'.join(sys.path))"
+        echo "conda activate myplotenv" > ~/.bashrc
+
+
     - name: Installing dependencies
       run: pip install -r requirements.txt 
 
@@ -56,11 +63,6 @@ jobs:
       run: |
         conda install -c conda-forge cartopy
     
-    - name: Check ENV
-      run: |
-        # conda env list
-        python -c "import sys; print('\n'.join(sys.path))"
-        echo "conda activate myplotenv" > ~/.bashrc
     # - name: Docker Login
     #   run: |
     #     docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
