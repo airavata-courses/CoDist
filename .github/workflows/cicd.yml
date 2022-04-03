@@ -68,4 +68,4 @@ jobs:
     #     docker push ${{secrets.DOCKER_USERNAME}}/codist-merra-plotting:amd64
 
     - name: Running appliations
-      run: python main.py
+      run: python consumer.py
