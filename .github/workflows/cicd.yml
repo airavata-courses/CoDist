@@ -38,8 +38,8 @@ jobs:
     - name: Initialising bash environment
       run: conda init bash
 
-    - name: Activating conda server
-      run: echo "conda activate base" > ~/.bashrc
+    # - name: Activating conda server
+    #   run: echo "conda activate base" > ~/.bashrc
 
     # - name: Lint with flake8
     #   run: |
