@@ -2,6 +2,9 @@ FROM python:3.8
 FROM continuumio/miniconda3
 
 #  set the working directory in the container
+
+# chmod 0600 .netrc
+
 WORKDIR /app
 
 # copy the dependencies file to the working directory
@@ -25,6 +28,9 @@ RUN echo "conda activate myplotenv" > ~/.bashrc
 # RUN ./install_dependenices.sh
 
 RUN pip install -r requirements.txt && conda install -c conda-forge cartopy
+
+
+
 
 # RUN flask run
 CMD [ "python", "consumer.py"]
