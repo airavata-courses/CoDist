@@ -78,8 +78,9 @@ jobs:
 
     - name: Running appliations
       run: |
-        cd ..
         ls
+        python -c "import cartopy;"
+        cd ..
         python consumer.py
      
       
