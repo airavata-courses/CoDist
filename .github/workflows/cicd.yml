@@ -30,6 +30,9 @@ jobs:
           environment-file: environment.yml
           python-version: 3.8
           auto-activate-base: false
+
+      - name: Creating ENV file
+        run: cat example.env >> .env
       - run: |
           python consumer.py
     
