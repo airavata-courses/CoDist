@@ -8,7 +8,7 @@ on:
 
 env:
   RABBITMQ_HOST: localhost
-  
+
 jobs:
   build-linux:
     runs-on: ubuntu-latest
@@ -33,37 +33,26 @@ jobs:
     - name: Install dependencies
       run: |
         # $CONDA is an environment variable pointing to the root of the miniconda directory
-        $CONDA/bin/conda env update --file environment.yml --name myplotenv
-
+        conda env update --file environment.yml --name base
     - name: Initialising bash environment
       run: conda init bash
 
     - name: Activating conda server
       run: echo "conda activate base" > ~/.bashrc
 
-    # - name: Lint with flake8
-    #   run: |
-    #     $CONDA/bin/conda install flake8
-    #     # stop the build if there are Python syntax errors or undefined names
-    #     $CONDA/bin/flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-    #     # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-    #     $CONDA/bin/flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-
-    # - name: Check ENV
-    #   run: |
-    #     # conda env list
-    #     python -c "import sys; print('\n'.join(sys.path))"
-    #     echo "conda deactivate miniconda"
-    #     echo "conda activate myplotenv" > ~/.bashrc
-
-
+    - name: Lint with flake8
+      run: |
+        $CONDA/bin/conda install flake8
+        # stop the build if there are Python syntax errors or undefined names
+        $CONDA/bin/flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        $CONDA/bin/flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Installing dependencies
       run: pip install -r requirements.txt 
 
     - name: Installing cartopy
       run: |
         conda install -c conda-forge cartopy
-    
     # - name: Docker Login
     #   run: |
     #     docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
@@ -78,10 +67,4 @@ jobs:
     #     docker push ${{secrets.DOCKER_USERNAME}}/codist-merra-ingestion:amd64
 
     - name: Running appliations
-      run: |
-        pip list
-        conda list
-        # conda list -n myplotenv
-        python consumer.py
-     
-      
+      run: python consumer.py
