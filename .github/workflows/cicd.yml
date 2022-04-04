@@ -78,14 +78,12 @@ jobs:
     #     docker push ${{secrets.DOCKER_USERNAME}}/codist-merra-ingestion:amd64
 
     - name: Running appliations
-<<<<<<< HEAD
-      run: which python; whereis python; whereis conda; pwd; python consumer.py
-=======
       run: |
+        which python
+        whereis python
+        whereis conda; pwd;
         pip list
         conda list
         # conda list -n myplotenv
-        python consumer.py
->>>>>>> d8a788808be39792ffae9b4467695b0b1d4f83e8
      
       
