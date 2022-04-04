@@ -1,12 +1,14 @@
+import json
+import os
 import pika
+
+from dotenv import load_dotenv
+from getPath import getEnvPath
+from producer import send_response, start_producer
 from plotData import plot
 from uploadImage import upload_file
-from producer import send_response, start_producer
-import os
-import json
-from getPath import getEnvPath
-from dotenv import load_dotenv
- 
+
+
 load_dotenv(getEnvPath())
 
 start_producer()
@@ -16,11 +18,11 @@ credentials = pika.PlainCredentials( os.getenv("RABBITMQ_USER") , os.getenv("RAB
 parameters = pika.ConnectionParameters( os.getenv("RABBITMQ_HOST") ,
                                    os.getenv("RABBITMQ_PORT") ,
                                    '/',
-                                   credentials, heartbeat=10000)
+                                   credentials)
 
 connection = pika.BlockingConnection(parameters)
-
 channel = connection.channel()
+
 
 def plotback(ch, method, properties, body):
 
@@ -37,12 +39,7 @@ def plotback(ch, method, properties, body):
     print("generated response: ", response)
     send_response(response)
 
-try:
-  channel.basic_consume(queue = 'plotting', on_message_callback = plotback, auto_ack = True)
-except:
-  print("An exception occurred")
-
-
+channel.basic_consume(queue = 'plotting', on_message_callback = plotback, auto_ack = True)
 
 print('Waiting for messages')
 channel.start_consuming()
