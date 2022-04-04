@@ -24,6 +24,14 @@ jobs:
           channel-priority: flexible
           show-channel-urls: true
           use-only-tar-bz2: true
+
+      - uses: getong/rabbitmq-action@v1.2
+        with:
+          rabbitmq version: '3.8.2-management-alpine'
+          host port: 5672
+          rabbitmq user: 'user'
+          rabbitmq password: 'password'
+          
       - name: Installing dependencies
         run: pip install -r requirements.txt 
 
