@@ -16,6 +16,15 @@ jobs:
       run:
         shell: bash -l {0}
 
+    services:
+      rabbitmq:
+        image: rabbitmq:3.8
+        env:
+          RABBITMQ_USER: guest
+          RABBITMQ_PASSWORD: guest
+        ports:
+          - 5672
+
     steps:
       - uses: actions/checkout@v2
       - uses: conda-incubator/setup-miniconda@v2
@@ -25,12 +34,12 @@ jobs:
           python-version: 3.8
           auto-activate-base: false
 
-      - uses: getong/rabbitmq-action@v1.2
-        with:
-          rabbitmq version: '3.8.2-management-alpine'
-          host port: 5672
-          rabbitmq user: 'user'
-          rabbitmq password: 'password'
+      # - uses: getong/rabbitmq-action@v1.2
+      #   with:
+      #     rabbitmq version: '3.8.2-management-alpine'
+      #     host port: 5672
+      #     rabbitmq user: 'user'
+      #     rabbitmq password: 'password'
 
       # - name: Installing dependencies
       #   run: pip install -r requirements.txt 
