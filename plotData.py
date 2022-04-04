@@ -1,5 +1,5 @@
 import boto3
-import cartopy 
+import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -35,13 +35,13 @@ def plot(body):
 
 
     fig = plt.figure(figsize=(8,4))
-    ax = plt.axes(projection=cartopy.ccrs.Robinson())
+    ax = plt.axes(projection=ccrs.Robinson())
     ax.set_global()
     ax.coastlines(resolution="110m",linewidth=1)
     ax.gridlines(linestyle='--',color='black')
 
     clevs = np.arange(230,311,5)
-    plt.contourf(lons, lats, arr, clevs, transform=cartopy.ccrs.PlateCarree(),cmap=plt.cm.jet)
+    plt.contourf(lons, lats, arr, clevs, transform=ccrs.PlateCarree(),cmap=plt.cm.jet)
 
     plt.title('MERRA-2 Air Temperature ', size=14)
     cb = plt.colorbar(ax=ax, orientation="vertical", pad=0.02, aspect=16, shrink=0.8)
@@ -49,6 +49,5 @@ def plot(body):
     cb.ax.tick_params(labelsize=10)
 
     fig.savefig(imagename, format='png', dpi=360)
-
 
     return imagename
