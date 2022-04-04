@@ -12,18 +12,19 @@ env:
 jobs:
   build-linux:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
 
     steps:
       - uses: actions/checkout@v2
       - uses: conda-incubator/setup-miniconda@v2
         with:
-          activate-environment: foo
-          python-version: 3.8
-          channels: conda-forge
-          allow-softlinks: true
-          channel-priority: flexible
-          show-channel-urls: true
-          use-only-tar-bz2: true
+          activate-environment: myplotenv
+          environment-file: environment.yml
+          python-version: 3.5
+          condarc-file: etc/example-condarc.yml
+          auto-activate-base: false
 
       - uses: getong/rabbitmq-action@v1.2
         with:
@@ -31,13 +32,13 @@ jobs:
           host port: 5672
           rabbitmq user: 'user'
           rabbitmq password: 'password'
-          
-      - name: Installing dependencies
-        run: pip install -r requirements.txt 
 
-      - name: Installing cartopy
-        run: |
-          conda install -c conda-forge cartopy
+      # - name: Installing dependencies
+      #   run: pip install -r requirements.txt 
+
+      # - name: Installing cartopy
+      #   run: |
+      #     conda install -c conda-forge cartopy
       - run: |
           conda info
           conda list
