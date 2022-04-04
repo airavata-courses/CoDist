@@ -6,11 +6,6 @@ from dotenv import load_dotenv
  
 load_dotenv(getEnvPath())
 
-
-# connection = pika.BlockingConnection(
-#     pika.ConnectionParameters(host = 'localhost')
-# )
-
 credentials = pika.PlainCredentials( os.getenv("RABBITMQ_USER") , os.getenv("RABBITMQ_PASSWORD") )
 
 parameters = pika.ConnectionParameters( os.getenv("RABBITMQ_HOST") ,
@@ -29,5 +24,3 @@ def start_producer():
     
 def send_response(message):
     channel.basic_publish(exchange = '', routing_key = 'plotting_resend', body = json.dumps(message))
-    # channel.close()
-
