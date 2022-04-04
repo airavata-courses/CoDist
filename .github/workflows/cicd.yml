@@ -5,11 +5,6 @@ on:
     branches: [ dockerChangesMerraPlotting ]
   pull_request:
     branches: [ dockerChangesMerraPlotting ]
-
-env:
-  RABBITMQ_HOST: localhost
-  RABBITMQ_USER: guest
-  RABBITMQ_PASSWORD: guest
   
 jobs:
   build-linux:
@@ -20,10 +15,7 @@ jobs:
 
     services:
       rabbitmq:
-        image: rabbitmq:3.8
-        env:
-          RABBITMQ_USER: guest
-          RABBITMQ_PASSWORD: guest
+        image: rabbitmq
         ports:
           - 5672
 
