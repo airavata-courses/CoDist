@@ -8,6 +8,8 @@ on:
 
 env:
   RABBITMQ_HOST: localhost
+  RABBITMQ_USER: guest
+  RABBITMQ_PASSWORD: guest
   
 jobs:
   build-linux:
