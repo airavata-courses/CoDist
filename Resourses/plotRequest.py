@@ -1,20 +1,19 @@
-import asyncio
+import cloudinary
+
+from cloudinary import api
+from decouple import config
+from dotenv import load_dotenv
+from getPath import getEnvPath
 from flask_restful import Resource
 from flask import jsonify, request
+import json
+import os
+import pika
 from Resourses.ingester import fetchdata
 from Resourses.uploadFile import upload_csv
 from Resourses.dataConversion import dataConversion
 from Resourses.producer import send_file
-from cloudinary import api
-import cloudinary
-from decouple import config
 
-import pika
-import json
-from dotenv import load_dotenv
-import os
-from getPath import getEnvPath
- 
 load_dotenv(getEnvPath())
 
 credentials = pika.PlainCredentials( os.getenv("RABBITMQ_USER") , os.getenv("RABBITMQ_PASSWORD") )
@@ -68,6 +67,9 @@ class plotData(Resource):
             return jsonify(response)
 
         file = fetchdata(getValue)
+        if not file:
+            return jsonify(None)
+
         file = dataConversion(file, hour)
         file = upload_csv(file)
         s3_object_name = { 'objectName' : file, "userId": userId }
