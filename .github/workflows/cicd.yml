@@ -70,6 +70,6 @@ jobs:
     #     docker push ${{secrets.DOCKER_USERNAME}}/codist-merra-ingestion:amd64
 
     - name: Running appliations
-      run: python consumer.py
+      run: which python; whereis python; whereis conda; pwd; python consumer.py
      
       
