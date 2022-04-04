@@ -5,9 +5,6 @@ on:
     branches: [ dockerChangesMerraPlotting ]
   pull_request:
     branches: [ dockerChangesMerraPlotting ]
-
-env:
-  RABBITMQ_HOST: localhost
   
 jobs:
   build-linux:
@@ -15,6 +12,15 @@ jobs:
     defaults:
       run:
         shell: bash -l {0}
+
+    services:
+      rabbitmq:
+        image: rabbitmq:management
+        env:
+          RABBITMQ_DEFAULT_USER: user
+          RABBITMQ_DEFAULT_PASS: password
+        ports:
+          - 5672
 
     steps:
       - uses: actions/checkout@v2
@@ -24,14 +30,6 @@ jobs:
           environment-file: environment.yml
           python-version: 3.8
           auto-activate-base: false
-
-      - uses: getong/rabbitmq-action@v1.2
-        with:
-          rabbitmq version: '3.8.2-management-alpine'
-          host port: 5672
-          rabbitmq user: 'user'
-          rabbitmq password: 'password'
-
       - run: |
           python consumer.py
     
