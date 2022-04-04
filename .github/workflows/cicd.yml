@@ -33,13 +33,15 @@ jobs:
     - name: Install dependencies
       run: |
         # $CONDA is an environment variable pointing to the root of the miniconda directory
-        conda env update --file environment.yml --name myplotenv
+        # conda env update --file environment.yml --name myplotenv
+        conda env create -f environment.yml
 
     - name: Initialising bash environment
       run: conda init bash
 
     - name: Activating conda server
-      run: echo "conda activate base" > ~/.bashrc
+      # run: echo "conda activate base" > ~/.bashrc
+      run: echo "conda activate myplotenv" > ~/.bashrc
 
     # - name: Lint with flake8
     #   run: |
