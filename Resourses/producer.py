@@ -19,6 +19,7 @@ channel = connection.channel()
 def start_producer():
     print("Coming and creating plotting from function")
     channel.queue_declare(queue = 'plotting')
+    return
 
 def send_file(objectName):
 
