@@ -21,7 +21,7 @@ spec:
         - containerPort: 3333
         env:
         - name: MONGO_URL
-          value: mongodb://mongodb-service:7074/registry
+          value: mongodb://localhost:7074/registry
 ---
 apiVersion: v1
 kind: Service
