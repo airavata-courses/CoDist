@@ -56,6 +56,8 @@ public class SignUpApi {
 //    Assert.assertEquals(HttpURLConnection.HTTP_OK, responseCode);
         System.out.println(" RESPONE CODE<===================>  " + responseCode);
 
+        System.out.println(" REGISTRY BASE URL<===================>  " + url.Registry);
+
 
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper
