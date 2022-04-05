@@ -32,17 +32,17 @@ jobs:
       run: cat example.env >> .env
     - run: npm install
     
-    # - name: Docker Login
-    #   run: |
-    #     docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
-    # - name: Build the Docker Image
-    #   run: |
-    #     docker build -t ${{secrets.DOCKER_USERNAME}}/codist-registry:arm64 .
-    #     docker build -t ${{secrets.DOCKER_USERNAME}}/codist-registry:amd64 .
+    - name: Docker Login
+      run: |
+        docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+    - name: Build the Docker Image
+      run: |
+        docker build -t ${{secrets.DOCKER_USERNAME}}/codist-node-test:arm64 .
+        docker build -t ${{secrets.DOCKER_USERNAME}}/codist-node-test:amd64 .
     
-    # - name: Docker Push
-    #   run: |
-    #     docker push ${{secrets.DOCKER_USERNAME}}/codist-registry:arm64
-    #     docker push ${{secrets.DOCKER_USERNAME}}/codist-registry:amd64
+    - name: Docker Push
+      run: |
+        docker push ${{secrets.DOCKER_USERNAME}}/codist-node-test:arm64
+        docker push ${{secrets.DOCKER_USERNAME}}/codist-node-test:amd64
 
     - run: npm run start
