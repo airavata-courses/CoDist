@@ -25,3 +25,19 @@ jobs:
         mvn package
         cd target
         # java -jar api-gateway-0.0.1-SNAPSHOT.jar
+
+    - name: Docker Login
+      run: |
+        docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+    - name: Build the Docker Image
+      run: |
+        docker build -t ${{secrets.DOCKER_USERNAME}}/codist-gateway-test:latest .
+        docker build -t ${{secrets.DOCKER_USERNAME}}/codist-gateway-test:arm64 .
+        docker build -t ${{secrets.DOCKER_USERNAME}}/codist-gateway-test:amd64 .
+
+    - name: Docker Push
+      run: |
+        docker push ${{secrets.DOCKER_USERNAME}}/codist-gateway-test:latest
+        docker push ${{secrets.DOCKER_USERNAME}}/codist-gateway-test:arm64
+        docker push ${{secrets.DOCKER_USERNAME}}/codist-gateway-test:amd64
+
