@@ -2,9 +2,9 @@ name: Python Package Using Anaconda
 
 on:
   push:
-    branches: [ dockerChangesMerraPlotting ]
+    branches: [ dev-merra-plotting ]
   pull_request:
-    branches: [ dockerChangesMerraPlotting ]
+    branches: [ dev-merra-plotting ]
   
 jobs:
   build-linux:
