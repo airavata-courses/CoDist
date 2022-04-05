@@ -10,7 +10,7 @@ spec:
     - protocol: TCP
       port: 8074
       targetPort: 8085
-      nodePort: 30032
+      nodePort: 30033
 ---
 apiVersion: apps/v1
 kind: Deployment
