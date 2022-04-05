@@ -15,7 +15,6 @@ RUN conda init bash
 
 RUN echo "conda activate myenv" > ~/.bashrc
 
-
 RUN pip install -r requirements.txt && conda install -c conda-forge cartopy
 
 RUN touch $HOME/.netrc 
