@@ -1,6 +1,5 @@
 ## Plotting Service
 When pinged the API with the required parameters, will return the link to a visualized plot of that NEXRAD AWS NOAA Level 2 data.
-Test!
 
 ## Tech And Resources
 
