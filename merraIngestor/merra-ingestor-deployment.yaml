@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: merra-ingestor-service-deployment
+  labels:
+    app: merra-ingestor-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: merra-ingestor-service
+  template:
+    metadata:
+      labels:
+        app: merra-ingestor-service
+    spec:
+      containers:
+      - name: merra-ingestor-service
+        image: tanukansaldocker123/codist-merra-ingestion:amd64
+        ports:
+        - containerPort: 5050
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: merra-ingestor-service
+spec:
+  selector:
+    app: merra-ingestor-service
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 1000
+    targetPort: 5050
+    nodePort: 40000
