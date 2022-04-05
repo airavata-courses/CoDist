@@ -6,7 +6,7 @@ import java.io.IOException;
 
 @Service
 public class BaseUrl {
-    public String Registry = "http://0.0.0.0:30635";
+    public String Registry = "http://localhost:30635";
 //    //    public String Logger = "http://localhost:8080";
     public String Plotting = "http://localhost:5000";
 
