@@ -7,7 +7,7 @@ import java.io.IOException;
 @Service
 public class BaseUrl {
     public String Registry = "http://registry-service:7069";
-    public String Logger = "http://go-service:8074";
+    public String Logger = "http://go:8074";
     public String Plotting = "http://plotting-service:6000";
 
 
