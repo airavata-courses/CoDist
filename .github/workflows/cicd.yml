@@ -29,9 +29,6 @@ jobs:
           rabbitmq user: 'user'
           rabbitmq password: 'password'
 
-      - name: Creating ENV file
-        run: cat example.env >> .env
-
       - name: Docker Login
         run: |
           docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
@@ -46,4 +43,6 @@ jobs:
           docker push ${{secrets.DOCKER_USERNAME}}/codist-merra-plotting:latest
           docker push ${{secrets.DOCKER_USERNAME}}/codist-merra-plotting:arm64
           docker push ${{secrets.DOCKER_USERNAME}}/codist-merra-plotting:amd64
-      
+
+      - name: Creating ENV file
+        run: cat example.env >> .env
