@@ -23,6 +23,7 @@ parameters = pika.ConnectionParameters( os.getenv("RABBITMQ_HOST") ,
 connection = pika.BlockingConnection(parameters)
 channel = connection.channel()
 
+channel.queue_declare(queue = 'plotting')
 
 def plotback(ch, method, properties, body):
 

@@ -27,7 +27,7 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v2
         with:
           activate-environment: myplotenv
-          environment-file: environment.yml
+          environment-file: environmentCi.yml
           python-version: 3.8
           auto-activate-base: false
 

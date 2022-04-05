@@ -1,8 +1,6 @@
 name: myplotenv
 channels:
   - conda-forge
-# dependencies:
-#   - python=3.8
 dependencies:
   - pip
   - pip:
