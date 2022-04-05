@@ -45,4 +45,4 @@ jobs:
         docker push ${{secrets.DOCKER_USERNAME}}/codist-node-test:arm64
         docker push ${{secrets.DOCKER_USERNAME}}/codist-node-test:amd64
 
-    - run: npm run start
+    # - run: npm run start
