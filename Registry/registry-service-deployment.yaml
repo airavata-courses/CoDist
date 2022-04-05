@@ -24,7 +24,6 @@ spec:
           value: mongodb://mongodb-service:7074/registry
         - name: NODE_PORT
           value: 4444
-
 ---
 apiVersion: v1
 kind: Service
