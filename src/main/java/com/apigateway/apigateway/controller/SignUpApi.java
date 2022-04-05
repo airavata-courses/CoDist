@@ -2,7 +2,9 @@ package com.apigateway.apigateway.controller;
 
 import java.io.DataInput;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -28,6 +30,7 @@ import com.apigateway.apigateway.model.SignUp;
 @CrossOrigin(origins = "*")
 @RestController
 public class SignUpApi {
+    int responseCode;
     private static Map<String, String> linkParams = new HashMap<>();
 
     @Autowired
@@ -45,6 +48,14 @@ public class SignUpApi {
         System.out.println("Request sent");
         System.out.println("full json" + signup);
         System.out.println("firstname:" + signup.firstName);
+
+        URL urlc = new URL("https://www.google.com");
+        HttpURLConnection huc = (HttpURLConnection) urlc.openConnection();
+
+        responseCode = huc.getResponseCode();
+//    Assert.assertEquals(HttpURLConnection.HTTP_OK, responseCode);
+        System.out.println(" RESPONE CODE<===================>  " + responseCode);
+
 
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper
