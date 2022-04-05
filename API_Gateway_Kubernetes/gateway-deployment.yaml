@@ -33,3 +33,4 @@ spec:
         image: tanukansaldocker123/codist-gateway-test:amd64
         ports:
         - containerPort: 8080
+        imagePullPolicy: "Always"
