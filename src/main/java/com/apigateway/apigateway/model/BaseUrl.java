@@ -9,7 +9,7 @@ public class BaseUrl {
     public String Plotting = "http://localhost:5000";
 
     // JetStream VM
-    public String Registry = "http://0.0.0.0:30635";
+    public String Registry = "http://registry-service-deployment-56dd98586d-qbrcz.default.svc";
 
 //    public String Plotting = "http://4a99-2001-18e8-2-28b6-e860-f7c1-1087-b608.ngrok.io";
     public String Logger = "http://ddc3-2001-18e8-2-28b6-fdaa-7b54-33a1-8be.ngrok.io";
