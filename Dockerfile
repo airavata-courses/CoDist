@@ -1,4 +1,5 @@
-FROM node:alpine
+FROM node:17.8.0-buster
 COPY . /app/
 WORKDIR /app
-CMD npm install && npm run dev
+RUN npm install
+CMD npm run start
