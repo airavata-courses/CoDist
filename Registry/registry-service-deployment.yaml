@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: registry-service
-        image: tanukansaldocker123/codist-registry-testing-a2:arm64
+        image: tanukansaldocker123/codist-registry-testing-a2:amd64
         ports:
         - containerPort: 3333
         env:
