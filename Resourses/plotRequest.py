@@ -75,6 +75,7 @@ class plotData(Resource):
         s3_object_name = { 'objectName' : file, "userId": userId }
         send_file(s3_object_name)
 
+        channel.queue_declare(queue = 'plotting_resend')
         
         def callback(ch, method, properties, body):
             print("Received: ", body)
