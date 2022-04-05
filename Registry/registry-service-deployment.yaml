@@ -35,4 +35,4 @@ spec:
   - protocol: TCP
     port: 7069
     targetPort: 3333
-    nodePort: 30001
+    nodePort: 30635
