@@ -1,5 +1,6 @@
 FROM node:17.8.0-buster
-COPY . /app/
 WORKDIR /app
+COPY . .
+COPY example.env .env
 RUN npm install
 CMD npm run start
