@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: plotting-service
-        image: tanukansaldocker123/codist-plotting latest
+        image: parnal/codist-plotting:latest
         imagePullPolicy: "Always"
         ports:
         - containerPort: 5000
