@@ -45,51 +45,78 @@ userId: [string]
 Example of POST request
 
 {
-  "year": "2015", 
-  "month": "04",
-  "day": "4",
-  "hour": "3",
-  "minute":"3",
-  "second": "5",
-  "userId": "6f0f290ad7797435698"
-  }
+
+
+"year": "2015", 
+
+"month": "04",
+
+"day": "4",
+
+"hour": "3",
+
+"minute":"3",
+
+"second": "5",
+
+"userId": "6f0f290ad7797435698"
+
+}
   
+
 Success Response:
 
+
 Code: 200 Content:
+
 {
     "isError": false,
+    
     "response": {
+    
         "result": {
+        
             {
+            
                 "asset_id": "7db8cc7c5606edf3c42b17621d11f6bf",
                 "bytes": 433222,
+                
                 "created_at": "2022-04-06T20:45:04Z",
+
                 "format": "png",
+                
                 "height": 1440,
+                
                 "public_id": "Images/6f0f290ad7797w43568/2022-02-28",
+                
                 "resource_type": "image",
+                
                 "secure_url": "https://res.cloudinary.com/cvkunte/image/upload/v1649277904/Images/6f0f290ad7797w43568/2022-02-28.png",
+                
                 "type": "upload",
+                
                 "url": "http://res.cloudinary.com/cvkunte/image/upload/v1649277904/Images/6f0f290ad7797w43568/2022-02-28.png",
+                
                 "version": 1649277904,
+                
                 "width": 2880
             }
         }
     },
+    
     "status": true
+    
 }
 
 
 Attributes:
-
-The isError attribute indicates any internal error or indicated body received not as wanted with values false or true.
-
 The response will have all the requried files and url for the images.
 
 The url will have the public link to the uploaded image which is sent to the gateway.
 
+
 This is generated when an internal error is generated due to unreadable file or not correct body. The isError will be true and the response will have a precomputed url
+
 
 LINKS AND REFERENCES
 https://disc.gsfc.nasa.gov/datasets/M2I1NXLFO_5.12.4/summary?keywords=M2I1NXLFO
