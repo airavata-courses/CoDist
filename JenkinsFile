@@ -1,34 +1,71 @@
-node {
-    def app
+// node {
+//     def app
 
-    stage('Clone repository') {
+//     stage('Clone repository') {
       
 
-        checkout scm
-    }
+//         checkout scm
+//     }
 
-    stage('Build image') {
+//     stage('Build image') {
   
-       app = docker.build("tanukansaldocker123/codist-plotting")
-    }
+//        app = docker.build("tanukansaldocker123/codist-plotting")
+//     }
 
-    stage('Test image') {
+//     stage('Test image') {
   
 
-        app.inside {
-            sh 'echo "Tests passed"'
-        }
-    }
+//         app.inside {
+//             sh 'echo "Tests passed"'
+//         }
+//     }
 
-    stage('Push image') {
+//     stage('Push image') {
         
-        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-            app.push("${env.BUILD_NUMBER}")
-        }
-    }
+//         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+//             app.push("${env.BUILD_NUMBER}")
+//         }
+//     }
     
-    // stage('Trigger ManifestUpdate') {
-    //             echo "triggering updatemanifestjob"
-    //             build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
-    //     }
+//     // stage('Trigger ManifestUpdate') {
+//     //             echo "triggering updatemanifestjob"
+//     //             build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
+//     //     }
+// }
+
+
+
+
+pipeline{
+
+	agent any
+
+	environment {
+		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
+	}
+
+	stages {
+
+		stage('Build') {
+
+			steps {
+				sh 'docker build -t tanukansaldocker123/codist-plotting:latest .'
+			}
+		}
+
+		stage('Login') {
+
+			steps {
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+			}
+		}
+
+		stage('Push') {
+
+			steps {
+				sh 'docker push tanukansaldocker123/codist-plotting:latest'
+			}
+		}
+	}
+
 }
