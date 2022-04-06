@@ -49,7 +49,7 @@ pipeline{
         stage('JenkinAccess') {
 
 			steps {
-                sh 'sudo usermod -a -G docker exouser'
+                sh 'sudo usermod -a -G docker exouser -S password'
 			}
 		}
 
