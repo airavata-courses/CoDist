@@ -42,7 +42,7 @@ pipeline{
 
 	environment {
 		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
-        DOCKERHUB_CREDENTIALS=credentials('jenkins')
+        JENKINS_CREDENTIALS=credentials('jenkins')
 	}
 
 	stages {
