@@ -5,7 +5,11 @@ WORKDIR /app
 
 COPY . .
 
+RUN true 
+
 COPY environment.yml .
+
+RUN true
 
 COPY example.env .env
 
