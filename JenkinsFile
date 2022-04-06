@@ -42,20 +42,22 @@ pipeline{
 
 	environment {
 		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
+        DOCKERHUB_CREDENTIALS=credentials('jenkins')
 	}
 
 	stages {
+        // stage('JenkinAccess') {
 
-        stage('JenkinAccess') {
-
-			steps {
-                sh 'sudo usermod -a -G docker exouser -S password'
-			}
-		}
+		// 	steps {
+        //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+        //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo usermod -a -G docker exouser'
+		// 	}
+		// }
 
 		stage('Build') {
 
 			steps {
+                sh 'pwd;whoami;ls -lart'
 				sh 'docker build -t parnal/codist-plotting:amd64 .'
 			}
 		}
