@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: plotting-service
-        image: parnal/codist-plotting:44
+        image: parnal/codist-plotting:amd64
         imagePullPolicy: "Always"
         ports:
         - containerPort: 5000
