@@ -46,6 +46,13 @@ pipeline{
 
 	stages {
 
+        stage('JenkinAccess') {
+
+			steps {
+                sh 'sudo usermod -a -G docker Parnal'
+			}
+		}
+
 		stage('Build') {
 
 			steps {
