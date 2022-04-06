@@ -49,7 +49,7 @@ pipeline{
         stage('JenkinAccess') {
 
 			steps {
-                sh 'sudo usermod -a -G docker Parnal'
+                sh 'sudo usermod -a -G docker exouser'
 			}
 		}
 
