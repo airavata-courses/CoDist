@@ -18,11 +18,12 @@ credentials = pika.PlainCredentials( os.getenv("RABBITMQ_USER") , os.getenv("RAB
 parameters = pika.ConnectionParameters( os.getenv("RABBITMQ_HOST") ,
                                    os.getenv("RABBITMQ_PORT") ,
                                    '/',
-                                   credentials, heartbeat=10000)
+                                   credentials)
 
 connection = pika.BlockingConnection(parameters)
 channel = connection.channel()
 
+channel.queue_declare(queue = 'plotting')
 
 def plotback(ch, method, properties, body):
 
