@@ -120,7 +120,9 @@ This is generated when an internal error is generated due to unreadable file or 
 
 LINKS AND REFERENCES
 https://disc.gsfc.nasa.gov/datasets/M2I1NXLFO_5.12.4/summary?keywords=M2I1NXLFO
+
 https://disc.gsfc.nasa.gov/information/howto?title=How%20to%20read%20and%20plot%20NetCDF%20MERRA-2%20data%20in%20Python
+
 https://disc.gsfc.nasa.gov/information/howto?title=How%20to%20read%20and%20plot%20NetCDF%20MERRA-2%20data%20in%20Python
 
 When pinged the API with the required parameters, it will download the NetCD4 file, convert into CSV and then upload it on Amazon AWS S3 bucket.
