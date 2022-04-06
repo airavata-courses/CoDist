@@ -31,6 +31,7 @@ spec:
       containers:
       - name: go
         image: metalman66/cicd-test:amd64
+        imagePullPolicy: "Always"
         ports:
         - containerPort: 8085
         env:
