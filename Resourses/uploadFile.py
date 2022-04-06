@@ -16,7 +16,7 @@ def upload_csv(file):
             aws_secret_access_key = os.getenv("SECRET_KEY")
             )
     try:
-        response = s3_client.upload_file(file, 'project3-outputs', file)
+        response = s3_client.upload_file(file, 'merra', file)
         print(response)
     except ClientError as e:
         logging.error(e)
