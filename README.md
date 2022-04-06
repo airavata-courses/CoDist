@@ -9,6 +9,8 @@ will be then sent to ingester service which will then be sent to the UI via gate
 
 Tech And Resources This Microservice uses:
 
+RabbitMQ messesing service for communication
+Pyhton3.8
 This service is tested on Python 3.8 and will require this version for smooth operstions.
 .env.example is given in the respository.
 Install the libraries and dependencies and start the server.
