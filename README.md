@@ -6,6 +6,7 @@ dockerChangesMerraPlotting service
 This service receives request by the merra-data ingestion using the rabbitMQ messaging service, the request specifies the name of the file by which
 data is stored in csv format in S3 bucket and the userId to store the plotted image in cloudinary. The whole response received after storing the image in cloudinary
 will be then sent to ingester service which will then be sent to the UI via gateway. 
+
 Tech And Resources This Microservice uses:
 
 This service is tested on Python 3.8 and will require this version for smooth operstions.
@@ -15,13 +16,15 @@ pip install -r requirements.txt python routes.py The default Port is 5000 you ca
 
 Installation steps:
 1. Create virtual environment with conda python 3.8
-> conda create -n mypython3 python=3.8
-2. Install libraries.(Execute below in the folder which consists requirement.txt)
+> conda create -n myenv python=3.8
+2. Activate myenv environment
+> source activate myenv
+4. Install libraries.(Execute below in the folder which consists requirement.txt)
 > pip install -r requirements.txt
-3. Also install cartopy using conda 
+5. Also install cartopy using conda 
 > conda install -c conda-forge cartopy
-4. Execute below to start the consumer(Make sure you have data ingestion service running before you start plotting service) 
-5. > python -m consumer.py
+6. Execute below to start the consumer(Make sure you have data ingestion service running before you start plotting service) 
+> python -m consumer.py
 
 
 REQUEST and RESPONSE:
