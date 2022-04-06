@@ -49,7 +49,7 @@ pipeline{
 		stage('Build') {
 
 			steps {
-				sh 'docker build -t tanukansaldocker123/codist-plotting:latest .'
+				sh 'docker build -t tanukansaldocker123/codist-plotting:latest'
 			}
 		}
 
