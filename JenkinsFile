@@ -9,7 +9,7 @@
 
 //     stage('Build image') {
   
-//        app = docker.build("tanukansaldocker123/codist-plotting")
+//        app = docker.build("parnal/codist-plotting")
 //     }
 
 //     stage('Test image') {
@@ -57,8 +57,8 @@ pipeline{
 		stage('Build') {
 
 			steps {
-                sh 'pwd;whoami;ls -lart'
-				sh 'docker build -t parnal/codist-plotting:amd64 .'
+                sh 'pwd;whoami;ls -lart; hostname -i; hostname'
+				sh 'echo password | sudo -i "cd /var/lib/jenkins/workspace/buildImage; docker build -t parnal/codist-plotting:amd64 ."'
 			}
 		}
 
