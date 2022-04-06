@@ -24,7 +24,7 @@ exports.signUp = async function( req, res, next ) {
         
         let ifAlreadyExists = await UserModel.findOne({ "email" : requestBody['email']})
         if ( ifAlreadyExists ) {
-            return res.status(400).json(response.build("EMAIL_ALREADY_EXISTS", { result: null } ));
+            return res.status(200).json(response.build("EMAIL_ALREADY_EXISTS", { result: null } ));
         }
 
         let userDoc = await UserModel.create( { ...userObject, "password" : req.body.password } );
