@@ -33,9 +33,8 @@ receives message in plotting queue which contains the file name of csv stored in
 body:
 {
 
-objectName: string
-
-userId: string
+    objectName: string
+    userId: string
 
 }
 
@@ -48,17 +47,30 @@ RESPONSE:
 body:
 {
     "asset_id": "7db8cc7c5606edf3c42b17621d11f6bf",
+    
     "bytes": 433222,
+    
     "created_at": "2022-04-06T20:45:04Z",
+    
     "format": "png",
+    
     "height": 1440,
+    
     "public_id": "Images/6f0f290ad7797w43568/2022-02-28",
+    
     "resource_type": "image",
+    
     "secure_url": "https://res.cloudinary.com/cvkunte/image/upload/v1649277904/Images/6f0f290ad7797w43568/2022-02-28.png",
+    
+    
     "type": "upload",
+    
     "url": "http://res.cloudinary.com/cvkunte/image/upload/v1649277904/Images/6f0f290ad7797w43568/2022-02-28.png",
+    
     "version": 1649277904,
+    
     "width": 2880
+    
 }
 
 
