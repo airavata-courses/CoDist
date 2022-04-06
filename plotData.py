@@ -21,7 +21,7 @@ def plot(body):
             )
     
     s3 = boto3.client('s3', aws_access_key_id = os.getenv("ACCESS_KEY"), aws_secret_access_key = os.getenv("SECRET_KEY"))
-    s3.download_file('project3-outputs', objectName, objectName)
+    s3.download_file('merra', objectName, objectName)
 
     nums = [ x for x in range(577)]
 
@@ -51,3 +51,4 @@ def plot(body):
     fig.savefig(imagename, format='png', dpi=360)
 
     return imagename
+
