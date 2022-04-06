@@ -42,23 +42,14 @@ pipeline{
 
 	environment {
 		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
-        JENKINS_CREDENTIALS=credentials('jenkins')
 	}
 
 	stages {
-        // stage('JenkinAccess') {
-
-		// 	steps {
-        //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-        //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo usermod -a -G docker exouser'
-		// 	}
-		// }
 
 		stage('Build') {
 
 			steps {
-                sh 'pwd;whoami;ls -lart; hostname -i; hostname'
-				sh 'echo password | sudo -i "cd /var/lib/jenkins/workspace/buildImage; docker build -t parnal/codist-plotting:amd64 ."'
+				sh 'docker build -t parnal/codist-plotting:amd64 .'
 			}
 		}
 
@@ -77,4 +68,56 @@ pipeline{
 		}
 	}
 
+	post {
+		always {
+			sh 'docker logout'
+		}
+	}
+
 }
+
+
+
+
+// pipeline{
+
+// 	agent any
+
+// 	environment {
+// 		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
+//         JENKINS_CREDENTIALS=credentials('jenkins')
+// 	}
+
+// 	stages {
+//         // stage('JenkinAccess') {
+
+// 		// 	steps {
+//         //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+//         //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo usermod -a -G docker exouser'
+// 		// 	}
+// 		// }
+
+// 		stage('Build') {
+
+// 			steps {
+//                 sh 'pwd;whoami;ls -lart; hostname -i; hostname'
+// 				sh 'echo password | sudo -i "cd /var/lib/jenkins/workspace/buildImage; docker build -t parnal/codist-plotting:amd64 ."'
+// 			}
+// 		}
+
+// 		stage('Login') {
+
+// 			steps {
+// 				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+// 			}
+// 		}
+
+// 		stage('Push') {
+
+// 			steps {
+// 				sh 'docker push parnal/codist-plotting:amd64'
+// 			}
+// 		}
+// 	}
+
+// }
