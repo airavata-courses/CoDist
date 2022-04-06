@@ -63,7 +63,7 @@ pipeline{
 		stage('Push') {
 
 			steps {
-				sh 'docker push tanukansaldocker123/codist-plotting:latest'
+				sh 'docker push tanukansaldocker123/codist-plotting:amd64'
 			}
 		}
 	}
