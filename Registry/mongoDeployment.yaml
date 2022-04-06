@@ -17,6 +17,7 @@ spec:
       containers:
       - name: mongodb
         image: mongo:5.0.5-focal
+        imagePullPolicy: "Always"
         ports:
         - containerPort: 27017
 ---
