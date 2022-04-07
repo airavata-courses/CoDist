@@ -1,0 +1,30 @@
+node {
+    def app
+
+    stage('Clone repository') {
+      
+
+        checkout scm
+    }
+
+    stage('Update GIT') {
+            script {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                        //def encodedPassword = URLEncoder.encode("$GIT_PASSWORD",'UTF-8')
+                        sh "git config user.email parnal.patil@gmail.com"
+                        sh "git config user.name ParnalPatil"
+                        //sh "git switch master"
+                        sh "ls"
+                        sh "cat merra-ingester-deployment.yaml"
+                        sh "sed -i 's+parnal/codist-merra-ingestion.*+parnal/codist-merra-ingestion:amd64+g' merra-ingester-deployment.yaml"
+                        sh "cat plotting-service-deployment.yaml"
+                        sh "kubectl --kubeconfig /home/exouser/.kube/config apply -f merra-ingester-deployment.yaml"
+                        sh "git add ."
+                        sh "git commit -m 'Done by Jenkins Job changemanifest'"
+                        sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/airavata-courses/CoDist.git HEAD:dev-merra-data-ingestion-kube"
+      }
+    }
+  }
+}
+}
