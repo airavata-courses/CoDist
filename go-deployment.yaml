@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: go
-        image: metalman66/cicd-test:amd64
+        image: parnal/cicd-test:amd64
         ports:
         - containerPort: 8085
         env:
