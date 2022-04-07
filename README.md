@@ -48,11 +48,12 @@ Parnal Ghundare Patil
 
 ## Napkin Diagram
 
-![Napkin Diagram](https://user-images.githubusercontent.com/38610661/152897261-44908232-0849-464a-ac9d-f4aa207c7a59.jpeg)
-    
+![Blank diagram (7)](https://user-images.githubusercontent.com/94020074/162101246-86c66b52-1336-424c-afdd-266e8ed6eb9c.png)
+
+
 ## Microservice Architecture
 
-![Microservice architecture](https://user-images.githubusercontent.com/94020074/152900398-5d0eb6cc-749c-4f34-96a6-afc7e8f2896c.png)
+![Blank diagram (6)](https://user-images.githubusercontent.com/94020074/162101259-531aeda2-6400-42e8-89c0-86c138e24b40.png)
 
 
 Please refer Wiki Page for detailed information related to all our project phases
@@ -66,4 +67,7 @@ https://github.com/airavata-courses/CoDist/wiki/Project-Phase-I
 - [Plotting Microservice - Python Flask](https://github.com/airavata-courses/CoDist/tree/dev-plotting)
 - [History Microservice - Golang](https://github.com/airavata-courses/CoDist/tree/dev-history-service)
 - [Registry Microservice - NodeJS](https://github.com/airavata-courses/CoDist/tree/dev-registry)
+- [MERRA data plotting Microservice - Python](https://github.com/airavata-courses/CoDist/tree/dockerChangesMerraPlotting)
+- [MERRA data ingestion-Python](https://github.com/airavata-courses/CoDist/tree/dev-merra-data-ingestion)
+
 
