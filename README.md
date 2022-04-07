@@ -5,7 +5,6 @@ It is a well-architectured application, formed keeping the vision of a big appli
 This microservices connects with mongo database, to keep the storage.
 
 ## Tech And Resources
-
 This Microservice uses:
 - [Javascript](https://www.javascript.com/)
 - [Node.js](https://nodejs.org/en/docs/)
