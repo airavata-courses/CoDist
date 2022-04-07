@@ -6,11 +6,19 @@ from getPath import getEnvPath
 
 load_dotenv(getEnvPath())
 
-credentials = pika.PlainCredentials( os.getenv("RABBITMQ_USER") , os.getenv("RABBITMQ_PASSWORD") )
-parameters = pika.ConnectionParameters( os.getenv("RABBITMQ_HOST") ,
-                                   os.getenv("RABBITMQ_PORT") ,
+# credentials = pika.PlainCredentials( os.getenv("RABBITMQ_USER") , os.getenv("RABBITMQ_PASSWORD") )
+# parameters = pika.ConnectionParameters( os.getenv("RABBITMQ_HOST") ,
+#                                    os.getenv("RABBITMQ_PORT") ,
+#                                    '/',
+#                                    credentials, heartbeat=10000)
+
+
+credentials = pika.PlainCredentials( "guest", "guest" )
+
+parameters = pika.ConnectionParameters( "rabbitmq" ,
+                                   "5672" ,
                                    '/',
-                                   credentials, heartbeat=10000)
+                                   credentials, heartbeat=10000 )
 
 connection = pika.BlockingConnection(parameters)
 
