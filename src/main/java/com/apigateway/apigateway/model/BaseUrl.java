@@ -9,7 +9,7 @@ public class BaseUrl {
     public String Registry = "http://registry-service:7069";
     public String Logger = "http://go:8074";
     public String Plotting = "http://plotting-service:6000";
-    public String MerraPlotting = "http://localhost:5000";
+    public String MerraPlotting = "http://merra-plotting-service:2000";
 
 //    public String Registry = "http://registry-service-deployment-56dd98586d-qbrcz.default.svc";
 
