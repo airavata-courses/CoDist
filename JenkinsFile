@@ -17,7 +17,7 @@ node {
                         //sh "git switch master"
                         sh "ls"
                         sh "cat plotting-service-deployment.yaml"
-                        sh "sed -i 's+parnal/codist-plotting.*+parnal/codist-plotting:amd64+g' plotting-service-deployment.yaml"
+                        // sh "sed -i 's+parnal/codist-plotting.*+parnal/codist-plotting:amd64+g' plotting-service-deployment.yaml"
                         sh "cat plotting-service-deployment.yaml"
                         sh "kubectl --kubeconfig /home/exouser/.kube/config apply -f plotting-service-deployment.yaml"
                         sh "git add ."
