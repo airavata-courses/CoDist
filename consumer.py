@@ -13,12 +13,20 @@ load_dotenv(getEnvPath())
 
 start_producer()
 
-credentials = pika.PlainCredentials( os.getenv("RABBITMQ_USER") , os.getenv("RABBITMQ_PASSWORD") )
+# credentials = pika.PlainCredentials( os.getenv("RABBITMQ_USER") , os.getenv("RABBITMQ_PASSWORD") )
 
-parameters = pika.ConnectionParameters( os.getenv("RABBITMQ_HOST") ,
-                                   os.getenv("RABBITMQ_PORT") ,
+# parameters = pika.ConnectionParameters( os.getenv("RABBITMQ_HOST") ,
+#                                    os.getenv("RABBITMQ_PORT") ,
+#                                    '/',
+#                                    credentials)
+
+credentials = pika.PlainCredentials( "guest", "guest" )
+
+
+parameters = pika.ConnectionParameters( "rabbitmq" ,
+                                   "5672" ,
                                    '/',
-                                   credentials)
+                                   credentials, heartbeat=10000)
 
 connection = pika.BlockingConnection(parameters)
 channel = connection.channel()
