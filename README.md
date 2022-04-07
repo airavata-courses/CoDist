@@ -2,7 +2,6 @@
 <!--Used for logging user activity, requests and the result of the requests. Integrated with API Gateway to store the result of the Plotting request. .-->
 
 ## Tech And Resources
-
 This Microservice uses:
 - [Go](https://go.dev/)
 - [Gin Framework](https://github.com/gin-gonic/gin)
