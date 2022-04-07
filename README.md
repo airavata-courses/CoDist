@@ -1,7 +1,6 @@
 ## Registry Service
 This service provides the User Managemant, Session Management( Login , Logout ) and authentication services via using session and jwt token.
 It is a well-architectured application, formed keeping the vision of a big application.
-Test!
 
 This microservices connects with mongo database, to keep the storage.
 
