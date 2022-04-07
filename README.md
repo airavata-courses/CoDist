@@ -9,7 +9,6 @@ The total size of the data to be downloaded is around 60MB for a day(24 Hrs)
 
 Tech And Resources
 This Microservice uses:
-
 Python
 Flask
 RabbitMQ for communication with plotting service.
