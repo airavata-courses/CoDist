@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: tanukansaldocker123/codist-postgres:amd64
+        image: parnal/codist-postgres:amd64
         imagePullPolicy: "Always"
         ports:
         - containerPort: 5432
