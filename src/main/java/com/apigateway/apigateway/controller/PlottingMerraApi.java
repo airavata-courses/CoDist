@@ -121,7 +121,7 @@ public class PlottingMerraApi {
                     .writeValueAsString(linkParams);
 
             HttpRequest requestPlotting = HttpRequest.newBuilder()
-                    .uri(URI.create(url.Plotting + "/plottingmerra"))
+                    .uri(URI.create(url.MerraPlotting + "/plottingmerra"))
                     .header("Content-Type", "application/json; charset=UTF-8")
                     .POST( HttpRequest.BodyPublishers.ofString( requestBodyPlotting) )
                     .build();

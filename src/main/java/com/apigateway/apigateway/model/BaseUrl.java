@@ -9,17 +9,8 @@ public class BaseUrl {
     public String Registry = "http://registry-service:7069";
     public String Logger = "http://go:8074";
     public String Plotting = "http://plotting-service:6000";
+    public String MerraPlotting = "http://localhost:5000";
 
-
-
-    // Ping Google.com
-//    URL url = new URL("https://www.google.com");
-//    HttpURLConnection huc = (HttpURLConnection) url.openConnection();
-//
-//    int responseCode = huc.getResponseCode();
-////    Assert.assertEquals(HttpURLConnection.HTTP_OK, responseCode);
-//    System.out.println(responseCode);
-    // JetStream VM
 //    public String Registry = "http://registry-service-deployment-56dd98586d-qbrcz.default.svc";
 
 //    public String Plotting = "http://4a99-2001-18e8-2-28b6-e860-f7c1-1087-b608.ngrok.io";
