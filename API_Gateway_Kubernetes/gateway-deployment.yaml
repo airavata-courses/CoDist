@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: gateway
-        image: metalman66/cicd-gateway-test:amd64
+        image: tanukansaldocker123/codist-gateway-test:amd64
         ports:
         - containerPort: 8080
         imagePullPolicy: "Always"
