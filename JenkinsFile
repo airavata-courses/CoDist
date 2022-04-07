@@ -9,7 +9,7 @@ node {
 
     stage('Build image') {
   
-       app = docker.build("parnal/codist-plotting:amd64")
+       app = docker.build("parnal/codist:amd64")
     }
 
     stage('Test image') {
