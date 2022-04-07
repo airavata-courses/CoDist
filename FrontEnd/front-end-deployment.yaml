@@ -31,6 +31,6 @@ spec:
   type: LoadBalancer
   ports:
   - protocol: TCP
-    port: 8813
+    port: 1775
     targetPort: 1776
-    nodePort: 30243
+    nodePort: 30023
