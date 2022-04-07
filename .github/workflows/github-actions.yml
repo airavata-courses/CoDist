@@ -16,8 +16,8 @@ jobs:
     #   matrix:
     #     node-version: [13.x]
 
-    # steps:
-    # - uses: actions/checkout@v2
+    steps:
+    - uses: actions/checkout@v2
     # - name: Use Node.js ${{ matrix.node-version }}
     #   uses: actions/setup-node@v1
     #   with:
@@ -28,6 +28,7 @@ jobs:
     # - run: npm build
 
     # Building Docker Image
+
     - name: Docker Login
       env:
         DOCKER_USER: '${{secrets.DOCKER_USERNAME}}'
