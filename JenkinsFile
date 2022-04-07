@@ -28,6 +28,6 @@ node {
     
     stage('Trigger ManifestUpdate') {
                 echo "triggering updatemanifestjob"
-                build job: 'updatemanifest'
+                build job: 'registrymanifest'
         }
 }
