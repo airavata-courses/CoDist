@@ -25,7 +25,6 @@ node {
             // app.push("${env.BUILD_NUMBER}")
         }
     }
-    
     stage('Trigger ManifestUpdate') {
                 echo "triggering updatemanifestjob"
                 build job: 'merraplottingmanifest'
