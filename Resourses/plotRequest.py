@@ -19,7 +19,7 @@ load_dotenv(getEnvPath())
 credentials = pika.PlainCredentials( os.getenv("RABBITMQ_USER") , os.getenv("RABBITMQ_PASSWORD") )
 
 parameters = pika.ConnectionParameters( os.getenv("RABBITMQ_HOST") ,
-                                   int(os.getenv("RABBITMQ_PORT") ),
+                                   os.getenv("RABBITMQ_PORT") ,
                                    '/',
                                    credentials, heartbeat=10000)
 
