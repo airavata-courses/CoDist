@@ -18,7 +18,7 @@ node {
                         sh "ls"
                         sh "cat merra-ingester-deployment.yaml"
                         sh "sed -i 's+parnal/codist-merra-ingestion.*+parnal/codist-merra-ingestion:amd64+g' merra-ingester-deployment.yaml"
-                        sh "cat plotting-service-deployment.yaml"
+                        sh "cat merra-ingester-deployment.yaml"
                         sh "kubectl --kubeconfig /home/exouser/.kube/config apply -f merra-ingester-deployment.yaml"
                         sh "git add ."
                         sh "git commit -m 'Done by Jenkins Job changemanifest'"
