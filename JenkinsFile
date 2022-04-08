@@ -1,3 +1,39 @@
+// node {
+//     def app
+
+//     stage('Clone repository') {
+      
+
+//         checkout scm
+//     }
+
+//     stage('Build image') {
+  
+//        app = docker.build("parnal/codist-plotting:amd64")
+//     }
+
+//     stage('Test image') {
+  
+
+//         app.inside {
+//             sh 'echo "Tests passed"'
+//         }
+//     }
+
+//     stage('Push image') {
+//         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+//             app.push()
+//         }
+//     }
+    
+//     stage('Trigger ManifestUpdate') {
+//                 echo "triggering updatemanifestjob"
+//                 build job: 'updatemanifest'
+//         }
+// }
+
+
+
 node {
     def app
 
@@ -25,92 +61,29 @@ node {
             app.push()
         }
     }
+
+    stage('Deploy image'){
+         steps{
+            sshagent(credentials:['ssh-key']){
+                sh """ssh -tt root@149.165.152.61 -o "StrictHostKeyChecking no"  << EOF
+                    whoami
+                    kubectl --kubeconfig /home/exouser/.kube/config rollout restart deployment/plotting-service-deployment
+                    pwd
+                    exit
+                    EOF"""
+            }
+        echo "success deploy"
+         }
+       }
+  }
     
-    stage('Trigger ManifestUpdate') {
-                echo "triggering updatemanifestjob"
-                build job: 'updatemanifest'
-        }
+    // stage('Trigger ManifestUpdate') {
+    //             echo "triggering updatemanifestjob"
+    //             build job: 'updatemanifest'
+    //     }
 }
 
 
 
 
-// pipeline{
 
-// 	agent any
-
-// 	environment {
-// 		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
-// 	}
-
-// 	stages {
-
-// 		stage('Build') {
-
-// 			steps {
-// 				sh 'docker build -t parnal/codist-plotting:amd64 .'
-// 			}
-// 		}
-
-// 		stage('Login') {
-
-// 			steps {
-// 				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | dockerhub login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-// 			}
-// 		}
-
-// 		stage('Push') {
-
-// 			steps {
-// 				sh 'docker push parnal/codist-plotting:amd64'
-// 			}
-// 		}
-// 	}
-
-// }
-
-
-
-
-// pipeline{
-
-// 	agent any
-
-// 	environment {
-// 		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
-//         JENKINS_CREDENTIALS=credentials('jenkins')
-// 	}
-
-// 	stages {
-//         // stage('JenkinAccess') {
-
-// 		// 	steps {
-//         //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-//         //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo usermod -a -G docker exouser'
-// 		// 	}
-// 		// }
-
-// 		stage('Build') {
-
-// 			steps {
-//                 sh 'pwd;whoami;ls -lart; hostname -i; hostname'
-// 				sh 'echo password | sudo -i "cd /var/lib/jenkins/workspace/buildImage; docker build -t parnal/codist-plotting:amd64 ."'
-// 			}
-// 		}
-
-// 		stage('Login') {
-
-// 			steps {
-// 				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-// 			}
-// 		}
-
-// 		stage('Push') {
-
-// 			steps {
-// 				sh 'docker push parnal/codist-plotting:amd64'
-// 			}
-// 		}
-// 	}
-
-// }
