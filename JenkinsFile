@@ -14,16 +14,14 @@ node {
                         //def encodedPassword = URLEncoder.encode("$GIT_PASSWORD",'UTF-8')
                         sh "git config user.email parnal.patil@gmail.com"
                         sh "git config user.name ParnalPatil"
-                        //sh "git switch master"
-                        // sh "cat plotting-service-deployment.yaml"
-                        // sh "sed -i 's+parnal/codist-plotting.*+parnal/codist-plotting:amd64+g' plotting-service-deployment.yaml"
+                        // sh "git switch master"
+                        sh "cat plotting-service-deployment.yaml"
+                        sh "sed -i 's+parnal/codist-plotting.*+parnal/codist-plotting:amd64+g' plotting-service-deployment.yaml"
                         // sh "cat plotting-service-deployment.yaml"
                         sshagent(credentials:['ssh-key']){
                                       sh """ssh -tt root@149.165.152.61 -o "StrictHostKeyChecking no"  << EOF
                                           whoami
                                           kubectl --kubeconfig /home/exouser/.kube/config apply -f plotting-service-deployment.yaml
-                                          kubectl get pods
-                                          //  kubectl rollout restart deployment/dataretrieval
                                           pwd
                                           exit
                                           EOF"""
