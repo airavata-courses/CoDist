@@ -43,7 +43,7 @@ export default function BasicCard(props) {
     function seeThePlot(){
       // <a href={}></a>
       window.open(props.url)
-      navigate("/Profile")
+      navigate("/Profiles")
   }
 
     function editButtonClickFunction(){
@@ -52,7 +52,7 @@ export default function BasicCard(props) {
         setDefaultDate(convertedDate)
         setSelectRadar(options)
 
-        navigate("/Profile")
+        navigate("/Profiles")
     }
 
 

@@ -4,17 +4,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {LoginContext} from './Context/LoginContext';
 import React, { useState } from 'react';
 
-
-import backgroundVideo from './Blue - 5194.mp4'
 import SignIn from './Designedpage/Login';
 import Signup from './Designedpage/Signup';
-import Profile from './Designedpage/Profile';
-// import Errorpage from './Designedpage/Errorpage';
 import History from './Designedpage/History';
-import Merraplot from './Designedpage/Merraplot';
-import Nexradplot from './Designedpage/Nexradplot';
 import Profiles from './Designedpage/Profiles';
-import { background } from "@chakra-ui/react";
 
 
 
@@ -34,18 +27,13 @@ function App()
     
     return (
         <div >
-          {/* <video autoPlay loop muted style={{position: 'fixed', zIndex: -1, width: '100%'}}>
-            <source src={backgroundVideo} type='video/mp4'></source>
-          </video> */}
+
             <LoginContext.Provider value = {{username, setUsername, auth, setAuth, token, setToken, userId, setUserId, logs, setLogs, defaultDate, setDefaultDate, selectRadar, setSelectRadar, defaultTime, setDefaultTime}}>
                 <Router>
                   <Routes>
-                    {auth && <Route exact path="/profile" element={<Profile/>} />}
+                    {auth && <Route exact path="/profiles" element={<Profiles/>} />}
                     {auth && <Route exact path="/history" element={<History/>} />}
-                    <Route exact path="/profiles" element={<Profiles/>} />
                     <Route exact path="/register" element={<Signup />} />
-                    <Route exact path="/merraplot" element={<Merraplot />} />
-                    <Route exact path="/nexradplot" element={<Nexradplot />} />
                     <Route exact path="/signup" element={<Signup/>} />
                     <Route exact path="/" element={<SignIn/>} />
                     <Route exact path="*" element={<SignIn />} />
