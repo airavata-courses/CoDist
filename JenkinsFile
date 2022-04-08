@@ -73,14 +73,8 @@ node {
                     EOF"""
             }
         echo "success deploy"
-         }
-       }
-  }
-    
-    // stage('Trigger ManifestUpdate') {
-    //             echo "triggering updatemanifestjob"
-    //             build job: 'updatemanifest'
-    //     }
+        }
+    }
 }
 
 
