@@ -63,7 +63,7 @@ node {
     }
 
     stage('Deploy image'){
-         steps{
+
             sshagent(credentials:['ssh-key']){
                 sh """ssh -tt root@149.165.152.61 -o "StrictHostKeyChecking no"  << EOF
                     whoami
@@ -72,8 +72,7 @@ node {
                     exit
                     EOF"""
             }
-        echo "success deploy"
-        }
+
     }
 }
 
