@@ -1,3 +1,38 @@
+// node {
+//     def app
+
+//     stage('Clone repository') {
+      
+//         checkout scm
+//     }
+
+//     stage('Build image') {
+  
+//        app = docker.build("parnal/codist-gateway-test:amd64")
+//     }
+
+//     // stage('Test image') {
+  
+
+//     //     app.inside {
+//     //         sh 'echo "Tests passed"'
+//     //     }
+//     // }
+
+//     stage('Push image') {
+//         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+//             app.push()
+//         }
+//     }
+    
+//     stage('Trigger ManifestUpdate') {
+//                 echo "triggering updatemanifestjob"
+//                 build job: 'gatewaymanifest'
+//         }
+// }
+
+
+
 node {
     def app
 
@@ -25,8 +60,16 @@ node {
         }
     }
     
-    stage('Trigger ManifestUpdate') {
-                echo "triggering updatemanifestjob"
-                build job: 'gatewaymanifest'
-        }
+    stage('Deploy image'){
+
+            sshagent(credentials:['ssh-key']){
+                sh """ssh -tt root@149.165.152.61 -o "StrictHostKeyChecking no"  << EOF
+                    whoami
+                    kubectl --kubeconfig /home/exouser/.kube/config rollout restart deployment/gateway-deployment
+                    pwd
+                    exit
+                    EOF"""
+            }
+
+    }
 }
