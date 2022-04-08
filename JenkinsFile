@@ -1,7 +1,44 @@
+// node {
+//     def app
+
+//     stage('Clone repository') {
+
+//         checkout scm
+//     }
+
+//     stage('Build image') {
+  
+//        app = docker.build("parnal/codist-merra-ingestion:amd64")
+//     }
+
+//     stage('Test image') {
+  
+
+//         app.inside {
+//             sh 'echo "Tests passed"'
+//         }
+//     }
+
+//     stage('Push image') {
+//         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+//             app.push()
+//         }
+//     }
+
+    
+    
+//     stage('Trigger ManifestUpdate') {
+//                 echo "triggering updatemanifestjob"
+//                 build job: 'ingestionmanifest'
+//         }
+// }
+
+
 node {
     def app
 
     stage('Clone repository') {
+      
 
         checkout scm
     }
@@ -24,11 +61,17 @@ node {
             app.push()
         }
     }
+    
+    stage('Deploy image'){
 
-    
-    
-    stage('Trigger ManifestUpdate') {
-                echo "triggering updatemanifestjob"
-                build job: 'ingestionmanifest'
-        }
+            sshagent(credentials:['ssh-key']){
+                sh """ssh -tt root@149.165.152.101 -o "StrictHostKeyChecking no"  << EOF
+                    whoami
+                    kubectl --kubeconfig /home/exouser/.kube/config rollout restart deployment/merra-ingester-deployment
+                    pwd
+                    exit
+                    EOF"""
+            }
+
+    }
 }
