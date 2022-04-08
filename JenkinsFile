@@ -11,13 +11,13 @@ node {
        app = docker.build("parnal/codist-gateway-test:amd64")
     }
 
-    stage('Test image') {
+    // stage('Test image') {
   
 
-        app.inside {
-            sh 'echo "Tests passed"'
-        }
-    }
+    //     app.inside {
+    //         sh 'echo "Tests passed"'
+    //     }
+    // }
 
     stage('Push image') {
         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
