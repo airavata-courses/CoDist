@@ -51,6 +51,7 @@ function PricingContent() {
   const [loading, setLoading] = useState(false)
   const [nexrad, setNexRad] = useState(true)
   const [merra, setMerra] = useState(false)
+  const [radar, setRadar] = useState(true)
   const { defaultDate, setDefaultDate } = useContext(LoginContext);
 
   const { selectRadar, setSelectRadar } = useContext(LoginContext);
@@ -179,11 +180,12 @@ function PricingContent() {
       console.log('state of nexrad is: ', nexrad)
     }
     if (type === 'merra') {
+      setDefaultDate(null)
+      console.log('Clicked on ', defaultDate)
       setNexRad(false)
       setMerra(true)
       console.log('state of nexrad is: ', nexrad)
     }
-
   }
 
   function onDateChange(defaultDate) {
@@ -278,16 +280,16 @@ function PricingContent() {
                 onChange={defaultDate => onDateChange(defaultDate)}
                 renderInput={(params) => <TextField {...params} />}
               />
-
+            
             </Stack>
             <br />
-            {loading ? null : <Select
+            {/* {loading ? null : <Select
               label={selectRadar}
               value={selectRadar}
               options={options}
               onChange={selectRadar => setSelectRadar(selectRadar)}
             >
-            </Select>}
+            </Select>} */}
             <br />
 
             <Button fullWidth onClick={getWeather} disabled={loading}> Get Weather Forecast </Button>
