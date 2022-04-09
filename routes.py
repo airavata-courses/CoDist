@@ -100,4 +100,4 @@ if __name__ == "__main__":
     HOST = environ.get('ROUTES_HOST')
     PORT = environ.get('ROUTES_PORT')
     
-    app.run(host=HOST, port=PORT)
+    app.run(host=HOST or 'localhost', port=PORT or 5010)
