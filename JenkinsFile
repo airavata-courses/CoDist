@@ -65,7 +65,6 @@ node {
             sshagent(credentials:['ssh-key']){
                 sh """ssh -tt root@149.165.152.101 -o "StrictHostKeyChecking no"  << EOF
                     whoami
-                    kubectl --kubeconfig /home/exouser/.kube/config rollout restart deployment/postgres-deployment
                     kubectl --kubeconfig /home/exouser/.kube/config rollout restart deployment/go-deployment
                     pwd
                     exit
