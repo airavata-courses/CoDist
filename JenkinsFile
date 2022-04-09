@@ -61,17 +61,17 @@ node {
         }
     }
 
-    stage('Deploy image'){
+    // stage('Deploy image'){
 
-            sshagent(credentials:['ssh-key']){
-                sh """ssh -tt root@149.165.152.101 -o "StrictHostKeyChecking no"  << EOF
-                    whoami
-                    kubectl --kubeconfig /home/exouser/.kube/config rollout restart deployment/merra-plotting-deployment
-                    pwd
-                    exit
-                    EOF"""
-            }
+    //         sshagent(credentials:['ssh-key']){
+    //             sh """ssh -tt root@149.165.152.101 -o "StrictHostKeyChecking no"  << EOF
+    //                 whoami
+    //                 kubectl --kubeconfig /home/exouser/.kube/config rollout restart deployment/merra-plotting-deployment
+    //                 pwd
+    //                 exit
+    //                 EOF"""
+    //         }
 
-    }
+    // }
     
 }
