@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: registry-service
-        image: tanukansaldocker123/codist-node-test:amd64
+        image: parnal/codist-node-test:amd64
         imagePullPolicy: "Always"
         ports:
         - containerPort: 3333
