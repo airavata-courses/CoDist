@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: merra-ingestor-service
-        image: tanukansaldocker123/codist-merra-ingestion:amd64
+        image: parnal/codist-merra-ingestion:amd64
         imagePullPolicy: "Always"
         ports:
         - containerPort: 5050
