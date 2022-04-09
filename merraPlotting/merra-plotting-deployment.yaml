@@ -5,7 +5,7 @@ metadata:
   labels:
     app: merra-plotting-service
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: merra-plotting-service
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: merra-plotting-service
-        image: tanukansaldocker123/codist-merra-plotting:amd64
+        image: parnal/codist-merra-plotting:amd64
         imagePullPolicy: "Always"
         ports:
         - containerPort: 6050
