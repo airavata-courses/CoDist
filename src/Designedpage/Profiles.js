@@ -51,7 +51,6 @@ function PricingContent() {
   const [loading, setLoading] = useState(false)
   const [nexrad, setNexRad] = useState(true)
   const [merra, setMerra] = useState(false)
-  const [radar, setRadar] = useState(true)
   const { defaultDate, setDefaultDate } = useContext(LoginContext);
 
   const { selectRadar, setSelectRadar } = useContext(LoginContext);
@@ -117,11 +116,16 @@ function PricingContent() {
       }
     }
     if (merra) {
-      if (validateInputs(year, month, day, hour, minute, second, station)) {
-        axios.post(baseUrl + '/plottingmerra', { year, month, day, hour, minute, second, station, authToken }, { headers: { "authToken": String(authToken), 'Access-Control-Allow-Origin': "*" } })
+
+      console.log(year, month, typeof(year), typeof(month))
+      if (year === '2022' && (month === '1' || month === '2')){
+        if (validateInputs(year, month, day, hour, minute, second, station)) {
+          // console.log(year, month, day, hour, minute, second, station)
+          console.log("Chwcking merra data")
+          axios.post(baseUrl + '/plottingmerra', { year, month, day, hour, minute, second, station, authToken }, { headers: { "authToken": String(authToken), 'Access-Control-Allow-Origin': "*" } })
           .then((res) => {
-            setLoading(false)
-            console.log("this is Data : ", res);
+          setLoading(false)
+          console.log("this is Data : ", res);
             window.open(res.data)
             console.log("Image source : ", res.data)
           })
@@ -129,10 +133,16 @@ function PricingContent() {
             console.log("Error is : ", err)
             navigate("/error")
           });
+          
+        }
+        else {
+          setLoading(false)
+          alert("Incorrect format")
+        }
       }
-      else {
+      else{
+        alert("Add dates within January and Februry 2022")
         setLoading(false)
-        alert("Incorrect format")
       }
     }
 
@@ -262,10 +272,11 @@ function PricingContent() {
                 label="Select Date"
                 openTo="year"
                 views={['year', 'month', 'day']}
+                defaultValue=""
                 value={defaultDate}
                 onChange={defaultDate => onDateChange(defaultDate)}
                 maxDate={new Date('2022-02-28')}
-                minDate={new Date('2022-02-01')}
+                minDate={new Date('2022-01-02')}
                 renderInput={(params) => <TextField {...params} />}
               />
 
@@ -276,6 +287,7 @@ function PricingContent() {
                 inputFormat="HH:mm:ss"
                 mask="__:__:__"
                 label="Select time"
+                defaultValue=""
                 value={defaultDate}
                 onChange={defaultDate => onDateChange(defaultDate)}
                 renderInput={(params) => <TextField {...params} />}
