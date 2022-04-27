@@ -119,7 +119,7 @@ function PricingContent() {
 
       console.log(year, month, typeof(year), typeof(month))
       if (year === '2022' && (month === '1' || month === '2')){
-        if (validateInputs(year, month, day, hour, minute, second, station)) {
+        if (validateInputs(year, month, day, hour, minute, second, "station")) {
           // console.log(year, month, day, hour, minute, second, station)
           console.log("Chwcking merra data")
           axios.post(baseUrl + '/plottingmerra', { year, month, day, hour, minute, second, station, authToken }, { headers: { "authToken": String(authToken), 'Access-Control-Allow-Origin': "*" } })
